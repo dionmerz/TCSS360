@@ -433,12 +433,12 @@ public class Main implements Serializable {
 		
 		switch(input) {
 			case 1:
-				tempReview.viewAssignedManuscripts();
+				tempReview.viewAssignedManuscripts(currentUser);
 				reviewerMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 				break;
 			case 2:
 				System.out.println("Select a manuscript to upload a review for");
-				tempReview.viewAssignedManuscripts();
+				tempReview.viewAssignedManuscripts(currentUser);
 				input = userInput.nextInt();
 				Manuscript selectedManuscript = currentUser.getMyManuscriptsToReview().get(input - 1);
 				System.out.println("Enter the path to the review form");
@@ -446,7 +446,8 @@ public class Main implements Serializable {
 				String path = userInput.nextLine();
 				System.out.println("Enter the title of the review form");
 				String title = userInput.nextLine();
-				tempReview.uploadReviewForm(path, currentUser.getMyName(), title, selectedManuscript);
+				tempReview.uploadReviewForm(currentConference, currentUser, path, 
+						currentUser.getMyName(), title, selectedManuscript);
 				reviewerMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 				break;
 			case 3:

@@ -12,7 +12,6 @@ import TCSS360.Author;
 import TCSS360.Conference;
 import TCSS360.Manuscript;
 import TCSS360.Paper;
-import TCSS360.Roles;
 import TCSS360.User;
 
 /**
@@ -39,6 +38,13 @@ public class AuthorTest {
 		auth = new Author(conf);
 		
 		confList.add(conf);
+	}
+	
+	@Test
+	public void testAuthorConstructor() {
+		Author tempAuthor = new Author(conf);
+		assertTrue(tempAuthor.getConference().getName().equals(conf.getName()));
+
 	}
 
 	@Test
