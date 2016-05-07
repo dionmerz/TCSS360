@@ -44,16 +44,16 @@ public class Author extends Roles implements Serializable {
 	 * @param theManuscript The submitted manuscript. 
 	 * @param theConferences List of conference
 	 */
-	public void updateAuthoredManuscript(Manuscript theManuscript, List<Conference> theConferences) {
+	public void updateAuthoredManuscript(User currentUser, Manuscript theManuscript, List<Conference> theConferences) {
 		boolean found = false;
 		
 		for(Conference c: theConferences) {
 			if (c.getManuscripts().contains(theManuscript)) {
 				c.removeManuscript(theManuscript);
-				Main.currentUser.removeManuscript(theManuscript);
+				currentUser.removeManuscript(theManuscript);
 				
 				c.addManuscript(theManuscript);
-				Main.currentUser.addMyManuscript(theManuscript);
+				currentUser.addMyManuscript(theManuscript);
 				found = true;
 				
 			}
@@ -75,11 +75,11 @@ public class Author extends Roles implements Serializable {
 	 * @param theManuscript The manuscript you want to remove.
 	 * @param theConferences A list of conference.
 	 */
-	public void unsubmitManuscript(Manuscript theManuscript, List<Conference> theConferences) {
+	public void unsubmitManuscript(User currentUser, Manuscript theManuscript, List<Conference> theConferences) {
 		for(Conference c: theConferences) {
 			if (c.getManuscripts().contains(theManuscript)) {
 				c.removeManuscript(theManuscript);
-				Main.currentUser.removeManuscript(theManuscript);
+				currentUser.removeManuscript(theManuscript);
 			}
 		}
 		

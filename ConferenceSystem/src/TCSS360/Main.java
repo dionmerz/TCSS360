@@ -286,7 +286,7 @@ public class Main implements Serializable {
 					String path = userInput.next();
 			
 					Manuscript updatedManuscript = new Manuscript(path, currentUser.getMyName(), date, tempManuscript.getTitle());
-					tempAuthor.updateAuthoredManuscript(updatedManuscript, theConferenceList);
+					tempAuthor.updateAuthoredManuscript(currentUser, updatedManuscript, theConferenceList);
 					authorMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 				} else {
 					authorMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
@@ -303,7 +303,7 @@ public class Main implements Serializable {
 				input = userInput.next();	
 				if(!input.equals("B")) {
 					Manuscript removedManuscript = currentUser.getMyManuscripts().get(Integer.parseInt(input) - 1);
-					tempAuthor.unsubmitManuscript(removedManuscript, theConferenceList);	
+					tempAuthor.unsubmitManuscript(currentUser, removedManuscript, theConferenceList);	
 					authorMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 				} else {
 					authorMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
