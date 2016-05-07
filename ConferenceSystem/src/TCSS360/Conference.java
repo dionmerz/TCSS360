@@ -184,10 +184,18 @@ public class Conference implements Serializable {
 		return myPaperDeadline;
 	}
 	
+	public void setPaperDeadlineDate(Calendar theCalendar) {
+		myPaperDeadline = theCalendar;
+	}
+	
 	public Calendar getReviewDeadlineDate() {
 		return myReviewDeadline;
 	}
 
+	public void setReviewDeadlineDate(Calendar theCalendar) {
+		myReviewDeadline = theCalendar;
+	}
+	
 	@Override
 	public String toString() {
 		return "conference [Name: " + Name + ", programChair: " + programChair

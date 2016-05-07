@@ -2,12 +2,16 @@ package jUnitTests;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import TCSS360.Author;
 import TCSS360.Conference;
+import TCSS360.Manuscript;
 import TCSS360.Paper;
 import TCSS360.User;
 
@@ -18,9 +22,89 @@ public class ConferenceTest {
 	private User usr;
 	private Author auth;
 	private Conference conf;
+	
+	@Before
+	public void setUp() throws Exception {
+		confList = new ArrayList<Conference>();
+		script = new Manuscript("test.txt", "TestAuthor", "SubmitDate", "TestTitle");
+		script2 = new Manuscript("test2.txt", "TestAuthor", "SubmitDate", "TestTitle");
+		usr  = new User("TempUser", "UserLogin", "User@email.com");
+		conf = new Conference("Conf1", usr, "start", "stop", "PDeadline", "RDeadline", 0, 0);
+		auth = new Author(conf);	
+	}
+	
 	@Test
 	public void test() {
-		fail("Not yet implemented");
+		conf.addManuscript((Manuscript) script);
+		conf.addManuscript((Manuscript) script);
+		assertEquals(conf.getManuscripts().size(), 2);
+		//assertTrue(conf.getName().equals("Conf1"));
+		//assertTrue(conf.getProgramChair().getMyName().equals("TempUser"));
+		//assertTrue(conf.getStartingDate().equals("start"));
+		//assertTrue(conf.getEndingDate().equals("stop"));
+		//assertTrue(conf.getPaperDeadline().equals("PDeadline"));
+		//assertTrue(conf.getReviewDeadline().equals("RDeadline"));
+//		Calendar myReviewDeadline = Calendar.getInstance();
+//		Calendar myPaperDeadline = Calendar.getInstance();
+//	    myReviewDeadline.add(Calendar.DATE, 0);
+//		myPaperDeadline.add(Calendar.DATE, 0);
+//		assertTrue(conf.getReviewDeadlineDate().equals(myReviewDeadline));
+//		assertTrue(conf.getPaperDeadlineDate().equals(myPaperDeadline));
+		conf = new Conference("Conf2", usr, "start2", "stop2", "PDeadline2", "RDeadline2", 0, 0);
+		
+	}
+	
+	@Test
+	public void testName() {
+		assertTrue(conf.getName().equals("Conf1"));
+		conf.setName("newConf1");
+		assertTrue(conf.getName().equals("newConf1"));
+	}
+	@Test
+	public void testProgramChair() {
+		assertTrue(conf.getProgramChair().getMyName().equals("TempUser"));
+		usr.setMyName("newUser");
+		assertTrue(conf.getProgramChair().getMyName().equals("newUser"));
+	}
+	
+	@Test
+	public void testStartDate() {
+		assertTrue(conf.getStartingDate().equals("start"));
+		conf.setStartingDate("newStart");
+		assertTrue(conf.getStartingDate().equals("newStart"));
+	}
+	@Test
+	public void testEndingDate() {
+		assertTrue(conf.getEndingDate().equals("stop"));
+		conf.setEndingDate("newStop");
+		assertTrue(conf.getEndingDate().equals("newStop"));
 	}
 
+	@Test
+	public void testPaperDeadline() {
+		assertTrue(conf.getPaperDeadline().equals("PDeadline"));
+		conf.setPaperDeadline("nPDeadline");
+		assertTrue(conf.getPaperDeadline().equals("nPDeadline"));
+	}
+	@Test
+	public void testReviewDeadline() {
+		assertTrue(conf.getReviewDeadline().equals("RDeadline"));
+		conf.setReviewDeadline("nRDeadline");
+		assertTrue(conf.getReviewDeadline().equals("nRDeadline"));
+	}
+	@Test
+	public void testPaperDeadlineDate() {
+		Calendar myReviewDeadline = Calendar.getInstance();
+	    myReviewDeadline.add(Calendar.DATE, 0);
+	    assertTrue(conf.getReviewDeadlineDate().equals(myReviewDeadline));
+	    Calendar myReviewDeadline2 = Calendar.getInstance();
+	    myReviewDeadline.add(Calendar.DATE, 1);
+	    conf.setReviewDeadlineDate(myReviewDeadline2);
+	    assertTrue(conf.getReviewDeadlineDate().equals(myReviewDeadline2));
+	}
+	@Test
+	public void testReviewDeadlineDate() {
+		Calendar myPaperDeadline = Calendar.getInstance();
+		myPaperDeadline.add(Calendar.DATE, 0);
+	}
 }
