@@ -523,7 +523,7 @@ public class Main implements Serializable {
 			System.out.println("Enter a title for the recommendation form");
 			userInput.nextLine();
 			String title = userInput.nextLine();
-			tempSubprogramChair.submitRecomendation(selectedManuscript, score, path, title);
+			tempSubprogramChair.submitRecomendation(currentUser, selectedManuscript, score, path, title);
 			subprogramChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 			break;
 		case 3:
