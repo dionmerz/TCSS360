@@ -39,8 +39,6 @@ public class ProgramChair extends Roles implements Serializable {
 	
 	
 	public void viewAssignedSubProgManuscripts() {	
-		
-		
 		for(User u : Main.currentConference.getSubProChairList()) {
 			if(!u.getSubProgManuscript().isEmpty()) {
 				System.out.println(u.getMyName() + ":");
