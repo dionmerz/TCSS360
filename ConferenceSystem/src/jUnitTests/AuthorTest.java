@@ -15,6 +15,11 @@ import TCSS360.Paper;
 import TCSS360.Roles;
 import TCSS360.User;
 
+/**
+ * Test for the Author Class.
+ * @author Andrew Merz
+ *
+ */
 public class AuthorTest {
 	private List<Conference> confList;
 	private Paper script;
