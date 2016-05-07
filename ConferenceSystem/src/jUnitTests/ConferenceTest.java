@@ -2,14 +2,10 @@ package jUnitTests;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import TCSS360.Author;
 import TCSS360.Conference;
 import TCSS360.Manuscript;
 import TCSS360.Paper;
@@ -21,21 +17,17 @@ import TCSS360.User;
  *
  */
 public class ConferenceTest {
-	private List<Conference> confList;
 	private Paper script;
 	private Paper script2;
 	private User usr;
-	private Author auth;
 	private Conference conf;
 	
 	@Before
 	public void setUp() throws Exception {
-		confList = new ArrayList<Conference>();
 		script = new Manuscript("test.txt", "TestAuthor", "SubmitDate", "TestTitle");
 		script2 = new Manuscript("test2.txt", "TestAuthor", "SubmitDate", "TestTitle");
 		usr  = new User("TempUser", "UserLogin", "User@email.com");
 		conf = new Conference("Conf1", usr, "start", "stop", "PDeadline", "RDeadline", 0, 0);
-		auth = new Author(conf);	
 	}
 	
 	@Test
