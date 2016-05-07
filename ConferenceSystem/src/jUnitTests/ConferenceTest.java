@@ -15,6 +15,11 @@ import TCSS360.Manuscript;
 import TCSS360.Paper;
 import TCSS360.User;
 
+/**
+ * Test the Conference class by creating 
+ * @author bernabeg
+ *
+ */
 public class ConferenceTest {
 	private List<Conference> confList;
 	private Paper script;
@@ -36,22 +41,10 @@ public class ConferenceTest {
 	@Test
 	public void test() {
 		conf.addManuscript((Manuscript) script);
-		conf.addManuscript((Manuscript) script);
+		conf.addManuscript((Manuscript) script2);
 		assertEquals(conf.getManuscripts().size(), 2);
-		//assertTrue(conf.getName().equals("Conf1"));
-		//assertTrue(conf.getProgramChair().getMyName().equals("TempUser"));
-		//assertTrue(conf.getStartingDate().equals("start"));
-		//assertTrue(conf.getEndingDate().equals("stop"));
-		//assertTrue(conf.getPaperDeadline().equals("PDeadline"));
-		//assertTrue(conf.getReviewDeadline().equals("RDeadline"));
-//		Calendar myReviewDeadline = Calendar.getInstance();
-//		Calendar myPaperDeadline = Calendar.getInstance();
-//	    myReviewDeadline.add(Calendar.DATE, 0);
-//		myPaperDeadline.add(Calendar.DATE, 0);
-//		assertTrue(conf.getReviewDeadlineDate().equals(myReviewDeadline));
-//		assertTrue(conf.getPaperDeadlineDate().equals(myPaperDeadline));
-		conf = new Conference("Conf2", usr, "start2", "stop2", "PDeadline2", "RDeadline2", 0, 0);
-		
+		conf.removeManuscript((Manuscript) script);
+		assertEquals(conf.getManuscripts().size(), 1);
 	}
 	
 	@Test
@@ -106,5 +99,10 @@ public class ConferenceTest {
 	public void testReviewDeadlineDate() {
 		Calendar myPaperDeadline = Calendar.getInstance();
 		myPaperDeadline.add(Calendar.DATE, 0);
+		assertTrue(conf.getReviewDeadlineDate().equals(myPaperDeadline));
+	    Calendar myPaperDeadline2 = Calendar.getInstance();
+	    myPaperDeadline2.add(Calendar.DATE, 1);
+	    conf.setPaperDeadlineDate(myPaperDeadline2);
+	    assertTrue(conf.getPaperDeadlineDate().equals(myPaperDeadline2));
 	}
 }
