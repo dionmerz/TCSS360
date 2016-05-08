@@ -105,9 +105,9 @@ public class Main implements Serializable {
 		
 		currentConference.addSubProChairList(userList.get(1));
 		
-		currentUser.submitManuscript("CoolCS.txt", "Cool stuff in CS");
-		currentUser.submitManuscript("IEEE.txt", "IEEE");
-		currentUser.submitManuscript("PP.txt", "Programing Practicum");
+		currentUser.submitManuscript("CoolCS.txt", "Cool stuff in CS", currentUser, currentConference);
+		currentUser.submitManuscript("IEEE.txt", "IEEE", currentUser, currentConference);
+		currentUser.submitManuscript("PP.txt", "Programing Practicum", currentUser, currentConference);
 		
 		SubprogramChair initSubprogramChair = currentUser.findSubprogramChairRole();
 		
@@ -238,7 +238,7 @@ public class Main implements Serializable {
 					String path = userInput.next();
 					System.out.println("Enter the title of the manuscript: ");
 					String title = userInput.next();				
-					currentUser.submitManuscript(path, title);
+					currentUser.submitManuscript(path, title, currentUser, currentConference);
 					selectRoleMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 					break;
 				case "P": 

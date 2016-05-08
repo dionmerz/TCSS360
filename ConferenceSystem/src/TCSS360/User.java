@@ -138,14 +138,6 @@ public class User implements Serializable {
 	public List<Manuscript> getMyManuscripts() {
 		return myAuthoredManuscripts;
 	}
-	
-	public List<Manuscript> getSubProgManuscript() {
-		return this.mySubProgManuscripts;
-	}
-	
-	public void addSubProgManuscript(Manuscript theManuscript) {
-		this.mySubProgManuscripts.add(theManuscript);
-	}
 
 	public void addMyManuscript(Manuscript theManuscript) {
 		this.myAuthoredManuscripts.add(theManuscript);
@@ -153,6 +145,14 @@ public class User implements Serializable {
 
 	public void removeManuscript(Manuscript theManuscript) {
 		this.myAuthoredManuscripts.remove(theManuscript);
+	}
+	
+	public List<Manuscript> getSubProgManuscript() {
+		return this.mySubProgManuscripts;
+	}
+	
+	public void addSubProgManuscript(Manuscript theManuscript) {
+		this.mySubProgManuscripts.add(theManuscript);
 	}
 	
 	public List<Roles> getMyRoles() {
@@ -200,26 +200,25 @@ public class User implements Serializable {
 //		this.myReviewers.add(theReviewers);
 //	}
 	
-	public void submitManuscript(final String thePath, String theTitle) {
+	public void submitManuscript(final String thePath, String theTitle, User currentUser, Conference currentConference) {
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
 		String date = dateFormat.format(cal.getTime());
 		
-		Manuscript newPaper = new Manuscript(thePath, Main.currentUser.getMyName(), date, theTitle);
+		Manuscript newPaper = new Manuscript(thePath, currentUser.getMyName(), date, theTitle);
 		
-		if(cal.before(Main.currentConference.getPaperDeadlineDate())) {
-			Main.currentUser.addMyManuscript(newPaper);
-			Main.currentConference.addManuscript(newPaper);
-			if(!Main.hasRole(Main.currentConference, Main.AUTHOR, Main.currentUser)) {
-				Main.currentUser.addMyRole(new Author(Main.currentConference));
+		if(cal.before(currentConference.getPaperDeadlineDate())) {
+			currentUser.addMyManuscript(newPaper);
+			currentConference.addManuscript(newPaper);
+			if(!Main.hasRole(currentConference, Main.AUTHOR, currentUser)) {
+				currentUser.addMyRole(new Author(currentConference));
 			}
-			System.out.println(newPaper.getTitle() + " submitted to Conference " + Main.currentConference.getName());
+			System.out.println();
+			System.out.println(newPaper.getTitle() + " submitted to Conference " + currentConference.getName());
 		} else {
 			System.out.println("The deadline for manuscript submission has passed.\n");
 		}
-		
-
 	}
 
 	public Author findAuthorRole() {

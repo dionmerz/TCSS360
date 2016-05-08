@@ -81,4 +81,7 @@ public class Manuscript extends Paper implements Serializable {
 		
 	}
 
+	public String toString() {
+		return super.getTitle();
+	}
 }
