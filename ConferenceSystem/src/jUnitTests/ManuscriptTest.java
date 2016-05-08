@@ -83,5 +83,6 @@ public class ManuscriptTest {
 		assertTrue(testManuscript.equals(testManuscript2));
 		assertFalse(testManuscript.equals(testManuscript3));
 		assertFalse(testManuscript.equals(testManuscript4));
+		assertFalse(testManuscript.equals(null));
 	}
 }
