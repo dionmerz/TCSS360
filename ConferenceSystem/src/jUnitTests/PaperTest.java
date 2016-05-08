@@ -24,7 +24,7 @@ public class PaperTest {
 	public void testConstructor() {
 		assertTrue(testPaper.getPath().equals(TEST_PATH));
 		assertTrue(testPaper.getAuthor().equals(TEST_AUTHOR));
-		assertTrue(testPaper.getSubmitDate().equals(TEST_DATE));
+		assertTrue(testPaper.getSubmittedDateString().equals(TEST_DATE));
 		assertTrue(testPaper.getTitle().equals(TEST_TITLE));
 	}
 

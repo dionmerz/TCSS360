@@ -7,24 +7,24 @@ import java.util.Date;
 public class Paper implements Serializable {
 	
 	/**
-	 * 
+	 * Serial identification number
 	 */
 	private static final long serialVersionUID = -8190150644233894201L;
 	private String myPath;
 	private String myAuthor;
-	private String mySubmitDate;
 	private String myTitle;
-	private Calendar mySubmittedDate;
+	private String mySubmitDateString;
+	private Calendar mySubmittedDateCalendar;
 	
 	public Paper(String thePath, String theAuthor, String theDate,
 			     String theTitle) {
 		myPath = thePath;
 		myAuthor = theAuthor;
-		mySubmitDate = theDate;
+		mySubmitDateString = theDate;
 		myTitle = theTitle;
 		new Date();
 		Calendar.getInstance();
-		mySubmittedDate = Calendar.getInstance();
+		mySubmittedDateCalendar = Calendar.getInstance();
 	}
 	
 	public String getPath() {
@@ -43,12 +43,19 @@ public class Paper implements Serializable {
 		this.myAuthor = author;
 	}
 
-	public String getSubmitDate() {
-		return mySubmitDate;
+	public String getSubmittedDateString() {
+		return mySubmitDateString;
 	}
 
-	public void setSubmitDate(String submitDate) {
-		this.mySubmitDate = submitDate;
+	public void setSubmittedDateString(String submitDate) {
+		this.mySubmitDateString = submitDate;
+	}
+	
+	public Calendar getSubmittedDateCalendar() {
+		return mySubmittedDateCalendar;
+	}
+	public void setSubmittedDateCalendar(Calendar theSubmittedDate) {
+		mySubmittedDateCalendar = theSubmittedDate;
 	}
 	
 	public String getTitle(){

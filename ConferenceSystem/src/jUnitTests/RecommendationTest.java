@@ -25,7 +25,7 @@ public class RecommendationTest {
 	public void testConstructor() {
 		assertTrue(testRecommendation.getPath().equals(TEST_PATH));
 		assertTrue(testRecommendation.getAuthor().equals(TEST_AUTHOR));
-		assertTrue(testRecommendation.getSubmitDate().equals(TEST_DATE));
+		assertTrue(testRecommendation.getSubmittedDateString().equals(TEST_DATE));
 		assertTrue(testRecommendation.getTitle().equals(TEST_TITLE));
 		assertTrue(testRecommendation.getScore() == TEST_SCORE);
 	}

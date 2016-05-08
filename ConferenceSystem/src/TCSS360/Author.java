@@ -12,7 +12,7 @@ import java.util.List;
 public class Author extends Roles implements Serializable {
 	
 	/**
-	 * 
+	 * Serial identification number
 	 */
 	private static final long serialVersionUID = 3594012237429715507L;
 

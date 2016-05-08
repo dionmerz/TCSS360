@@ -14,8 +14,9 @@ import java.util.List;
  * @version 1.0 5/5/2016
  */
 public class User implements Serializable {
+	
 	/**
-	 * 
+	 * Serial identification number 
 	 */
 	private static final long serialVersionUID = -5949934155104871686L;
 
@@ -62,7 +63,7 @@ public class User implements Serializable {
 	/**
 	 * List of reviewers for user. 
 	 */
-	private List<User> myReviewers;
+	//private List<User> myReviewers;
 	//private List<Conference> mySubprogChairsConferences;
 	
 	/**
@@ -191,13 +192,13 @@ public class User implements Serializable {
 		this.myReviews.remove(theReview);
 	}
 
-	public List<User> getMyReviewers() {
-		return myReviewers;
-	}
-
-	public void addMyReviewers(User theReviewers) {
-		this.myReviewers.add(theReviewers);
-	}
+//	public List<User> getMyReviewers() {
+//		return myReviewers;
+//	}
+//
+//	public void addMyReviewers(User theReviewers) {
+//		this.myReviewers.add(theReviewers);
+//	}
 	
 	public void submitManuscript(final String thePath, String theTitle) {
 		

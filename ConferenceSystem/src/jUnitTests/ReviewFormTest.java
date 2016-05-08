@@ -30,7 +30,7 @@ public class ReviewFormTest {
 	public void testConstructor() {
 		assertTrue(testReviewForm.getPath().equals(TEST_PATH));
 		assertTrue(testReviewForm.getAuthor().equals(TEST_AUTHOR));
-		assertTrue(testReviewForm.getSubmitDate().equals(TEST_DATE));
+		assertTrue(testReviewForm.getSubmittedDateString().equals(TEST_DATE));
 		assertTrue(testReviewForm.getTitle().equals(TEST_TITLE));
 	}
 

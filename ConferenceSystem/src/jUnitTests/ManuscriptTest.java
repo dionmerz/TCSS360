@@ -53,7 +53,7 @@ public class ManuscriptTest {
 	public void testConstructor() {
 		assertTrue(testManuscript.getPath().equals(TEST_PATH));
 		assertTrue(testManuscript.getAuthor().equals(TEST_AUTHOR));
-		assertTrue(testManuscript.getSubmitDate().equals(TEST_DATE));
+		assertTrue(testManuscript.getSubmittedDateString().equals(TEST_DATE));
 		assertTrue(testManuscript.getTitle().equals(TEST_TITLE));
 	}
 	
