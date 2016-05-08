@@ -106,7 +106,6 @@ public class UserTest {
 		usr.addMyManuscript((Manuscript)script2);
 		assertEquals(usr.getMyManuscripts().get(0).getStatus(), Status.SUBMITTED);
 		usr.submitManuscript("submitManuscript.txt", "SUBMITMANUSCRITPT", usr, conf);
-		System.out.println(usr.getMyManuscripts().toString());
 		assertEquals(usr.getMyManuscripts().size(), 3);
 	}
 	

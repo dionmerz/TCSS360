@@ -11,8 +11,9 @@ import java.util.List;
  * @version 1.0 5/5/2016
  */
 public class Conference implements Serializable {
+	
 	/**
-	 * 
+	 * Serial identification number
 	 */
 	private static final long serialVersionUID = 2834762961375246670L;
 	private String Name;
@@ -24,7 +25,7 @@ public class Conference implements Serializable {
 	private List<Manuscript> mySubmittedManuscriptList;
 	private List<User> subProChairList;
 	private Calendar myReviewDeadline;
-	private Calendar myPaperDeadline;
+	private Calendar myManuscriptDeadline;
 	
 	/**
 	 * Constructor for conference class.
@@ -49,9 +50,9 @@ public class Conference implements Serializable {
 		this.subProChairList = new ArrayList<User>();
 		
 		myReviewDeadline = Calendar.getInstance();
-		myPaperDeadline = Calendar.getInstance();
+		myManuscriptDeadline = Calendar.getInstance();
 		myReviewDeadline.add(Calendar.DATE, reviewDeadlineOffset);
-		myPaperDeadline.add(Calendar.DATE, paperDeadlineOffset);
+		myManuscriptDeadline.add(Calendar.DATE, paperDeadlineOffset);
 	}
 	
 	/**
@@ -161,41 +162,83 @@ public class Conference implements Serializable {
 		this.reviewDeadline = reviewDeadline;
 	}
 	
+	/**
+	 * Adds a manuscript to the list of manuscripts in conference. 
+	 * @param theManuscript to add to list
+	 */
 	public void addManuscript(Manuscript theManuscript) {
 		this.mySubmittedManuscriptList.add(theManuscript);
 	}
+	
+	/**
+	 * Removes the manuscript specified from a list of manuscripts in conference. 
+	 * @param theManuscript to remove from list 
+	 */
 	public void removeManuscript(Manuscript theManuscript) {
 		this.mySubmittedManuscriptList.remove(theManuscript);
 	}
 	
+	/**
+	 * Returns a list of manuscripts in the conference
+	 * @return a list of manuscripts
+	 */
 	public List<Manuscript> getManuscripts() {
 		return mySubmittedManuscriptList;
 	}
 	
+	/**
+	 * Returns a list of SubProgramChairs in conference.  
+	 * @return list of subprogram chairs
+	 */
 	public List<User> getSubProChairList() {
 		return subProChairList;
 	}
 	
+	/**
+	 * Adds a Subprogram Chair to a list in conference.
+	 * @param theUser a SubprogramChair
+	 */
 	public void addSubProChairList(User theUser) {
 		subProChairList.add(theUser);
 	}
 	
+	/**
+	 * Gets the deadline date for submitting manuscripts.
+	 * @return Calendar date
+	 */
 	public Calendar getPaperDeadlineDate() {
-		return myPaperDeadline;
+		return myManuscriptDeadline;
 	}
 	
+	/**
+	 * Sets the deadline for submitting manuscripts.
+	 * @param theCalendar a calendar date
+	 */
 	public void setPaperDeadlineDate(Calendar theCalendar) {
-		myPaperDeadline = theCalendar;
+		myManuscriptDeadline = theCalendar;
 	}
 	
+	/**
+	 * Gets the deadline date for submitting reviews.
+	 * @return Calendar date
+	 */
 	public Calendar getReviewDeadlineDate() {
 		return myReviewDeadline;
 	}
 
+	/**
+	 * Sets the deadline for submitting reviews.
+	 * @param theCalendar a calendar date
+	 */
 	public void setReviewDeadlineDate(Calendar theCalendar) {
 		myReviewDeadline = theCalendar;
 	}
 	
+	/**
+	 * Overrides toString object method and returns 
+	 * a String representation of a conference.
+	 * @return String representation of conference
+	 */
 	@Override
 	public String toString() {
 		return "conference [Name: " + Name + ", programChair: " + programChair
