@@ -566,6 +566,9 @@ public class Main implements Serializable {
 			userInput.nextLine();
 			String title = userInput.nextLine();
 			tempSubprogramChair.submitRecomendation(currentUser, selectedManuscript, score, path, title);
+			
+			
+			
 			subprogramChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 			break;
 		case 3:
@@ -581,8 +584,9 @@ public class Main implements Serializable {
 		boolean result = false;
 
 		for (Roles r: theUser.getMyRoles()){
-			if(r.getConference().equals(currentConference) && 
+			if(r.getConference().getName().equals(currentConference.getName()) && 
 					theRole.getClass().getSimpleName().equals(r.getClass().getSimpleName())) {
+				
 				result = true;
 			}
 		}

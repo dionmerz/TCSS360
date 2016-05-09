@@ -52,6 +52,8 @@ public class SubprogramChair extends Roles implements Serializable {
 		theManuscript.addRecommendation(form);
 		theManuscript.setStatus(Status.RECOMMENDED);
 		
+	
+		
 		System.out.println("Reccommendation Form for " + theManuscript.getTitle() + " submitted.");
 	}
 
