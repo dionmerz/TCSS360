@@ -28,9 +28,9 @@ public class ProgramChair extends Roles implements Serializable {
 	/**
 	 * Prints a list of manuscripts in program chair conference to the console.
 	 */
-	public void viewAllManuscripts() {	
+	public void viewAllManuscripts(Conference currentConference) {	
 		int count = 1;
-		for (Manuscript m : getConference().getManuscripts()) { //Main.currentConference.getManuscripts()) {
+		for (Manuscript m : currentConference.getManuscripts()) {
 			System.out.println(count + ". " + m.getTitle());
 			count++;
 		}
@@ -59,8 +59,8 @@ public class ProgramChair extends Roles implements Serializable {
 	 */
 	public void viewAssignedSubProgManuscripts(Conference theConference) {	
 		System.out.println("\nSubprogam Chair and Assigned Manuscripts List: ");
-		if (!getConference().getSubProChairList().isEmpty()) {
-			for(User u : theConference.getSubProChairList()) {//Main.currentConference.getSubProChairList()) {
+		if (!theConference.getSubProChairList().isEmpty()) {
+			for(User u : theConference.getSubProChairList()) {
 				if(!u.getSubProgManuscript().isEmpty()) {
 					System.out.println(u.getMyName() + ":");
 					for (Manuscript m: u.getSubProgManuscript()) {

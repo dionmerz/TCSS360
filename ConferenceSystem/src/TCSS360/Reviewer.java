@@ -34,7 +34,7 @@ public class Reviewer extends Roles implements Serializable {
 	 * @param theTitle
 	 * @param theManuscript
 	 */
-	public void uploadReviewForm(User currentUser, final String thePath, final String theAuthor, 
+	public void uploadReviewForm(User currentUser,Conference currentConference, final String thePath, final String theAuthor, 
 			final String theTitle, Manuscript theManuscript) {
 		boolean isAllowed = false;
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -42,7 +42,7 @@ public class Reviewer extends Roles implements Serializable {
 		String date = dateFormat.format(cal.getTime());
 
 		ReviewForm r = new ReviewForm(thePath, theAuthor, date, theTitle, currentUser);
-		if(cal.before(getConference().getReviewDeadlineDate())) {//currentConference.getReviewDeadlineDate())) {
+		if(cal.before(currentConference.getReviewDeadlineDate())) {
 			for(Manuscript m: currentUser.getMyManuscriptsToReview()) {
 				if (m.getTitle() == theManuscript.getTitle() && m.getAuthor() == theManuscript.getAuthor()) {
 					isAllowed = true;

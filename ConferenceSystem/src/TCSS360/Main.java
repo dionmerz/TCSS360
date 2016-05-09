@@ -114,8 +114,8 @@ public class Main implements Serializable {
 		currentUser = userList.get(0);
 		SubprogramChair initSubprogramChair = currentUser.findSubprogramChairRole();
 		ProgramChair initProgramChair = currentUser.findProgramChairRole();
-		initProgramChair.assignSubProgManuscript(userList.get(1), currentConference.getManuscripts().get(0));
-		initProgramChair.assignSubProgManuscript(userList.get(1), currentConference.getManuscripts().get(1));
+		//initProgramChair.assignSubProgManuscript(userList.get(1), currentConference.getManuscripts().get(0));
+		//initProgramChair.assignSubProgManuscript(userList.get(1), currentConference.getManuscripts().get(1));
 		initSubprogramChair.assignReviewerManuscript(userList.get(1), currentConference.getManuscripts().get(2));
 
 		currentUser = userList.get(1);
@@ -192,7 +192,7 @@ public class Main implements Serializable {
 				selectConferenceMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 			} else {
 				System.out.println("\nConference " + input + " selected.");
-				currentConference = theConferenceList.get(Integer.parseInt(input) - 1);			
+				currentConference = theConferenceList.get(Integer.parseInt(input) - 1);		
 				//call next menu
 				selectRoleMenu(theExitFlag, theFinishedFlag, theUserList, theConferenceList);
 			}
@@ -204,7 +204,6 @@ public class Main implements Serializable {
 		System.out.println("\nSelect an option:\nM. Submit Manuscript");
 
 		for(Roles r : currentUser.getMyRoles()) {
-			//System.out.println(r.getClass().getSimpleName());
 			if(r.getClass().getSimpleName().equals("Author") && r.getConference().getName().equals(currentConference.getName())) {
 				System.out.println("A. Author Options");
 			}
@@ -243,6 +242,9 @@ public class Main implements Serializable {
 			System.out.println("Enter the title of the manuscript: ");
 			String title = userInput.next();				
 			currentUser.submitManuscript(path, title, currentUser, currentConference);
+			
+			System.out.println(currentUser.getMyManuscripts().size());
+			
 			selectRoleMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 			break;
 		case "P": 
@@ -342,7 +344,7 @@ public class Main implements Serializable {
 
 		switch(input) {
 		case 1:
-			tempProgramChair.viewAllManuscripts();
+			tempProgramChair.viewAllManuscripts(currentConference);
 			programChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 			break;
 		case 2:
@@ -411,12 +413,16 @@ public class Main implements Serializable {
 
 			input = userInput.nextInt();
 			User selected = currentConference.getSubProChairList().get(input - 1);		
-			tempProgramChair.viewAllManuscripts();
+			tempProgramChair.viewAllManuscripts(currentConference);
 			System.out.println("Select a manuscript to assign to " + selected.getMyName());
 			input = userInput.nextInt();			
 			selectedManuscript = currentConference.getManuscripts().get(input - 1);
 
 			tempProgramChair.assignSubProgManuscript(selected, selectedManuscript);
+			
+			userList.remove(selected);
+			userList.add(selected);
+			
 
 			programChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 			break;
@@ -462,7 +468,7 @@ public class Main implements Serializable {
 			String title = userInput.nextLine();
 			//				tempReview.uploadReviewForm(currentConference, currentUser, path, 
 			//						currentUser.getMyName(), title, selectedManuscript);
-			tempReview.uploadReviewForm(currentUser, path, //  5/8/2015 bernabeg
+			tempReview.uploadReviewForm(currentUser, currentConference, path, //  5/8/2015 bernabeg
 					currentUser.getMyName(), title, selectedManuscript);
 			reviewerMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 			break;
@@ -493,6 +499,7 @@ public class Main implements Serializable {
 		Manuscript selectedManuscript;
 
 		switch(input) {
+		
 		case 1:
 			System.out.println("Select a manuscript to assign to a reviewer");
 			
@@ -511,6 +518,8 @@ public class Main implements Serializable {
 						reviewerList.add(u);
 					}
 				}
+				
+				System.out.println(reviewerList.size());
 				
 				if (reviewerList.isEmpty()) {
 					System.out.println("No Reviwers to assign for Conference: " + currentConference.getName());
@@ -572,7 +581,8 @@ public class Main implements Serializable {
 		boolean result = false;
 
 		for (Roles r: theUser.getMyRoles()){
-			if(r.getConference().equals(currentConference)) {
+			if(r.getConference().equals(currentConference) && 
+					theRole.getClass().getSimpleName().equals(r.getClass().getSimpleName())) {
 				result = true;
 			}
 		}

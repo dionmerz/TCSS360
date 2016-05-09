@@ -209,8 +209,11 @@ public class User implements Serializable {
 		Manuscript newPaper = new Manuscript(thePath, currentUser.getMyName(), date, theTitle);
 		
 		if(cal.before(currentConference.getPaperDeadlineDate())) {
+			
+			System.out.println(currentUser.getMyManuscripts().size());
 			currentUser.addMyManuscript(newPaper);
 			currentConference.addManuscript(newPaper);
+			System.out.println(currentUser.getMyManuscripts().size());
 			if(!Main.hasRole(currentConference, Main.AUTHOR, currentUser)) {
 				currentUser.addMyRole(new Author(currentConference));
 			}
@@ -260,4 +263,20 @@ public class User implements Serializable {
 		}
 		return ReviewerRole;
 	}
+	
+	public boolean equals(Object theOther) {
+		
+		boolean equal = false;
+		User other;
+		
+		if ((theOther instanceof User)){
+			other = (User) theOther;
+			if (this.getMyLoginName().equals(other.getMyLoginName())) {
+				equal = true;
+			}
+		}
+		return equal;
+	}
+	
+	
 }

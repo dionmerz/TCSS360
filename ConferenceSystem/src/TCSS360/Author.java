@@ -28,8 +28,8 @@ public class Author extends Roles implements Serializable {
 	/**
 	 * View all your submitted manuscript.
 	 */
-	public void viewAuthorSubManuscript() {
-		List<Manuscript> manuList = Main.currentUser.getMyManuscripts();
+	public void viewAuthorSubManuscript(User currentUser) {
+		List<Manuscript> manuList = currentUser.getMyManuscripts();
 		int i = 1;
 		for (Manuscript manu : manuList){
 			System.out.print(i + ". ");
