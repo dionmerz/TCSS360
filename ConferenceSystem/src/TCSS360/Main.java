@@ -84,7 +84,7 @@ public class Main implements Serializable {
 
 
 		conferenceList = new ArrayList<Conference>();
-		conferenceList.add(new Conference("Ethics of Vertual Reality", userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 60, 30));
+		conferenceList.add(new Conference("Ethics of Virtual Reality", userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 60, 30));
 		conferenceList.add(new Conference("Fundamental Laws of Robotics", userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 60, 30));
 		conferenceList.add(new Conference("Stuff that is stuff", userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 60, 30));
 
@@ -243,8 +243,6 @@ public class Main implements Serializable {
 			String title = userInput.next();				
 			currentUser.submitManuscript(path, title, currentUser, currentConference);
 			
-			System.out.println(currentUser.getMyManuscripts().size());
-			
 			selectRoleMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 			break;
 		case "P": 
@@ -344,7 +342,9 @@ public class Main implements Serializable {
 
 		switch(input) {
 		case 1:
+			System.out.println();
 			tempProgramChair.viewAllManuscripts(currentConference);
+			System.out.println();
 			programChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 			break;
 		case 2:
@@ -405,6 +405,7 @@ public class Main implements Serializable {
 			break;
 		case 4:
 			//print list of SPCs, pick manuscript
+			System.out.println("\nSubProgram Chair List");
 			count = 1;
 			for(User sc : currentConference.getSubProChairList()) {
 				System.out.println(count + ". " + sc.getMyName());
@@ -459,17 +460,19 @@ public class Main implements Serializable {
 		case 2:
 			System.out.println("Select a manuscript to upload a review for");
 			tempReview.viewAssignedManuscripts(currentUser);
-			input = userInput.nextInt();
-			Manuscript selectedManuscript = currentUser.getMyManuscriptsToReview().get(input - 1);
-			System.out.println("Enter the path to the review form");
-			userInput.nextLine();
-			String path = userInput.nextLine();
-			System.out.println("Enter the title of the review form");
-			String title = userInput.nextLine();
-			//				tempReview.uploadReviewForm(currentConference, currentUser, path, 
-			//						currentUser.getMyName(), title, selectedManuscript);
-			tempReview.uploadReviewForm(currentUser, currentConference, path, //  5/8/2015 bernabeg
-					currentUser.getMyName(), title, selectedManuscript);
+			if (!currentUser.getMyManuscriptsToReview().isEmpty()) {
+				input = userInput.nextInt();
+				Manuscript selectedManuscript = currentUser.getMyManuscriptsToReview().get(input - 1);
+				System.out.println("Enter the path to the review form");
+				userInput.nextLine();
+				String path = userInput.nextLine();
+				System.out.println("Enter the title of the review form");
+				String title = userInput.nextLine();
+				//				tempReview.uploadReviewForm(currentConference, currentUser, path, 
+				//						currentUser.getMyName(), title, selectedManuscript);
+				tempReview.uploadReviewForm(currentUser, currentConference, path, //  5/8/2015 bernabeg
+				currentUser.getMyName(), title, selectedManuscript);
+			}
 			reviewerMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 			break;
 		case 3:
@@ -519,10 +522,10 @@ public class Main implements Serializable {
 					}
 				}
 				
-				System.out.println(reviewerList.size());
+				//System.out.println(reviewerList.size());
 				
 				if (reviewerList.isEmpty()) {
-					System.out.println("No Reviwers to assign for Conference: " + currentConference.getName());
+					System.out.println("No Reviewers to assign for Conference: " + currentConference.getName());
 
 				}
 				
@@ -533,6 +536,7 @@ public class Main implements Serializable {
 
 					for(User u : reviewerList) {
 						System.out.println(count + ". " + u.getMyName());
+						count++;
 					}
 
 					input = userInput.nextInt();
@@ -543,7 +547,7 @@ public class Main implements Serializable {
 			}
 			else 
 			{
-				System.out.println("\nNo manuscripts currently assigned\n");
+				System.out.println("\nNo manuscripts currently assigned to subprogram chair");
 			}
 
 

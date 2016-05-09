@@ -69,9 +69,14 @@ public class Reviewer extends Roles implements Serializable {
 	public void viewAssignedManuscripts(User currentUser) {
 		// Prints all the manuscripts out from a list provided by user.
 		int count = 1;
-		
-		for(Manuscript m: currentUser.getMyManuscriptsToReview()) {
-			System.out.println(count + ". " + m.getTitle());
+		if (!currentUser.getMyManuscriptsToReview().isEmpty()) {
+			for(Manuscript m: currentUser.getMyManuscriptsToReview()) {
+				System.out.println(count + ". " + m.getTitle());
+			}
+		}
+		else
+		{
+			System.out.println("No manuscripts to review");
 		}
 		System.out.println();
 	}

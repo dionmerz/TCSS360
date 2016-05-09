@@ -209,11 +209,8 @@ public class User implements Serializable {
 		Manuscript newPaper = new Manuscript(thePath, currentUser.getMyName(), date, theTitle);
 		
 		if(cal.before(currentConference.getPaperDeadlineDate())) {
-			
-			System.out.println(currentUser.getMyManuscripts().size());
 			currentUser.addMyManuscript(newPaper);
 			currentConference.addManuscript(newPaper);
-			System.out.println(currentUser.getMyManuscripts().size());
 			if(!Main.hasRole(currentConference, Main.AUTHOR, currentUser)) {
 				currentUser.addMyRole(new Author(currentConference));
 			}
