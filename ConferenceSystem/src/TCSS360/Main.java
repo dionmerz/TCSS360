@@ -88,13 +88,13 @@ public class Main implements Serializable {
 		conferenceList.add(new Conference("Fundamental Laws of Robotics", userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 0, 30));
 		conferenceList.add(new Conference("Stuff that is stuff", userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 60, 30));
 		
-		//userList.get(0).addMyRole(new SubprogramChair(conferenceList.get(0)));   // adam login and roles
-		//userList.get(0).addMyRole(new Author(conferenceList.get(0)));
+		userList.get(0).addMyRole(new SubprogramChair(conferenceList.get(0)));   // adam login and roles
+		userList.get(0).addMyRole(new Author(conferenceList.get(0)));
 		userList.get(0).addMyRole(new ProgramChair(conferenceList.get(0)));
-		//userList.get(0).addMyRole(new Reviewer(conferenceList.get(0)));
+		userList.get(0).addMyRole(new Reviewer(conferenceList.get(0)));
 		
 		userList.get(1).addMyRole(new SubprogramChair(conferenceList.get(0)));	// Kevein login / roles
-		//userList.get(1).addMyRole(new Reviewer(conferenceList.get(0)));
+		userList.get(1).addMyRole(new Reviewer(conferenceList.get(0)));
 		
 		userList.get(2).addMyRole(new Reviewer(conferenceList.get(0)));			// Andrew login / roles
 		
@@ -111,24 +111,24 @@ public class Main implements Serializable {
 		
 		SubprogramChair initSubprogramChair = currentUser.findSubprogramChairRole();
 		
-		//initSubprogramChair.submitRecomendation(currentConference.getManuscripts().get(0), 1, "reccpath", "rectitle");
-		//initSubprogramChair.submitRecomendation(currentConference.getManuscripts().get(1), 3, "reccpath", "rectitle");
-		//initSubprogramChair.submitRecomendation(currentConference.getManuscripts().get(2), 2, "reccpath", "rectitle");
+		initSubprogramChair.submitRecomendation(currentUser, currentConference.getManuscripts().get(0), 1, "reccpath", "rectitle");
+		initSubprogramChair.submitRecomendation(currentUser, currentConference.getManuscripts().get(1), 3, "reccpath", "rectitle");
+		initSubprogramChair.submitRecomendation(currentUser, currentConference.getManuscripts().get(2), 2, "reccpath", "rectitle");
 		
-		//ProgramChair initProgramChair = currentUser.findProgramChairRole();
-		//initProgramChair.assignSubProgManuscript(userList.get(1), currentConference.getManuscripts().get(0));
-		//initProgramChair.assignSubProgManuscript(userList.get(1), currentConference.getManuscripts().get(2));
-		//initSubprogramChair.assignReviewerManuscript(userList.get(1), currentConference.getManuscripts().get(0));
+		ProgramChair initProgramChair = currentUser.findProgramChairRole();
+		initProgramChair.assignSubProgManuscript(userList.get(1), currentConference.getManuscripts().get(0));
+		initProgramChair.assignSubProgManuscript(userList.get(1), currentConference.getManuscripts().get(2));
+		initSubprogramChair.assignReviewerManuscript(userList.get(1), currentConference.getManuscripts().get(0));
 		
-		//currentConference = conferenceList.get(1);
-		//currentUser = userList.get(1);
-		//currentUser.submitManuscript("path1", "Manuscript 1");
-		//initSubprogramChair.assignReviewerManuscript(userList.get(0), currentConference.getManuscripts().get(0));
+		currentConference = conferenceList.get(1);
+		currentUser = userList.get(1);
+		currentUser.submitManuscript("path1", "Manuscript 1", currentUser, currentConference);
+		initSubprogramChair.assignReviewerManuscript(userList.get(0), currentConference.getManuscripts().get(0));
 		
-		//initSubprogramChair.assignReviewerManuscript(userList.get(1), currentConference.getManuscripts().get(0));
+		initSubprogramChair.assignReviewerManuscript(userList.get(1), currentConference.getManuscripts().get(0));
 		
-		//currentUser = userList.get(1);
-		//currentConference.addSubProChairList(currentUser);
+		currentUser = userList.get(1);
+		currentConference.addSubProChairList(currentUser);
 		
 		currentUser = null;
 		currentConference = null;
@@ -342,8 +342,10 @@ public class Main implements Serializable {
 				programChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 				break;
 			case 2:
-				ArrayList<Manuscript> reccomendedList = new ArrayList<>();
+				ArrayList<Manuscript> reccomendedList = new ArrayList<Manuscript>();
+				int total = 0;
 				for(Manuscript m : currentConference.getManuscripts()) {
+					
 					if(m.getStatus() == Status.RECOMMENDED) {
 						reccomendedList.add(m);
 						System.out.println(count + ". " + m.getTitle());
@@ -353,7 +355,15 @@ public class Main implements Serializable {
 						}
 						System.out.println();
 						count++;
+						total++;
 					}
+				}
+				
+				if (total == 0) {
+					System.out.println("No Manuscripts");
+					System.out.println("");
+					programChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
+					
 				}
 				input = userInput.nextInt();
 				selectedManuscript = reccomendedList.get(input - 1);
@@ -384,7 +394,7 @@ public class Main implements Serializable {
 				
 				break;
 			case 3:
-				tempProgramChair.viewAssignedSubProgManuscripts();
+				tempProgramChair.viewAssignedSubProgManuscripts(currentConference);
 				programChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 				break;
 			case 4:
@@ -482,39 +492,39 @@ public class Main implements Serializable {
 		case 1:
 			System.out.println("Select a manuscript to assign to a reviewer");
 			if(!currentUser.getSubProgManuscript().isEmpty()) {
-			for(Manuscript m : currentUser.getSubProgManuscript()) {
-				System.out.println(count + ". " + m.getTitle());
-				count++;
-			}
-			
-			input = userInput.nextInt();
-			selectedManuscript = currentUser.getSubProgManuscript().get(input - 1);
-			ArrayList<User> reviewerList = new ArrayList<User>();
-			
-			for(User u : userList) {
-				if(hasRole(currentConference, REVIEWER, u )) {
-					reviewerList.add(u);
+				for(Manuscript m : currentUser.getSubProgManuscript()) {
+					System.out.println(count + ". " + m.getTitle());
+					count++;
 				}
-			}
-			
-			count = 1;
-			System.out.println("Select a reviewer to assign the selected manuscript");
-			
-			for(User u : reviewerList) {
-				System.out.println(count + ". " + u.getMyName());
-			}
-			
-			input = userInput.nextInt();
-			User selectedReviewer = reviewerList.get(input - 1);
-			
-			tempSubprogramChair.assignReviewerManuscript(selectedReviewer, selectedManuscript);
+
+				input = userInput.nextInt();
+				selectedManuscript = currentUser.getSubProgManuscript().get(input - 1);
+				ArrayList<User> reviewerList = new ArrayList<User>();
+
+				for(User u : userList) {
+					if(hasRole(currentConference, REVIEWER, u )) {
+						reviewerList.add(u);
+					}
+				}
+
+				count = 1;
+				System.out.println("Select a reviewer to assign the selected manuscript");
+
+				for(User u : reviewerList) {
+					System.out.println(count + ". " + u.getMyName());
+				}
+
+				input = userInput.nextInt();
+				User selectedReviewer = reviewerList.get(input - 1);
+
+				tempSubprogramChair.assignReviewerManuscript(selectedReviewer, selectedManuscript);
 			}
 			else 
 			{
 				System.out.println("\nNo manuscripts currently assigned\n");
 			}
-			
-		
+
+
 			subprogramChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 			break;
 		case 2:

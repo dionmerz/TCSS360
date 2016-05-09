@@ -57,24 +57,23 @@ public class ProgramChair extends Roles implements Serializable {
 	/**
 	 * Prints a list of Subprogram chairs and assigned manuscripts.
 	 */
-	public void viewAssignedSubProgManuscripts() {	
+	public void viewAssignedSubProgManuscripts(Conference theConference) {	
 		System.out.println("\nSubprogam Chair and Assigned Manuscripts List: ");
 		if (!getConference().getSubProChairList().isEmpty()) {
-		for(User u : getConference().getSubProChairList()) {//Main.currentConference.getSubProChairList()) {
-			if(!u.getSubProgManuscript().isEmpty()) {
-				System.out.println(u.getMyName() + ":");
-				for (Manuscript m: u.getSubProgManuscript()) {
-					System.out.println("\t" + m.getTitle());
+			for(User u : theConference.getSubProChairList()) {//Main.currentConference.getSubProChairList()) {
+				if(!u.getSubProgManuscript().isEmpty()) {
+					System.out.println(u.getMyName() + ":");
+					for (Manuscript m: u.getSubProgManuscript()) {
+						System.out.println("\t" + m.getTitle());
+					}
+				} 
+				else 
+				{
+					System.out.println(u.getMyName() + " no manuscripts assigned yet.");
 				}
-			} 
-			else 
-			{
-				System.out.println(u.getMyName() + " no manuscripts assigned yet.");
 			}
 		}
-		}
-		else
-		{
+		else {
 			System.out.println("No Subprogram Chairs in this conference");
 		}
 		System.out.println();
