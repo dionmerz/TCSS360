@@ -23,7 +23,7 @@ public class Main implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -7648819537622791186L;
-	public static User currentUser;// = new User("Adam", "adamgroup5", "adam@adam.com");
+	public static User currentUser;
 	public static Conference currentConference;
 	public static final Author AUTHOR = new Author(null);
 	public static final Reviewer REVIEWER = new Reviewer(null);
