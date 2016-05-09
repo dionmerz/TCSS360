@@ -18,9 +18,16 @@ import java.util.Scanner;
 
 import TCSS360.Manuscript.Status;
 
+/**
+ * This class represents a conference object. 
+ * 
+ * @author Andrew Merz, Adam Marr, Bernabe Guzman, Bincheng Li
+ * @version 1.0 5/8/2016
+ */
 public class Main implements Serializable {
+	
 	/**
-	 * 
+	 * Serial identification number
 	 */
 	private static final long serialVersionUID = -7648819537622791186L;
 	public static User currentUser;
@@ -29,20 +36,13 @@ public class Main implements Serializable {
 	public static final Reviewer REVIEWER = new Reviewer(null);
 	public static final SubprogramChair SUBPROGRAM_CHAIR = new SubprogramChair(null);
 	public static final ProgramChair PROGRAM_CHAIR = new ProgramChair(null);
-
 	private static boolean initialized = false;
 	private static List<Conference> conferenceList;
 	private static List<User> userList;
-
 	private static Scanner userInput = new Scanner(System.in);
-
 	public static void main(String[] theargs) {
-
-
-		boolean finished = false;
-		boolean exit = false;
-
-
+	boolean finished = false;
+	boolean exit = false;
 
 		try {
 			FileInputStream fileIn = new FileInputStream("userList.ser");
@@ -75,6 +75,10 @@ public class Main implements Serializable {
 
 	}
 
+	/**
+	 * Initializes the state of the program 
+	 * @return true or false
+	 */
 	private static boolean setup() {
 		userList = new ArrayList<User>();
 		userList.add(new User("adam", "adamlogin", "adam@gmail.com"));
@@ -139,6 +143,13 @@ public class Main implements Serializable {
 		return true;
 	}
 
+	/**
+	 * Register/Login UI menu.
+	 * @param theFinishedFlag the login flag
+	 * @param theExitFlag the exit flag
+	 * @param theUserList a user list
+	 * @param theConferenceList a conference list
+	 */
 	public static void registerLoginMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
 		System.out.println("Select an option: \n1.Login\n2.Register\n3.Exit");
 		int input = userInput.nextInt();
@@ -167,6 +178,13 @@ public class Main implements Serializable {
 		}
 	}
 
+	/**
+	 * Select a conference UI menu. 
+	 * @param theFinishedFlag the login flag
+	 * @param theExitFlag the exit flag
+	 * @param theUserList a user list
+	 * @param theConferenceList a conference list
+	 */
 	public static void selectConferenceMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
 		int count = 0;
 		System.out.println("Select a conference or option: ");
@@ -200,6 +218,13 @@ public class Main implements Serializable {
 		}
 	}
 
+	/**
+	 * Select a role UI menu.
+	 * @param theFinishedFlag the login flag
+	 * @param theExitFlag the exit flag
+	 * @param theUserList a user list
+	 * @param theConferenceList a conference list
+	 */
 	public static void selectRoleMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
 		System.out.println("\nSelect an option:\nM. Submit Manuscript");
 
@@ -260,6 +285,13 @@ public class Main implements Serializable {
 		}
 	}
 
+	/**
+	 * Author UI menu.
+	 * @param theFinishedFlag the login flag
+	 * @param theExitFlag the exit flag
+	 * @param theUserList a user list
+	 * @param theConferenceList a conference list
+	 */
 	public static void authorMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
 		System.out.println("Select an option: ");
 		System.out.println("1. Update Manuscript");
@@ -326,6 +358,13 @@ public class Main implements Serializable {
 		}
 	}
 
+	/**
+	 * Program Chair UI menu.
+	 * @param theFinishedFlag the login flag
+	 * @param theExitFlag the exit flag
+	 * @param theUserList a user list
+	 * @param theConferenceList a conference list
+	 */
 	public static void programChairMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
 		System.out.println("Select an option: ");
 		System.out.println("1. View all manuscripts");
@@ -440,6 +479,13 @@ public class Main implements Serializable {
 		}
 	}
 
+	/**
+	 * Reviewer UI menu.
+	 * @param theFinishedFlag the login flag
+	 * @param theExitFlag the exit flag
+	 * @param theUserList a user list
+	 * @param theConferenceList a conference list
+	 */
 	public static void reviewerMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
 		System.out.println("Select an option: ");
 		System.out.println("1. View assigned manuscripts to review");
@@ -488,6 +534,13 @@ public class Main implements Serializable {
 		}
 	}
 
+	/**
+	 * Subprogram chair UI menu. 
+	 * @param theFinishedFlag login flag
+	 * @param theExitFlag exit flag
+	 * @param theUserList list of users
+	 * @param theConferenceList list of conferences
+	 */
 	public static void subprogramChairMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
 		System.out.println("Select an option: ");
 		System.out.println("1. Assign a manuscript to a reviewer");
@@ -584,6 +637,13 @@ public class Main implements Serializable {
 		}
 	}
 
+	/**
+	 * This method checks to see if the user has a specified role in a conference. 
+	 * @param theConference a conference
+	 * @param theRole a role
+	 * @param theUser a user
+	 * @return true or false
+	 */
 	public static boolean hasRole(Conference theConference, Roles theRole, User theUser) {
 		boolean result = false;
 
@@ -597,6 +657,11 @@ public class Main implements Serializable {
 		return result;
 	}
 
+	/**
+	 * Login menu checks to see if person is registered. 
+	 * @param userList list of system users
+	 * @return true or false
+	 */
 	public static boolean login(List<User> userList) {
 		System.out.print("Enter your username: ");
 		String input = userInput.next();
@@ -617,6 +682,10 @@ public class Main implements Serializable {
 		}
 	}
 
+	/**
+	 * Register menu, returns user
+	 * @return user
+	 */
 	public static User register() {
 		userInput.nextLine();
 		System.out.println("Please enter your full name");
@@ -629,6 +698,9 @@ public class Main implements Serializable {
 		return new User(input,input2,input3);
 	}
 
+	/**
+	 * UI exit menu
+	 */
 	public static void exit() {
 		System.out.println("You selected exit.");
 
@@ -652,4 +724,4 @@ public class Main implements Serializable {
 			e.printStackTrace();
 		}
 	}
-}
+}// end of main
