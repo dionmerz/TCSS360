@@ -40,6 +40,10 @@ public class Main implements Serializable {
 	private static List<Conference> conferenceList;
 	private static List<User> userList;
 	private static Scanner userInput = new Scanner(System.in);
+	
+	
+	
+	@SuppressWarnings({ "resource", "unchecked" })
 	public static void main(String[] theargs) {
 	boolean finished = false;
 	boolean exit = false;
