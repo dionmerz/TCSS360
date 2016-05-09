@@ -514,6 +514,7 @@ public class Main implements Serializable {
 				
 				if (reviewerList.isEmpty()) {
 					System.out.println("No Reviwers to assign for Conference: " + currentConference.getName());
+
 				}
 				
 				else {
