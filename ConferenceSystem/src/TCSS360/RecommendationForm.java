@@ -11,27 +11,48 @@ import java.io.Serializable;
 public class RecommendationForm extends Paper implements Serializable{
 
 	/**
-	 * 
+	 * Serial identification number
 	 */
 	private static final long serialVersionUID = -6800776639147002957L;
 	private int myScore; 
 	
+	/**
+	 * Recommendation Class Constructor
+	 * @param thePath the file path
+	 * @param theAuthor the author
+	 * @param theSubmitDate the submitted date
+	 * @param theTitle the title
+	 * @param theScore the score
+	 */
 	public RecommendationForm(String thePath, String theAuthor, String theSubmitDate, String theTitle, int theScore) {
 		super(thePath, theAuthor, theSubmitDate, theTitle);
 		myScore = theScore;
 	}
 
+	/**
+	 * Gets the score of the recommendation form.
+	 * @return score
+	 */
 	public int getScore() {
 		return myScore;
 	}
 
+	/**
+	 * Sets the score of the recommendation form.
+	 * @param theScore 
+	 */
 	public void setScore(int theScore) {
 		this.myScore = theScore;
 	}
 
+	/**
+	 * Returns a string representation of a recommendation form.
+	 * @return string
+	 */
 	@Override
 	public String toString() {
 		return "Recommendation score: " + myScore + " "
 				+ "Author: ";
 	}
+	 
 }

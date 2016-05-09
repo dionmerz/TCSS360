@@ -8,21 +8,33 @@ import java.util.Calendar;
 /**
  * Tests for the Reviewer Class.
  * 
- * @author Andrew Merz
- *
+ * @author Andrew Merz, Bernabe Guzman
+ * @version 5/8/2016
  */
 public class Reviewer extends Roles implements Serializable {	
 
 	/**
-	 * 
+	 * Serial identification number
 	 */
 	private static final long serialVersionUID = 2085432913222156308L;
 
+	/**
+	 * Reviewer Class Constructor
+	 * @param theConference
+	 */
 	public Reviewer(Conference theConference) {
 		super(theConference);
 	}
 	
-	public void uploadReviewForm(Conference currentConference, User currentUser, final String thePath, final String theAuthor, 
+	/**
+	 * Uploads a review form to a manuscript
+	 * @param currentUser
+	 * @param thePath
+	 * @param theAuthor
+	 * @param theTitle
+	 * @param theManuscript
+	 */
+	public void uploadReviewForm(User currentUser, final String thePath, final String theAuthor, 
 			final String theTitle, Manuscript theManuscript) {
 		boolean isAllowed = false;
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -30,7 +42,7 @@ public class Reviewer extends Roles implements Serializable {
 		String date = dateFormat.format(cal.getTime());
 
 		ReviewForm r = new ReviewForm(thePath, theAuthor, date, theTitle, currentUser);
-		if(cal.before(currentConference.getReviewDeadlineDate())) {
+		if(cal.before(getConference().getReviewDeadlineDate())) {//currentConference.getReviewDeadlineDate())) {
 			for(Manuscript m: currentUser.getMyManuscriptsToReview()) {
 				if (m.getTitle() == theManuscript.getTitle() && m.getAuthor() == theManuscript.getAuthor()) {
 					isAllowed = true;
@@ -50,6 +62,10 @@ public class Reviewer extends Roles implements Serializable {
 		
 	}
 	
+	/**
+	 * Prints out the assigned manuscripts 
+	 * @param currentUser 
+	 */
 	public void viewAssignedManuscripts(User currentUser) {
 		// Prints all the manuscripts out from a list provided by user.
 		int count = 1;
@@ -60,6 +76,11 @@ public class Reviewer extends Roles implements Serializable {
 		System.out.println();
 	}
 	
+	/**
+	 * Overrides object to string method. Returns a
+	 * string representation of a reviewer (user name).
+	 */
+	@Override
 	public String toString() {
 		return this.getClass().getSimpleName();
 		

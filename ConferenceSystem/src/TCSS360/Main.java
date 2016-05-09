@@ -446,7 +446,9 @@ public class Main implements Serializable {
 				String path = userInput.nextLine();
 				System.out.println("Enter the title of the review form");
 				String title = userInput.nextLine();
-				tempReview.uploadReviewForm(currentConference, currentUser, path, 
+//				tempReview.uploadReviewForm(currentConference, currentUser, path, 
+//						currentUser.getMyName(), title, selectedManuscript);
+				tempReview.uploadReviewForm(currentUser, path, //  5/8/2015 bernabeg
 						currentUser.getMyName(), title, selectedManuscript);
 				reviewerMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 				break;
@@ -479,6 +481,7 @@ public class Main implements Serializable {
 		switch(input) {
 		case 1:
 			System.out.println("Select a manuscript to assign to a reviewer");
+			if(!currentUser.getSubProgManuscript().isEmpty()) {
 			for(Manuscript m : currentUser.getSubProgManuscript()) {
 				System.out.println(count + ". " + m.getTitle());
 				count++;
@@ -505,6 +508,13 @@ public class Main implements Serializable {
 			User selectedReviewer = reviewerList.get(input - 1);
 			
 			tempSubprogramChair.assignReviewerManuscript(selectedReviewer, selectedManuscript);
+			}
+			else 
+			{
+				System.out.println("\nNo manuscripts currently assigned\n");
+			}
+			
+		
 			subprogramChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 			break;
 		case 2:

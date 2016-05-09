@@ -59,6 +59,7 @@ public class ProgramChair extends Roles implements Serializable {
 	 */
 	public void viewAssignedSubProgManuscripts() {	
 		System.out.println("\nSubprogam Chair and Assigned Manuscripts List: ");
+		if (!getConference().getSubProChairList().isEmpty()) {
 		for(User u : getConference().getSubProChairList()) {//Main.currentConference.getSubProChairList()) {
 			if(!u.getSubProgManuscript().isEmpty()) {
 				System.out.println(u.getMyName() + ":");
@@ -68,8 +69,13 @@ public class ProgramChair extends Roles implements Serializable {
 			} 
 			else 
 			{
-				System.out.println(u.getMyName() );
+				System.out.println(u.getMyName() + " no manuscripts assigned yet.");
 			}
+		}
+		}
+		else
+		{
+			System.out.println("No Subprogram Chairs in this conference");
 		}
 		System.out.println();
 	}

@@ -46,18 +46,18 @@ public class ReviewerTest {
 		
 		conf = new Conference("Conf1", usr, "start", "stop", "PDeadline", "RDeadline", 0, 0);
 		assertTrue(usr.getMyReviews().size() == 0);
-		rev.uploadReviewForm(conf, usr, "form.txt", "TestReviewer", "ReviewTitle", (Manuscript) script);
+		rev.uploadReviewForm(usr, "form.txt", "TestReviewer", "ReviewTitle", (Manuscript) script);
 		assertFalse(usr.getMyReviews().size() > 0);
 		
 		conf = new Conference("Conf1", usr, "start", "stop", "PDeadline", "RDeadline", 30, 60);
 		
-		rev.uploadReviewForm(conf, usr, "form.txt", "TestReviewer", "ReviewTitle", (Manuscript) script);
+		rev.uploadReviewForm(usr, "form.txt", "TestReviewer", "ReviewTitle", (Manuscript) script);
 		assertFalse(usr.getMyReviews().size() > 0);
 		
 		
 		spc.assignReviewerManuscript(usr, (Manuscript) script);
 		
-		rev.uploadReviewForm(conf, usr, "form.txt", "TestReviewer", "ReviewTitle", (Manuscript) script);
+		rev.uploadReviewForm(usr, "form.txt", "TestReviewer", "ReviewTitle", (Manuscript) script);
 		assertTrue(usr.getMyReviews().size() == 1);
 		assertTrue(script.getReviewList().get(0).getAuthor().equals("TestReviewer"));
 		
