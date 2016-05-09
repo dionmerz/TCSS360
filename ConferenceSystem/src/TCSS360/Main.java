@@ -326,7 +326,7 @@ public class Main implements Serializable {
 		System.out.println("Select an option: ");
 		System.out.println("1. View all manuscripts");
 		System.out.println("2. Reject/Accept Manuscript");
-		System.out.println("3. View all assigned Subprogram Chair manuscripts");
+		System.out.println("3. View all assigned Subprogram Chair and manuscripts");
 		System.out.println("4. Assign a manuscript to a Subprogram Chair");
 		System.out.println("5. Back");
 		System.out.println("6. Exit");

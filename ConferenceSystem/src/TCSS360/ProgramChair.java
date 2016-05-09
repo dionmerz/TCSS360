@@ -4,51 +4,81 @@ import java.io.Serializable;
 
 import TCSS360.Manuscript.Status;
 
+/**
+ * This class represents a Program Chair role. 
+ * @author Andrew Merz, Adam Marr, Bernabe Guzman, Bincheng Li
+ * @version 1.0 5/5/2016
+ */
 public class ProgramChair extends Roles implements Serializable {
 
 	/**
-	 * 
+	 * Serial identification number
 	 */
 	private static final long serialVersionUID = 4555961000972804977L;
 
+	/**
+	 * Program Chair Class Constructor
+	 * @param theConference
+	 */
 	public ProgramChair(Conference theConference) {
 		super(theConference);
 		// TODO Auto-generated constructor stub
 	}
 	
-	
+	/**
+	 * Prints a list of manuscripts in program chair conference to the console.
+	 */
 	public void viewAllManuscripts() {	
 		int count = 1;
-		for (Manuscript m : Main.currentConference.getManuscripts()) {
+		for (Manuscript m : getConference().getManuscripts()) { //Main.currentConference.getManuscripts()) {
 			System.out.println(count + ". " + m.getTitle());
 			count++;
 		}
 	}
 	
+	/**
+	 * Changes the state of a manuscript to rejected.
+	 * @param theManuscript a manuscript
+	 */
 	public void rejectManuscript(Manuscript theManuscript){
 		theManuscript.setStatus(Status.REJECTED);
 		System.out.println(theManuscript.getTitle() + " by " + theManuscript.getAuthor() + " Rejected.");
-		
 	}
 	
+	/**
+	 * Changes the state of a manuscript to accepted.
+	 * @param theManuscript a manuscript
+	 */
 	public void acceptManuscript(Manuscript theManuscript){
 		theManuscript.setStatus(Status.ACCEPTED);
-		System.out.println(theManuscript.getTitle() + " by " + theManuscript.getAuthor() + " Accepted.");
-		
+		System.out.println(theManuscript.getTitle() + " by " + theManuscript.getAuthor() + " Accepted.");	
 	}
 	
-	
+	/**
+	 * Prints a list of Subprogram chairs and assigned manuscripts.
+	 */
 	public void viewAssignedSubProgManuscripts() {	
-		for(User u : Main.currentConference.getSubProChairList()) {
+		System.out.println("\nSubprogam Chair and Assigned Manuscripts List: ");
+		for(User u : getConference().getSubProChairList()) {//Main.currentConference.getSubProChairList()) {
 			if(!u.getSubProgManuscript().isEmpty()) {
 				System.out.println(u.getMyName() + ":");
 				for (Manuscript m: u.getSubProgManuscript()) {
 					System.out.println("\t" + m.getTitle());
 				}
+			} 
+			else 
+			{
+				System.out.println(u.getMyName() );
 			}
 		}
+		System.out.println();
 	}
 	
+	/**
+	 * Assigns a Subprogram Chair a Manuscript to review. 
+	 * @param theUser a Subprogram Chair
+	 * @param theManuscript a Manuscript
+	 */
 	public void assignSubProgManuscript(User theUser, Manuscript theManuscript) {
 		
 		if(!theUser.getMyName().equals(theManuscript.getAuthor())) {	// If the name does not == author
@@ -65,7 +95,6 @@ public class ProgramChair extends Roles implements Serializable {
 		} else {
 			System.out.println("Cannot assign a manuscript to the author");
 		}
-		
 	}
 
 }
