@@ -514,20 +514,22 @@ public class Main implements Serializable {
 				
 				if (reviewerList.isEmpty()) {
 					System.out.println("No Reviwers to assign for Conference: " + currentConference.getName());
-					subprogramChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 				}
+				
+				else {
 
-				count = 1;
-				System.out.println("Select a reviewer to assign the selected manuscript");
+					count = 1;
+					System.out.println("Select a reviewer to assign the selected manuscript");
 
-				for(User u : reviewerList) {
-					System.out.println(count + ". " + u.getMyName());
+					for(User u : reviewerList) {
+						System.out.println(count + ". " + u.getMyName());
+					}
+
+					input = userInput.nextInt();
+					User selectedReviewer = reviewerList.get(input - 1);
+
+					tempSubprogramChair.assignReviewerManuscript(selectedReviewer, selectedManuscript);
 				}
-
-				input = userInput.nextInt();
-				User selectedReviewer = reviewerList.get(input - 1);
-
-				tempSubprogramChair.assignReviewerManuscript(selectedReviewer, selectedManuscript);
 			}
 			else 
 			{
