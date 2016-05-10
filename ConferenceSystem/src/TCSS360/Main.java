@@ -93,7 +93,7 @@ public class Main implements Serializable {
 
 		conferenceList = new ArrayList<Conference>();
 		conferenceList.add(new Conference("Ethics of Virtual Reality", userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 60, 30));
-		conferenceList.add(new Conference("Fundamental Laws of Robotics", userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 60, 30));
+		conferenceList.add(new Conference("Fundamental Laws of Robotics", userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 0, 0));
 		conferenceList.add(new Conference("Stuff that is stuff", userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 60, 30));
 
 		userList.get(0).addMyRole(new SubprogramChair(conferenceList.get(0)));   // adam login and roles
@@ -135,9 +135,9 @@ public class Main implements Serializable {
 		currentConference = conferenceList.get(1);
 		currentUser = userList.get(1);
 		currentUser.submitManuscript("path1", "Manuscript 1", currentUser, currentConference);
-		initSubprogramChair.assignReviewerManuscript(userList.get(0), currentConference.getManuscripts().get(0));
+		//initSubprogramChair.assignReviewerManuscript(userList.get(0), currentConference.getManuscripts().get(0));
 
-		initSubprogramChair.assignReviewerManuscript(userList.get(1), currentConference.getManuscripts().get(0));
+		//initSubprogramChair.assignReviewerManuscript(userList.get(1), currentConference.getManuscripts().get(0));
 
 		currentUser = userList.get(1);
 		currentConference.addSubProChairList(currentUser);
@@ -156,6 +156,7 @@ public class Main implements Serializable {
 	 */
 	public static void registerLoginMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
 		System.out.println("Select an option: \n1.Login\n2.Register\n3.Exit");
+		prompt();
 		int input = userInput.nextInt();
 
 		switch(input) {
@@ -192,6 +193,7 @@ public class Main implements Serializable {
 	public static void selectConferenceMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
 		int count = 0;
 		System.out.println("Select a conference or option: ");
+		
 
 		for(Conference c : theConferenceList) {
 			count++;
@@ -199,7 +201,9 @@ public class Main implements Serializable {
 		}
 		System.out.println("B. Back\nE. Exit");
 
+		prompt();
 		String input = userInput.next();
+		
 
 		switch(input) {
 		case "E": 
@@ -249,6 +253,7 @@ public class Main implements Serializable {
 
 		System.out.println("B. Back\nE. Exit");
 
+		prompt();
 		String roleChoiceInput = userInput.next();
 		switch(roleChoiceInput) {
 		case "A":
@@ -303,6 +308,7 @@ public class Main implements Serializable {
 		System.out.println("3. Back");
 		System.out.println("4. Exit");
 
+		prompt();
 		String input = userInput.next();
 		int count = 1;
 		Author tempAuthor = currentUser.findAuthorRole();
@@ -319,6 +325,8 @@ public class Main implements Serializable {
 				count++;
 			}
 			System.out.println("B. Back");
+			
+			prompt();
 			input = userInput.next();
 			if(!input.equals("B")) {
 				Manuscript tempManuscript = currentUser.getMyManuscripts().get(Integer.parseInt(input) - 1);			
@@ -340,6 +348,8 @@ public class Main implements Serializable {
 				count++;
 			}			
 			System.out.println("B. Back");
+			
+			prompt();
 			input = userInput.next();	
 			if(!input.equals("B")) {
 				Manuscript removedManuscript = currentUser.getMyManuscripts().get(Integer.parseInt(input) - 1);
@@ -378,6 +388,7 @@ public class Main implements Serializable {
 		System.out.println("5. Back");
 		System.out.println("6. Exit");
 
+		prompt();
 		int input = userInput.nextInt();
 		int count = 1;
 		ProgramChair tempProgramChair = currentUser.findProgramChairRole();
@@ -668,6 +679,7 @@ public class Main implements Serializable {
 	 */
 	public static boolean login(List<User> userList) {
 		System.out.print("Enter your username: ");
+		
 		String input = userInput.next();
 		boolean success = false;
 
@@ -700,6 +712,10 @@ public class Main implements Serializable {
 		String input3 = userInput.next();
 
 		return new User(input,input2,input3);
+	}
+	
+	public static void prompt() {
+		System.out.print(">> ");
 	}
 
 	/**
