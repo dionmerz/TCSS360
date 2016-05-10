@@ -93,7 +93,7 @@ public class Main implements Serializable {
 
 		conferenceList = new ArrayList<Conference>();
 		conferenceList.add(new Conference("Ethics of Virtual Reality", userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 60, 30));
-		conferenceList.add(new Conference("Fundamental Laws of Robotics", userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 60, 30));
+		conferenceList.add(new Conference("Fundamental Laws of Robotics", userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 0, 0));
 		conferenceList.add(new Conference("Stuff that is stuff", userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 60, 30));
 
 		userList.get(0).addMyRole(new SubprogramChair(conferenceList.get(0)));   // adam login and roles

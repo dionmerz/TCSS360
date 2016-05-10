@@ -140,4 +140,15 @@ public class UserTest {
 		user.addMyRole(reviewer);
 		assertEquals(user.findReviewerRole(), reviewer);
 	}
+	
+	@Test
+	public void testEquals() {
+		User temp = new User("TempRev1", "UserLogin", "User@email.com");
+		User temp2 = new User("TempRev3", "UserLogin3", "User@email.com3");
+		assertTrue(rev1.equals(rev1)); 
+		assertTrue(rev1.equals(temp));
+		assertFalse(rev1.equals(temp2));
+		assertFalse(rev1.equals(null));
+	}
+	
 }

@@ -68,7 +68,6 @@ public class User implements Serializable {
 	
 	/**
 	 * Constructor for user object. 
-	 * 
 	 * @param theName User name.
 	 * @param theLoginName User login name.
 	 * @param theEmail User email.
@@ -88,7 +87,6 @@ public class User implements Serializable {
 
 	/**
 	 * Getter for user's name.
-	 * 
 	 * @return user's name.
 	 */
 	public String getMyName() {
@@ -97,7 +95,6 @@ public class User implements Serializable {
 
 	/**
 	 * Setter for user's name.
-	 * 
 	 * @param theName user's name
 	 */
 	public void setMyName(String theName) {
@@ -106,7 +103,6 @@ public class User implements Serializable {
 
 	/**
 	 * Getter for user's login name.
-	 * 
 	 * @return user's login name.
 	 */
 	public String getMyLoginName() {
@@ -115,7 +111,6 @@ public class User implements Serializable {
 
 	/**
 	 * Setter for user's login name.
-	 * 
 	 * @param theLoginName user's login name.
 	 */
 	public void setMyLoginName(String theLoginName) {
@@ -124,70 +119,128 @@ public class User implements Serializable {
 
 	/**
 	 * Getter for user's email. 
-	 * 
 	 * @return 
 	 */
 	public String getMyEmail() {
 		return myEmail;
 	}
 
+	/**
+	 * Setter for emial
+	 * @param theEmail
+	 */
 	public void setMyEmail(String theEmail) {
 		this.myEmail = theEmail;
 	}
 
+	/**
+	 * Gets a list of manuscripts
+	 * @return manuscripts
+	 */
 	public List<Manuscript> getMyManuscripts() {
 		return myAuthoredManuscripts;
 	}
 
+	/**
+	 * Adds a manuscript
+	 * @param theManuscript
+	 */
 	public void addMyManuscript(Manuscript theManuscript) {
 		this.myAuthoredManuscripts.add(theManuscript);
 	}
 
+	/**
+	 * Removes a manuscript
+	 * @param theManuscript
+	 */
 	public void removeManuscript(Manuscript theManuscript) {
 		this.myAuthoredManuscripts.remove(theManuscript);
 	}
 	
+	/**
+	 * Gets a list of Subprogram Chairs
+	 * @return Subprogram Chairs
+	 */
 	public List<Manuscript> getSubProgManuscript() {
 		return this.mySubProgManuscripts;
 	}
 	
+	/**
+	 * Adds a manuscript the the Subprogram Chairs manuscript list.
+	 * @param theManuscript
+	 */
 	public void addSubProgManuscript(Manuscript theManuscript) {
 		this.mySubProgManuscripts.add(theManuscript);
 	}
 	
+	/**
+	 * Gets a list of roles.
+	 * @return roles
+	 */
 	public List<Roles> getMyRoles() {
 		return myRoles;
 	}
 
+	/**
+	 * Adds a role 
+	 * @param theRole
+	 */
 	public void addMyRole(Roles theRole) {
 		this.myRoles.add(theRole);
 	}
 	
+	/**
+	 * Removes a role
+	 * @param theRole
+	 */
 	public void removeMyRole(Roles theRole) {
 		this.myRoles.remove(theRole);
 	}
 
+	/**
+	 * Gets a list of manuscripts to review
+	 * @return manuscripts to review
+	 */
 	public List<Manuscript> getMyManuscriptsToReview() {
 		return myManuscriptsToReview;
 	}
 
+	/**
+	 * Adds a manuscript to a list of manuscripts to review
+	 * @param theManuscript
+	 */
 	public void addMyManuscriptsToReview(Manuscript theManuscript) {
 		this.myManuscriptsToReview.add(theManuscript);
 	}
 	
+	/**
+	 * Removes a manuscript from the list of manuscripts to review
+	 * @param theManuscript
+	 */
 	public void removeMyManuscriptsToReview(Manuscript theManuscript) {
 		this.myManuscriptsToReview.remove(theManuscript);
 	}
 	
-
+	/**
+	 * Gets a list of my review forms
+	 * @return
+	 */
 	public List<ReviewForm> getMyReviews() {
 		return myReviews;
 	}
 	
+	/**
+	 * Adds a review form to list
+	 * @param theReview
+	 */
 	public void addReview(ReviewForm theReview) {
 		this.myReviews.add(theReview);
 	}
 	
+	/**
+	 * Removes a review form 
+	 * @param theReview
+	 */
 	public void removeReview(ReviewForm theReview) {
 		this.myReviews.remove(theReview);
 	}
@@ -200,6 +253,13 @@ public class User implements Serializable {
 //		this.myReviewers.add(theReviewers);
 //	}
 	
+	/**
+	 * Submits a manuscript to a conference.
+	 * @param thePath file path
+	 * @param theTitle title 
+	 * @param currentUser current user
+	 * @param currentConference conference
+	 */
 	public void submitManuscript(final String thePath, String theTitle, User currentUser, Conference currentConference) {
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -221,6 +281,10 @@ public class User implements Serializable {
 		}
 	}
 
+	/**
+	 * Finds and returns author role
+	 * @return author
+	 */
 	public Author findAuthorRole() {
 		Author AuthorRole = null;
 		for(Roles r : this.getMyRoles()) {
@@ -231,6 +295,10 @@ public class User implements Serializable {
 		return AuthorRole;
 	}
 	
+	/**
+	 * Finds and returns the Program Chari role
+	 * @return program chair 
+	 */
 	public ProgramChair findProgramChairRole() {
 		ProgramChair ProgramChairRole = null;
 		for(Roles r : this.getMyRoles()) {
@@ -241,6 +309,10 @@ public class User implements Serializable {
 		return ProgramChairRole;
 	}
 	
+	/**
+	 * Finds and returns the Subprogram Chair role. 
+	 * @return Subprogram Chair
+	 */
 	public SubprogramChair findSubprogramChairRole() {
 		SubprogramChair SubprogramChairRole = null;
 		for(Roles r : this.getMyRoles()) {
@@ -251,6 +323,10 @@ public class User implements Serializable {
 		return SubprogramChairRole;
 	}
 	
+	/**
+	 * Finds and returns the reviewer role
+	 * @return a reviewer
+	 */
 	public Reviewer findReviewerRole() {
 		Reviewer ReviewerRole = null;
 		for(Roles r : this.getMyRoles()) {
@@ -261,6 +337,13 @@ public class User implements Serializable {
 		return ReviewerRole;
 	}
 	
+	/**
+	 * Overrides the object equals method. Checks to see if the
+	 * user has the same login.
+	 * @param theOther object
+	 * @return true or false
+	 */
+	@Override
 	public boolean equals(Object theOther) {
 		
 		boolean equal = false;
