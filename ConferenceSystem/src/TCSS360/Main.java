@@ -85,16 +85,18 @@ public class Main implements Serializable {
 	 */
 	private static boolean setup() {
 		userList = new ArrayList<User>();
-		userList.add(new User("adam", "adamlogin", "adam@gmail.com"));
-		userList.add(new User("kevin", "kevinlogin", "kevin@gmail.com"));
-		userList.add(new User("andrew", "andrewlogin", "andrew@gmail.com"));
-		userList.add(new User("bernie", "bernielogin", "bernie@gmail.com"));
+		userList.add(new User("Adam", "adamlogin", "adam@gmail.com"));
+		userList.add(new User("Kevin", "kevinlogin", "kevin@gmail.com"));
+		userList.add(new User("Andrew", "andrewlogin", "andrew@gmail.com"));
+		userList.add(new User("Bernie", "bernielogin", "bernie@gmail.com"));
 
 
 		conferenceList = new ArrayList<Conference>();
-		conferenceList.add(new Conference("Ethics of Virtual Reality", userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 60, 30));
-		conferenceList.add(new Conference("Fundamental Laws of Robotics", userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 0, 0));
-		conferenceList.add(new Conference("Stuff that is stuff", userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 60, 30));
+		conferenceList.add(new Conference("Conference on Programming Language Design and Implementation", 
+				userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 60, 30));
+		conferenceList.add(new Conference("International Conference on Automated Software Engineering",
+				userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 0, 0));
+		conferenceList.add(new Conference("Conference on Computer Aided Verification", userList.get(0), "start date", "end date", "paper deadline", "rev deadline", 60, 30));
 
 		userList.get(0).addMyRole(new SubprogramChair(conferenceList.get(0)));   // adam login and roles
 		userList.get(0).addMyRole(new Author(conferenceList.get(0)));
@@ -115,9 +117,9 @@ public class Main implements Serializable {
 		currentConference.addSubProChairList(userList.get(1));
 
 
-		currentUser.submitManuscript("CoolCS.txt", "Cool stuff in CS", currentUser, currentConference);
-		currentUser.submitManuscript("IEEE.txt", "IEEE", currentUser, currentConference);
-		currentUser.submitManuscript("PP.txt", "Programing Practicum", currentUser, currentConference);
+		currentUser.submitManuscript("CoolCS.txt", "How Good is Almost Perfect?", currentUser, currentConference);
+		currentUser.submitManuscript("IEEE.txt", "Learning Natural Coding Conventions", currentUser, currentConference);
+		currentUser.submitManuscript("PP.txt", "On the Steady-State of Cache Networks", currentUser, currentConference);
 
 		currentUser = userList.get(0);
 		SubprogramChair initSubprogramChair = currentUser.findSubprogramChairRole();
@@ -134,7 +136,7 @@ public class Main implements Serializable {
 
 		currentConference = conferenceList.get(1);
 		currentUser = userList.get(1);
-		currentUser.submitManuscript("path1", "Manuscript 1", currentUser, currentConference);
+		currentUser.submitManuscript("path1", "Queues Don't Matter When You Can JUMP Them!", currentUser, currentConference);
 		//initSubprogramChair.assignReviewerManuscript(userList.get(0), currentConference.getManuscripts().get(0));
 
 		//initSubprogramChair.assignReviewerManuscript(userList.get(1), currentConference.getManuscripts().get(0));
@@ -235,6 +237,7 @@ public class Main implements Serializable {
 	 * @param theConferenceList a conference list
 	 */
 	public static void selectRoleMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
+		header();
 		System.out.println("\nSelect an option:\nM. Submit Manuscript");
 
 		for(Roles r : currentUser.getMyRoles()) {
@@ -383,6 +386,7 @@ public class Main implements Serializable {
 	 * @param theConferenceList a conference list
 	 */
 	public static void programChairMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
+		header();
 		System.out.println("Select an option: ");
 		System.out.println("1. View all manuscripts");
 		System.out.println("2. Reject/Accept Manuscript");
@@ -726,6 +730,13 @@ public class Main implements Serializable {
 		String input3 = userInput.next();
 
 		return new User(input,input2,input3);
+	}
+	
+	public static void header() {
+		System.out.println();
+		System.out.println("---Conference Management Systems---");
+		System.out.println("User: " + currentUser.getMyName());
+		System.out.println("Conference: " + currentConference.getName());
 	}
 	
 	public static void prompt() {
