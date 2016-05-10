@@ -216,9 +216,10 @@ public class Main implements Serializable {
 			if(Integer.parseInt(input) > theConferenceList.size()) {
 				System.out.println("Invalid selection returning to last menu");
 				selectConferenceMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
+				
 			} else {
-				System.out.println("\nConference " + input + " selected.");
 				currentConference = theConferenceList.get(Integer.parseInt(input) - 1);		
+				System.out.println(currentConference.getName() + " selected.");
 				//call next menu
 				selectRoleMenu(theExitFlag, theFinishedFlag, theUserList, theConferenceList);
 			}
@@ -272,8 +273,10 @@ public class Main implements Serializable {
 			break;
 		case "M":
 			System.out.println("Enter the path to the manuscript: ");
+			prompt();
 			String path = userInput.next();
 			System.out.println("Enter the title of the manuscript: ");
+			prompt();
 			String title = userInput.next();				
 			currentUser.submitManuscript(path, title, currentUser, currentConference);
 			
@@ -425,6 +428,7 @@ public class Main implements Serializable {
 				programChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 
 			}
+			prompt();
 			input = userInput.nextInt();
 			selectedManuscript = reccomendedList.get(input - 1);
 
@@ -433,6 +437,7 @@ public class Main implements Serializable {
 			System.out.println("2. Reject");
 			System.out.println("3. Back");
 			System.out.println("4. Exit");
+			prompt();
 			input = userInput.nextInt();
 
 			switch(input) {
@@ -466,10 +471,12 @@ public class Main implements Serializable {
 				count++;
 			}
 
+			prompt();
 			input = userInput.nextInt();
 			User selected = currentConference.getSubProChairList().get(input - 1);		
 			tempProgramChair.viewAllManuscripts(currentConference);
 			System.out.println("Select a manuscript to assign to " + selected.getMyName());
+			prompt();
 			input = userInput.nextInt();			
 			selectedManuscript = currentConference.getManuscripts().get(input - 1);
 
@@ -510,7 +517,7 @@ public class Main implements Serializable {
 
 		Reviewer tempReview = currentUser.findReviewerRole();
 
-
+		prompt();
 		int input = userInput.nextInt();
 
 		switch(input) {
@@ -522,6 +529,7 @@ public class Main implements Serializable {
 			System.out.println("Select a manuscript to upload a review for");
 			tempReview.viewAssignedManuscripts(currentUser);
 			if (!currentUser.getMyManuscriptsToReview().isEmpty()) {
+				prompt();
 				input = userInput.nextInt();
 				Manuscript selectedManuscript = currentUser.getMyManuscriptsToReview().get(input - 1);
 				System.out.println("Enter the path to the review form");
@@ -566,6 +574,7 @@ public class Main implements Serializable {
 		SubprogramChair tempSubprogramChair = currentUser.findSubprogramChairRole();
 
 		int count = 1;
+		prompt();
 		int input = userInput.nextInt();
 		Manuscript selectedManuscript;
 
@@ -579,7 +588,7 @@ public class Main implements Serializable {
 					System.out.println(count + ". " + m.getTitle());
 					count++;
 				}
-
+				prompt();
 				input = userInput.nextInt();
 				selectedManuscript = currentUser.getSubProgManuscript().get(input - 1);
 				ArrayList<User> reviewerList = new ArrayList<User>();
@@ -607,6 +616,7 @@ public class Main implements Serializable {
 						count++;
 					}
 
+					prompt();
 					input = userInput.nextInt();
 					User selectedReviewer = reviewerList.get(input - 1);
 
@@ -627,6 +637,7 @@ public class Main implements Serializable {
 				System.out.println(count + ". " + m.getTitle());
 				count++;
 			}
+			prompt();
 			input = userInput.nextInt();
 			selectedManuscript = currentUser.getSubProgManuscript().get(input - 1);
 			System.out.println("Enter the path to the recommendation form");
@@ -705,10 +716,13 @@ public class Main implements Serializable {
 	public static User register() {
 		userInput.nextLine();
 		System.out.println("Please enter your full name");
+		prompt();
 		String input = userInput.nextLine();
 		System.out.println("Please enter your desired login name");
+		prompt();
 		String input2 = userInput.next();
 		System.out.println("Please enter your email address");
+		prompt();
 		String input3 = userInput.next();
 
 		return new User(input,input2,input3);
