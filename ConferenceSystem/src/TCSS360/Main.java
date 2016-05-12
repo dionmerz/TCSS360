@@ -62,9 +62,9 @@ public class Main implements Serializable {
 			initialized = (boolean) dataIn.readBoolean();
 
 		} catch(ClassNotFoundException e) {
-			e.printStackTrace();
+			
 		} catch (IOException e) {
-			e.printStackTrace();
+			
 		}
 
 		if(!initialized) {
@@ -308,6 +308,7 @@ public class Main implements Serializable {
 	 * @param theConferenceList a conference list
 	 */
 	public static void authorMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
+		header();
 		System.out.println("Select an option: ");
 		System.out.println("1. Update Manuscript");
 		System.out.println("2. Unsubmit Manuscript");
@@ -325,6 +326,7 @@ public class Main implements Serializable {
 		switch(Integer.parseInt(input)) {
 		case 1:
 			//Update Manuscript
+			header();
 			System.out.println("Select a manuscript to update or command: ");
 			for(Manuscript m : currentUser.getMyManuscripts()) {
 				System.out.println(count + ". " + m.getTitle());
@@ -348,6 +350,7 @@ public class Main implements Serializable {
 			break;
 		case 2:
 			//Unsubmit Manuscript
+			header();
 			System.out.println("Select a manuscript to unsubmit or command: ");
 			for(Manuscript m : currentUser.getMyManuscripts()) {
 				System.out.println(count + ". " + m.getTitle());
@@ -403,12 +406,14 @@ public class Main implements Serializable {
 
 		switch(input) {
 		case 1:
-			System.out.println();
+			header();
 			tempProgramChair.viewAllManuscripts(currentConference);
 			System.out.println();
 			programChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 			break;
 		case 2:
+			header();
+			System.out.println("Choose a Manuscript to accept/reject:");
 			ArrayList<Manuscript> reccomendedList = new ArrayList<Manuscript>();
 			int total = 0;
 			for(Manuscript m : currentConference.getManuscripts()) {
@@ -463,11 +468,13 @@ public class Main implements Serializable {
 
 			break;
 		case 3:
+			header();
 			tempProgramChair.viewAssignedSubProgManuscripts(currentConference);
 			programChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 			break;
 		case 4:
 			//print list of SPCs, pick manuscript
+			header();
 			System.out.println("\nSubProgram Chair List");
 			count = 1;
 			for(User sc : currentConference.getSubProChairList()) {
@@ -513,6 +520,7 @@ public class Main implements Serializable {
 	 * @param theConferenceList a conference list
 	 */
 	public static void reviewerMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
+		header();
 		System.out.println("Select an option: ");
 		System.out.println("1. View assigned manuscripts to review");
 		System.out.println("2. Upload a review form");
@@ -526,10 +534,12 @@ public class Main implements Serializable {
 
 		switch(input) {
 		case 1:
+			header();
 			tempReview.viewAssignedManuscripts(currentUser);
 			reviewerMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 			break;
 		case 2:
+			header();
 			System.out.println("Select a manuscript to upload a review for");
 			tempReview.viewAssignedManuscripts(currentUser);
 			if (!currentUser.getMyManuscriptsToReview().isEmpty()) {
@@ -569,6 +579,7 @@ public class Main implements Serializable {
 	 * @param theConferenceList list of conferences
 	 */
 	public static void subprogramChairMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
+		header();
 		System.out.println("Select an option: ");
 		System.out.println("1. Assign a manuscript to a reviewer");
 		System.out.println("2. Submit a recommendation for a manuscript");
@@ -585,6 +596,7 @@ public class Main implements Serializable {
 		switch(input) {
 		
 		case 1:
+			header();
 			System.out.println("Select a manuscript to assign to a reviewer");
 			
 			if(!currentUser.getSubProgManuscript().isEmpty()) {
@@ -636,23 +648,32 @@ public class Main implements Serializable {
 			subprogramChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 			break;
 		case 2:
+			header();
 			System.out.println("Select a manuscript to assign a recommendation");
 			for(Manuscript m : currentUser.getSubProgManuscript()) {
 				System.out.println(count + ". " + m.getTitle());
 				count++;
 			}
-			prompt();
-			input = userInput.nextInt();
-			selectedManuscript = currentUser.getSubProgManuscript().get(input - 1);
-			System.out.println("Enter the path to the recommendation form");
-			userInput.nextLine();
-			String path = userInput.nextLine();
-			System.out.println("Enter a recommendation score");
-			int score = userInput.nextInt();
-			System.out.println("Enter a title for the recommendation form");
-			userInput.nextLine();
-			String title = userInput.nextLine();
-			tempSubprogramChair.submitRecomendation(currentUser, selectedManuscript, score, path, title);
+			
+			
+			if (!currentUser.getSubProgManuscript().isEmpty()) {
+				prompt();
+				input = userInput.nextInt();
+				selectedManuscript = currentUser.getSubProgManuscript().get(input - 1);
+				System.out.println("Enter the path to the recommendation form");
+				userInput.nextLine();
+				String path = userInput.nextLine();
+				System.out.println("Enter a recommendation score");
+				int score = userInput.nextInt();
+				System.out.println("Enter a title for the recommendation form");
+				userInput.nextLine();
+				String title = userInput.nextLine();
+				tempSubprogramChair.submitRecomendation(currentUser, selectedManuscript, score, path, title);
+			}
+			else {
+				System.out.println("No Manuscripts assigned, returning to last menu.");
+			}
+
 			
 			
 			
@@ -737,6 +758,7 @@ public class Main implements Serializable {
 		System.out.println("---Conference Management Systems---");
 		System.out.println("User: " + currentUser.getMyName());
 		System.out.println("Conference: " + currentConference.getName());
+		System.out.println();
 	}
 	
 	public static void prompt() {
