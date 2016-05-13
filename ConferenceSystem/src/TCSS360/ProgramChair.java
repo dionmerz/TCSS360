@@ -15,6 +15,8 @@ public class ProgramChair extends Roles implements Serializable {
 	 * Serial identification number
 	 */
 	private static final long serialVersionUID = 4555961000972804977L;
+	
+	private static final int MAX_PAPERS = 4;
 
 	/**
 	 * Program Chair Class Constructor
@@ -88,7 +90,7 @@ public class ProgramChair extends Roles implements Serializable {
 		
 		if(!theUser.getMyName().equals(theManuscript.getAuthor())) {	// If the name does not == author
 			
-			if(theUser.getSubProgManuscript().size() <= 3) {			// less than 4 papers
+			if(theUser.getSubProgManuscript().size() < MAX_PAPERS) {			// less than 4 papers
 			
 				theUser.addSubProgManuscript(theManuscript);
 

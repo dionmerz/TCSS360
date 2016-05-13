@@ -15,6 +15,8 @@ public class SubprogramChair extends Roles implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 560617491878906874L;
+	
+	private static final int MAX_PAPERS = 4;
 
 
 	public SubprogramChair(Conference theConference) {
@@ -27,7 +29,7 @@ public class SubprogramChair extends Roles implements Serializable {
 		//Get instance of Reviewer 	
 		
 		if(!theUser.getMyName().equals(theManuscript.getAuthor())) {
-			if(theUser.getMyManuscriptsToReview().size() <= 3) {
+			if(theUser.getMyManuscriptsToReview().size() < MAX_PAPERS) {
 				theUser.addMyManuscriptsToReview(theManuscript);
 				System.out.println(theManuscript.getTitle() + " assigned to " + theUser.getMyName());
 			} else {
