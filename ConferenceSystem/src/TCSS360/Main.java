@@ -157,7 +157,9 @@ public class Main implements Serializable {
 	 * @param theConferenceList a conference list
 	 */
 	public static void registerLoginMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
-		System.out.println("Select an option: \n1.Login\n2.Register\n3.Exit");
+		//System.out.println("---Conference Management Systems---\n");
+		System.out.println("---Scientific Manuscripts Are Reviewed in Terminal---\n");
+		System.out.println("Welcome to S.M.A.R.T, please select an option: \n1.Login\n2.Register\n3.Exit");
 		prompt();
 		int input = userInput.nextInt();
 
@@ -755,7 +757,7 @@ public class Main implements Serializable {
 	
 	public static void header() {
 		System.out.println();
-		System.out.println("---Conference Management Systems---");
+		System.out.println("---Scientific Manuscripts Are Reviewed in Terminal---");
 		System.out.println("User: " + currentUser.getMyName());
 		System.out.println("Conference: " + currentConference.getName());
 		System.out.println();
