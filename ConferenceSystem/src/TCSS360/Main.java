@@ -42,11 +42,11 @@ public class Main implements Serializable {
 	private static Scanner userInput = new Scanner(System.in);
 	
 	
-	
 	@SuppressWarnings({ "resource", "unchecked" })
 	public static void main(String[] theargs) {
-	boolean finished = false;
-	boolean exit = false;
+		
+//		boolean finished = false;
+//		boolean exit = false;
 
 		try {
 			FileInputStream fileIn = new FileInputStream("userList.ser");
@@ -70,9 +70,10 @@ public class Main implements Serializable {
 		if(!initialized) {
 			initialized = setup();
 		}
+		
 
 		//First menu
-		registerLoginMenu(finished, exit, userList, conferenceList);
+		registerLoginMenu(userList, conferenceList);
 
 		//display options for current conference based on roles.	
 
@@ -156,34 +157,31 @@ public class Main implements Serializable {
 	 * @param theUserList a user list
 	 * @param theConferenceList a conference list
 	 */
-	public static void registerLoginMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
+	public static void registerLoginMenu(List<User> theUserList, List<Conference> theConferenceList) {
 		//System.out.println("---Conference Management Systems---\n");
 		System.out.println("---Scientific Manuscripts Are Reviewed in Terminal---\n");
 		System.out.println("Welcome to S.M.A.R.T, please select an option: \n1.Login\n2.Register\n3.Exit");
 		prompt();
+		
 		int input = userInput.nextInt();
 
 		switch(input) {
 		case 1:				
-			theFinishedFlag = login(theUserList);
+			if(login(theUserList)) {
+				selectConferenceMenu(theUserList, theConferenceList);
+			} else {
+				registerLoginMenu(theUserList, theConferenceList);
+			}
 			break;
 		case 2:
 			theUserList.add(register());
 			break;
 		case 3:
 			exit();
-			theExitFlag = true;
 			break;
 		default:
 			System.out.println("Invalid selection, returning to last menu");
 			break;
-		}
-
-		if(!theFinishedFlag && !theExitFlag) {
-			registerLoginMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-		} else if (!theExitFlag){
-			theFinishedFlag = false;
-			selectConferenceMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
 		}
 	}
 
@@ -194,7 +192,7 @@ public class Main implements Serializable {
 	 * @param theUserList a user list
 	 * @param theConferenceList a conference list
 	 */
-	public static void selectConferenceMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
+	public static void selectConferenceMenu(List<User> theUserList, List<Conference> theConferenceList) {
 		int count = 0;
 		System.out.println("Select a conference or option: ");
 		
@@ -209,25 +207,25 @@ public class Main implements Serializable {
 		String input = userInput.next();
 		
 
-		switch(input) {
-		case "E": 
-			exit();
-			break;
-		case "B":
-			registerLoginMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			break;
-		default: 
-			if(Integer.parseInt(input) > theConferenceList.size()) {
-				System.out.println("Invalid selection returning to last menu");
-				selectConferenceMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-				
-			} else {
-				currentConference = theConferenceList.get(Integer.parseInt(input) - 1);		
-				System.out.println(currentConference.getName() + " selected.");
-				//call next menu
-				selectRoleMenu(theExitFlag, theFinishedFlag, theUserList, theConferenceList);
-			}
-			break;
+		switch(input.toUpperCase()) {
+			case "E": 
+				exit();
+				break;
+			case "B":
+				registerLoginMenu(theUserList, theConferenceList);
+				break;
+			default: 
+				if(Integer.parseInt(input) > theConferenceList.size()) {
+					System.out.println("Invalid selection returning to last menu");
+					selectConferenceMenu(theUserList, theConferenceList);
+					
+				} else {
+					currentConference = theConferenceList.get(Integer.parseInt(input) - 1);		
+					System.out.println(currentConference.getName() + " selected.");
+					//call next menu
+					selectRoleMenu(theUserList, theConferenceList);
+				}
+				break;
 		}
 	}
 
@@ -238,7 +236,7 @@ public class Main implements Serializable {
 	 * @param theUserList a user list
 	 * @param theConferenceList a conference list
 	 */
-	public static void selectRoleMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
+	public static void selectRoleMenu(List<User> theUserList, List<Conference> theConferenceList) {
 		header();
 		System.out.println("\nSelect an option:\nM. Submit Manuscript");
 
@@ -261,44 +259,44 @@ public class Main implements Serializable {
 
 		prompt();
 		String roleChoiceInput = userInput.next();
-		switch(roleChoiceInput) {
-		case "A":
-			hasRole(currentConference, AUTHOR, currentUser);
-			authorMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			break;
-		case "E":
-			exit();
-			break;
-		case "B":
-			selectConferenceMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			break;
-		case "S": 
-			hasRole(currentConference, SUBPROGRAM_CHAIR, currentUser);
-			subprogramChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			break;
-		case "M":
-			System.out.println("Enter the path to the manuscript: ");
-			prompt();
-			String path = userInput.next();
-			System.out.println("Enter the title of the manuscript: ");
-			prompt();
-			String title = userInput.next();				
-			currentUser.submitManuscript(path, title, currentUser, currentConference);
-			
-			selectRoleMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			break;
-		case "P": 
-			hasRole(currentConference, PROGRAM_CHAIR, currentUser);
-			programChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			break;
-		case "R": 
-			hasRole(currentConference, REVIEWER, currentUser);
-			reviewerMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			break;
-		default: 
-			System.out.println("Invalid selection, returning to last menu");
-			selectRoleMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			break;
+		switch(roleChoiceInput.toUpperCase()) {
+			case "A":
+				hasRole(currentConference, AUTHOR, currentUser);
+				authorMenu(theUserList, theConferenceList);
+				break;
+			case "E":
+				exit();
+				break;
+			case "B":
+				selectConferenceMenu(theUserList, theConferenceList);
+				break;
+			case "S": 
+				hasRole(currentConference, SUBPROGRAM_CHAIR, currentUser);
+				subprogramChairMenu(theUserList, theConferenceList);
+				break;
+			case "M":
+				System.out.println("Enter the path to the manuscript: ");
+				prompt();
+				String path = userInput.next();
+				System.out.println("Enter the title of the manuscript: ");
+				prompt();
+				String title = userInput.next();				
+				currentUser.submitManuscript(path, title, currentUser, currentConference);
+				
+				selectRoleMenu(theUserList, theConferenceList);
+				break;
+			case "P": 
+				hasRole(currentConference, PROGRAM_CHAIR, currentUser);
+				programChairMenu(theUserList, theConferenceList);
+				break;
+			case "R": 
+				hasRole(currentConference, REVIEWER, currentUser);
+				reviewerMenu(theUserList, theConferenceList);
+				break;
+			default: 
+				System.out.println("Invalid selection, returning to last menu");
+				selectRoleMenu(theUserList, theConferenceList);
+				break;
 		}
 	}
 
@@ -309,7 +307,7 @@ public class Main implements Serializable {
 	 * @param theUserList a user list
 	 * @param theConferenceList a conference list
 	 */
-	public static void authorMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
+	public static void authorMenu(List<User> theUserList, List<Conference> theConferenceList) {
 		header();
 		System.out.println("Select an option: ");
 		System.out.println("1. Update Manuscript");
@@ -326,61 +324,61 @@ public class Main implements Serializable {
 		String date = dateFormat.format(cal.getTime());	
 
 		switch(Integer.parseInt(input)) {
-		case 1:
-			//Update Manuscript
-			header();
-			System.out.println("Select a manuscript to update or command: ");
-			for(Manuscript m : currentUser.getMyManuscripts()) {
-				System.out.println(count + ". " + m.getTitle());
-				count++;
+			case 1:
+				//Update Manuscript
+				header();
+				System.out.println("Select a manuscript to update or command: ");
+				for(Manuscript m : currentUser.getMyManuscripts()) {
+					System.out.println(count + ". " + m.getTitle());
+					count++;
+				}
+				System.out.println("B. Back");
+				
+				prompt();
+				input = userInput.next();
+				if(!input.equals("B")) {
+					Manuscript tempManuscript = currentUser.getMyManuscripts().get(Integer.parseInt(input) - 1);			
+					System.out.println("Enter the path of the updated manuscript");
+					String path = userInput.next();
+	
+					Manuscript updatedManuscript = new Manuscript(path, currentUser.getMyName(), date, tempManuscript.getTitle());
+					tempAuthor.updateAuthoredManuscript(currentUser, updatedManuscript, theConferenceList);
+					authorMenu(theUserList, theConferenceList);
+				} else {
+					authorMenu(theUserList, theConferenceList);
+				}
+				break;
+			case 2:
+				//Unsubmit Manuscript
+				header();
+				System.out.println("Select a manuscript to unsubmit or command: ");
+				for(Manuscript m : currentUser.getMyManuscripts()) {
+					System.out.println(count + ". " + m.getTitle());
+					count++;
+				}			
+				System.out.println("B. Back");
+				
+				prompt();
+				input = userInput.next();	
+				if(!input.equals("B")) {
+					Manuscript removedManuscript = currentUser.getMyManuscripts().get(Integer.parseInt(input) - 1);
+					tempAuthor.unsubmitManuscript(currentUser, removedManuscript, theConferenceList);	
+					authorMenu(theUserList, theConferenceList);
+				} else {
+					authorMenu(theUserList, theConferenceList);
+				}
+				break;
+			case 3: 
+				selectRoleMenu(theUserList, theConferenceList);
+				break;
+			case 4:
+				exit();
+				break;
+			default: 
+				System.out.println("Invalid Selection returning to last menu");
+				authorMenu(theUserList, theConferenceList);
+				break;
 			}
-			System.out.println("B. Back");
-			
-			prompt();
-			input = userInput.next();
-			if(!input.equals("B")) {
-				Manuscript tempManuscript = currentUser.getMyManuscripts().get(Integer.parseInt(input) - 1);			
-				System.out.println("Enter the path of the updated manuscript");
-				String path = userInput.next();
-
-				Manuscript updatedManuscript = new Manuscript(path, currentUser.getMyName(), date, tempManuscript.getTitle());
-				tempAuthor.updateAuthoredManuscript(currentUser, updatedManuscript, theConferenceList);
-				authorMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			} else {
-				authorMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			}
-			break;
-		case 2:
-			//Unsubmit Manuscript
-			header();
-			System.out.println("Select a manuscript to unsubmit or command: ");
-			for(Manuscript m : currentUser.getMyManuscripts()) {
-				System.out.println(count + ". " + m.getTitle());
-				count++;
-			}			
-			System.out.println("B. Back");
-			
-			prompt();
-			input = userInput.next();	
-			if(!input.equals("B")) {
-				Manuscript removedManuscript = currentUser.getMyManuscripts().get(Integer.parseInt(input) - 1);
-				tempAuthor.unsubmitManuscript(currentUser, removedManuscript, theConferenceList);	
-				authorMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			} else {
-				authorMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			}
-			break;
-		case 3: 
-			selectRoleMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			break;
-		case 4:
-			exit();
-			break;
-		default: 
-			System.out.println("Invalid Selection returning to last menu");
-			authorMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			break;
-		}
 	}
 
 	/**
@@ -390,7 +388,7 @@ public class Main implements Serializable {
 	 * @param theUserList a user list
 	 * @param theConferenceList a conference list
 	 */
-	public static void programChairMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
+	public static void programChairMenu(List<User> theUserList, List<Conference> theConferenceList) {
 		header();
 		System.out.println("Select an option: ");
 		System.out.println("1. View all manuscripts");
@@ -407,81 +405,81 @@ public class Main implements Serializable {
 		Manuscript selectedManuscript;
 
 		switch(input) {
-		case 1:
-			header();
-			tempProgramChair.viewAllManuscripts(currentConference);
-			System.out.println();
-			programChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			break;
-		case 2:
-			header();
-			System.out.println("Choose a Manuscript to accept/reject:");
-			ArrayList<Manuscript> reccomendedList = new ArrayList<Manuscript>();
-			int total = 0;
-			for(Manuscript m : currentConference.getManuscripts()) {
-
-				if(m.getStatus() == Status.RECOMMENDED) {
-					reccomendedList.add(m);
-					System.out.println(count + ". " + m.getTitle());
-					System.out.print("\tRecommendations: ");
-					for(RecommendationForm rf : m.getRecomFormList()) {
-						System.out.print(rf.getScore() + ", ");
-					}
-					System.out.println();
-					count++;
-					total++;
-				}
-			}
-
-			if (total == 0) {
-				System.out.println("No Manuscripts");
-				System.out.println("");
-				programChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-
-			}
-			prompt();
-			input = userInput.nextInt();
-			selectedManuscript = reccomendedList.get(input - 1);
-
-
-			System.out.println("1. Accept");
-			System.out.println("2. Reject");
-			System.out.println("3. Back");
-			System.out.println("4. Exit");
-			prompt();
-			input = userInput.nextInt();
-
-			switch(input) {
-			case 1: 
-				tempProgramChair.acceptManuscript(selectedManuscript);
-				programChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
+			case 1:
+				header();
+				tempProgramChair.viewAllManuscripts(currentConference);
+				System.out.println();
+				programChairMenu(theUserList, theConferenceList);
 				break;
-			case 2: 
-				tempProgramChair.rejectManuscript(selectedManuscript);
-				programChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
+			case 2:
+				header();
+				System.out.println("Choose a Manuscript to accept/reject:");
+				ArrayList<Manuscript> reccomendedList = new ArrayList<Manuscript>();
+				int total = 0;
+				for(Manuscript m : currentConference.getManuscripts()) {
+	
+					if(m.getStatus() == Status.RECOMMENDED) {
+						reccomendedList.add(m);
+						System.out.println(count + ". " + m.getTitle());
+						System.out.print("\tRecommendations: ");
+						for(RecommendationForm rf : m.getRecomFormList()) {
+							System.out.print(rf.getScore() + ", ");
+						}
+						System.out.println();
+						count++;
+						total++;
+					}
+				}
+	
+				if (total == 0) {
+					System.out.println("No Manuscripts");
+					System.out.println("");
+					programChairMenu(theUserList, theConferenceList);
+	
+				}
+				prompt();
+				input = userInput.nextInt();
+				selectedManuscript = reccomendedList.get(input - 1);
+	
+	
+				System.out.println("1. Accept");
+				System.out.println("2. Reject");
+				System.out.println("3. Back");
+				System.out.println("4. Exit");
+				prompt();
+				input = userInput.nextInt();
+	
+				switch(input) {
+				case 1: 
+					tempProgramChair.acceptManuscript(selectedManuscript);
+					programChairMenu(theUserList, theConferenceList);
+					break;
+				case 2: 
+					tempProgramChair.rejectManuscript(selectedManuscript);
+					programChairMenu(theUserList, theConferenceList);
+					break;
+				case 3:
+					programChairMenu(theUserList, theConferenceList);
+					break;
+				case 4:
+					exit();
+					break;
+				}
+	
 				break;
 			case 3:
-				programChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
+				header();
+				tempProgramChair.viewAssignedSubProgManuscripts(currentConference);
+				programChairMenu(theUserList, theConferenceList);
 				break;
 			case 4:
-				exit();
-				break;
-			}
-
-			break;
-		case 3:
-			header();
-			tempProgramChair.viewAssignedSubProgManuscripts(currentConference);
-			programChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			break;
-		case 4:
-			//print list of SPCs, pick manuscript
-			header();
-			System.out.println("\nSubProgram Chair List");
-			count = 1;
-			for(User sc : currentConference.getSubProChairList()) {
-				System.out.println(count + ". " + sc.getMyName());
-				count++;
+				//print list of SPCs, pick manuscript
+				header();
+				System.out.println("\nSubProgram Chair List");
+				count = 1;
+				for(User sc : currentConference.getSubProChairList()) {
+					System.out.println(count + ". " + sc.getMyName());
+					count++;
 			}
 
 			prompt();
@@ -499,17 +497,17 @@ public class Main implements Serializable {
 			userList.add(selected);
 			
 
-			programChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
+			programChairMenu(theUserList, theConferenceList);
 			break;
 		case 5:
-			selectRoleMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
+			selectRoleMenu(theUserList, theConferenceList);
 			break;
 		case 6:
 			exit();
 			break;
 		default:
 			System.out.println("Invalid Selection returning to last menu");
-			programChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
+			programChairMenu(theUserList, theConferenceList);
 			break;
 		}
 	}
@@ -521,7 +519,7 @@ public class Main implements Serializable {
 	 * @param theUserList a user list
 	 * @param theConferenceList a conference list
 	 */
-	public static void reviewerMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
+	public static void reviewerMenu(List<User> theUserList, List<Conference> theConferenceList) {
 		header();
 		System.out.println("Select an option: ");
 		System.out.println("1. View assigned manuscripts to review");
@@ -535,41 +533,41 @@ public class Main implements Serializable {
 		int input = userInput.nextInt();
 
 		switch(input) {
-		case 1:
-			header();
-			tempReview.viewAssignedManuscripts(currentUser);
-			reviewerMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			break;
-		case 2:
-			header();
-			System.out.println("Select a manuscript to upload a review for");
-			tempReview.viewAssignedManuscripts(currentUser);
-			if (!currentUser.getMyManuscriptsToReview().isEmpty()) {
-				prompt();
-				input = userInput.nextInt();
-				Manuscript selectedManuscript = currentUser.getMyManuscriptsToReview().get(input - 1);
-				System.out.println("Enter the path to the review form");
-				userInput.nextLine();
-				String path = userInput.nextLine();
-				System.out.println("Enter the title of the review form");
-				String title = userInput.nextLine();
-				//				tempReview.uploadReviewForm(currentConference, currentUser, path, 
-				//						currentUser.getMyName(), title, selectedManuscript);
-				tempReview.uploadReviewForm(currentUser, currentConference, path, //  5/8/2015 bernabeg
-				currentUser.getMyName(), title, selectedManuscript);
-			}
-			reviewerMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			break;
-		case 3:
-			selectRoleMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			break;
-		case 4:
-			exit();
-			break;
-		default: 
-			System.out.println("Invalid selection.");
-			reviewerMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
-			break;
+			case 1:
+				header();
+				tempReview.viewAssignedManuscripts(currentUser);
+				reviewerMenu(theUserList, theConferenceList);
+				break;
+			case 2:
+				header();
+				System.out.println("Select a manuscript to upload a review for");
+				tempReview.viewAssignedManuscripts(currentUser);
+				if (!currentUser.getMyManuscriptsToReview().isEmpty()) {
+					prompt();
+					input = userInput.nextInt();
+					Manuscript selectedManuscript = currentUser.getMyManuscriptsToReview().get(input - 1);
+					System.out.println("Enter the path to the review form");
+					userInput.nextLine();
+					String path = userInput.nextLine();
+					System.out.println("Enter the title of the review form");
+					String title = userInput.nextLine();
+					//				tempReview.uploadReviewForm(currentConference, currentUser, path, 
+					//						currentUser.getMyName(), title, selectedManuscript);
+					tempReview.uploadReviewForm(currentUser, currentConference, path, //  5/8/2015 bernabeg
+					currentUser.getMyName(), title, selectedManuscript);
+				}
+				reviewerMenu(theUserList, theConferenceList);
+				break;
+			case 3:
+				selectRoleMenu(theUserList, theConferenceList);
+				break;
+			case 4:
+				exit();
+				break;
+			default: 
+				System.out.println("Invalid selection.");
+				reviewerMenu(theUserList, theConferenceList);
+				break;
 		}
 	}
 
@@ -580,7 +578,7 @@ public class Main implements Serializable {
 	 * @param theUserList list of users
 	 * @param theConferenceList list of conferences
 	 */
-	public static void subprogramChairMenu(boolean theFinishedFlag, boolean theExitFlag, List<User> theUserList, List<Conference> theConferenceList) {
+	public static void subprogramChairMenu(List<User> theUserList, List<Conference> theConferenceList) {
 		header();
 		System.out.println("Select an option: ");
 		System.out.println("1. Assign a manuscript to a reviewer");
@@ -615,17 +613,11 @@ public class Main implements Serializable {
 					if(hasRole(currentConference, REVIEWER, u )) {
 						reviewerList.add(u);
 					}
-				}
-				
-				//System.out.println(reviewerList.size());
-				
+				}				
+				//System.out.println(reviewerList.size());				
 				if (reviewerList.isEmpty()) {
 					System.out.println("No Reviewers to assign for Conference: " + currentConference.getName());
-
-				}
-				
-				else {
-
+				} else {
 					count = 1;
 					System.out.println("Select a reviewer to assign the selected manuscript");
 
@@ -638,7 +630,15 @@ public class Main implements Serializable {
 					input = userInput.nextInt();
 					User selectedReviewer = reviewerList.get(input - 1);
 
-					tempSubprogramChair.assignReviewerManuscript(selectedReviewer, selectedManuscript);
+					List<Boolean> result = tempSubprogramChair.assignReviewerManuscript(selectedReviewer, selectedManuscript);
+					
+					if(!result.get(0)) {
+						System.out.println("Cannot assign a review to the author of the manuscript");
+					} else if (!result.get(1)) {
+						System.out.println("Failed to assign review to " + selectedReviewer.getMyName() + " because of review limit");
+					} else {
+						System.out.println(selectedManuscript.getTitle() + " assigned to " + selectedReviewer.getMyName());
+					}
 				}
 			}
 			else 
@@ -647,7 +647,7 @@ public class Main implements Serializable {
 			}
 
 
-			subprogramChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
+			subprogramChairMenu(theUserList, theConferenceList);
 			break;
 		case 2:
 			header();
@@ -671,18 +671,16 @@ public class Main implements Serializable {
 				userInput.nextLine();
 				String title = userInput.nextLine();
 				tempSubprogramChair.submitRecomendation(currentUser, selectedManuscript, score, path, title);
+				System.out.println("Reccommendation Form for " + selectedManuscript.getTitle() + " submitted.");
 			}
 			else {
 				System.out.println("No Manuscripts assigned, returning to last menu.");
 			}
 
-			
-			
-			
-			subprogramChairMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
+			subprogramChairMenu(theUserList, theConferenceList);
 			break;
 		case 3:
-			selectRoleMenu(theFinishedFlag, theExitFlag, theUserList, theConferenceList);
+			selectRoleMenu(theUserList, theConferenceList);
 			break;
 		case 4:
 			exit();

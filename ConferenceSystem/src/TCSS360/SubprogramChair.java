@@ -3,7 +3,9 @@ package TCSS360;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import TCSS360.Manuscript.Status;
 
@@ -25,40 +27,33 @@ public class SubprogramChair extends Roles implements Serializable {
 	}
 
 
-	public void assignReviewerManuscript(User theUser, Manuscript theManuscript) {
+	public List<Boolean> assignReviewerManuscript(User theUser, Manuscript theManuscript) {
 		//Get instance of Reviewer 	
+		List<Boolean> result = new ArrayList<Boolean>();
+		result.add(false);
+		result.add(false);
 		
 		if(!theUser.getMyName().equals(theManuscript.getAuthor())) {
+			result.set(0, true);
 			if(theUser.getMyManuscriptsToReview().size() < MAX_PAPERS) {
+				result.set(1, true);
 				theUser.addMyManuscriptsToReview(theManuscript);
-				System.out.println(theManuscript.getTitle() + " assigned to " + theUser.getMyName());
 			} else {
-				System.out.println("Failed to assign review to " + theUser.getMyName() + " because of review limit");
+				result.set(1, false);				
 			}
 		} else {
-			System.out.println("Cannot assign a review to the author of the manuscript");
-		}
-		
-
+			result.set(0, false);			
+		}		
+		return result;
 	}
 	
 	
 	public void submitRecomendation(User currentUser, Manuscript theManuscript, int score, String thePath, String theTitle) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
-		String date = dateFormat.format(cal.getTime());
-		
-		
-		
+		String date = dateFormat.format(cal.getTime());	
 		RecommendationForm form = new RecommendationForm(thePath, currentUser.getMyName(), date, theTitle, score);
 		theManuscript.addRecommendation(form);
 		theManuscript.setStatus(Status.RECOMMENDED);
-		
-	
-		
-		System.out.println("Reccommendation Form for " + theManuscript.getTitle() + " submitted.");
-	}
-
-	
-	
+	}		
 }
