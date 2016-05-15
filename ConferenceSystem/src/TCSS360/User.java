@@ -260,8 +260,8 @@ public class User implements Serializable {
 	 * @param currentUser current user
 	 * @param currentConference conference
 	 */
-	public void submitManuscript(final String thePath, String theTitle, User currentUser, Conference currentConference) {
-		
+	public boolean submitManuscript(final String thePath, String theTitle, User currentUser, Conference currentConference) {
+		boolean isAllowed = false;
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
 		String date = dateFormat.format(cal.getTime());
@@ -274,11 +274,9 @@ public class User implements Serializable {
 			if(!Main.hasRole(currentConference, Main.AUTHOR, currentUser)) {
 				currentUser.addMyRole(new Author(currentConference));
 			}
-			System.out.println();
-			System.out.println(newPaper.getTitle() + " submitted to Conference " + currentConference.getName());
-		} else {
-			System.out.println("The deadline for manuscript submission has passed.\n");
+			isAllowed = true;
 		}
+		return isAllowed;
 	}
 
 	/**
