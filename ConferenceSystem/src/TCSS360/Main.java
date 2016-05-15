@@ -331,45 +331,54 @@ public class Main implements Serializable {
 		String date = dateFormat.format(cal.getTime());	
 
 		switch(Integer.parseInt(input)) {
-			case 1:
-				//Update Manuscript
-				header();
-				System.out.println("Select a manuscript to update or command: ");
-				for(Manuscript m : currentUser.getMyManuscripts()) {
-					System.out.println(count + ". " + m.getTitle());
-					count++;
+		case 1:
+			//Update Manuscript
+			System.out.println("Select a manuscript to update or command: ");
+			for(Manuscript m : currentUser.getMyManuscripts()) {
+				System.out.println(count + ". " + m.getTitle());
+				count++;
+			}
+			System.out.println("B. Back");
+			input = userInput.next();
+			if(!input.equals("B")) {
+				Manuscript tempManuscript = currentUser.getMyManuscripts().get(Integer.parseInt(input) - 1);			
+				System.out.println("Enter the path of the updated manuscript");
+				String path = userInput.next();
+
+				Manuscript updatedManuscript = new Manuscript(path, currentUser.getMyName(), date, tempManuscript.getTitle());
+				if (tempAuthor.updateAuthoredManuscript(currentUser, updatedManuscript, theConferenceList)) {
+					System.out.println(updatedManuscript.getTitle() + " has been updated.\n");
 				}
-				System.out.println("B. Back");
+				else {
+					System.out.println(updatedManuscript.getTitle() + " was not found.\n");
+				}
 				
-				prompt();
-				input = userInput.next();
-				if(!input.equals("B")) {
-					Manuscript tempManuscript = currentUser.getMyManuscripts().get(Integer.parseInt(input) - 1);			
-					System.out.println("Enter the path of the updated manuscript");
-					String path = userInput.next();
-	
-					Manuscript updatedManuscript = new Manuscript(path, currentUser.getMyName(), date, tempManuscript.getTitle());
-					tempAuthor.updateAuthoredManuscript(currentUser, updatedManuscript, theConferenceList);
-					authorMenu(theUserList, theConferenceList);
-				} else {
-					authorMenu(theUserList, theConferenceList);
-				}
-				break;
+				authorMenu(theUserList, theConferenceList);
+			} else {
+				authorMenu(theUserList, theConferenceList);
+			}
+			break;
 			case 2:
 				//Unsubmit Manuscript
-				header();
 				System.out.println("Select a manuscript to unsubmit or command: ");
 				for(Manuscript m : currentUser.getMyManuscripts()) {
 					System.out.println(count + ". " + m.getTitle());
 					count++;
 				}			
 				System.out.println("B. Back");
-				
-				prompt();
 				input = userInput.next();	
 				if(!input.equals("B")) {
+					
 					Manuscript removedManuscript = currentUser.getMyManuscripts().get(Integer.parseInt(input) - 1);
-					tempAuthor.unsubmitManuscript(currentUser, removedManuscript, theConferenceList);	
+					
+					if (tempAuthor.unsubmitManuscript(currentUser, removedManuscript, theConferenceList)) {
+						System.out.println(removedManuscript.getTitle() + " successfully removed.\n");
+						
+					}
+					else {
+						System.out.println("Manuscript not found.\n");
+					}
+					
 					authorMenu(theUserList, theConferenceList);
 				} else {
 					authorMenu(theUserList, theConferenceList);

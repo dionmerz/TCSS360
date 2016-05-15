@@ -44,7 +44,8 @@ public class Author extends Roles implements Serializable {
 	 * @param theManuscript The submitted manuscript. 
 	 * @param theConferences List of conference
 	 */
-	public void updateAuthoredManuscript(User currentUser, Manuscript theManuscript, List<Conference> theConferences) {
+	public boolean updateAuthoredManuscript(User currentUser, Manuscript theManuscript, List<Conference> theConferences) {
+		
 		boolean found = false;
 		
 		for(Conference c: theConferences) {
@@ -54,17 +55,10 @@ public class Author extends Roles implements Serializable {
 				
 				c.addManuscript(theManuscript);
 				currentUser.addMyManuscript(theManuscript);
-				found = true;
-				
+				found = true;	
 			}
 		}
-		
-		if (found) {
-			System.out.println(theManuscript.getTitle() + " has been updated.");
-		}
-		else {
-			System.out.println(theManuscript.getTitle() + " was not found.");
-		}
+		return found;
 		
 		
 	}
@@ -75,14 +69,16 @@ public class Author extends Roles implements Serializable {
 	 * @param theManuscript The manuscript you want to remove.
 	 * @param theConferences A list of conference.
 	 */
-	public void unsubmitManuscript(User currentUser, Manuscript theManuscript, List<Conference> theConferences) {
+	public boolean unsubmitManuscript(User currentUser, Manuscript theManuscript, List<Conference> theConferences) {
+		boolean found = false;
 		for(Conference c: theConferences) {
 			if (c.getManuscripts().contains(theManuscript)) {
 				c.removeManuscript(theManuscript);
 				currentUser.removeManuscript(theManuscript);
+				found = true;
 			}
 		}
+		return found;
 		
-		System.out.println(theManuscript.getTitle() + " has been removed.");
 	}
 }
