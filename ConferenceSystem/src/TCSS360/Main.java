@@ -551,27 +551,45 @@ public class Main implements Serializable {
 		switch(input) {
 			case 1:
 				header();
-				tempReview.viewAssignedManuscripts(currentUser);
+				
+				viewReviewerManuscripts();
+				
+				
 				reviewerMenu(theUserList, theConferenceList);
 				break;
 			case 2:
 				header();
 				System.out.println("Select a manuscript to upload a review for");
-				tempReview.viewAssignedManuscripts(currentUser);
-				if (!currentUser.getMyManuscriptsToReview().isEmpty()) {
-					prompt();
-					input = userInput.nextInt();
-					Manuscript selectedManuscript = currentUser.getMyManuscriptsToReview().get(input - 1);
-					System.out.println("Enter the path to the review form");
-					userInput.nextLine();
-					String path = userInput.nextLine();
-					System.out.println("Enter the title of the review form");
-					String title = userInput.nextLine();
-					//				tempReview.uploadReviewForm(currentConference, currentUser, path, 
-					//						currentUser.getMyName(), title, selectedManuscript);
-					tempReview.uploadReviewForm(currentUser, currentConference, path, //  5/8/2015 bernabeg
-					currentUser.getMyName(), title, selectedManuscript);
+					
+				viewReviewerManuscripts();
+					
+				input = userInput.nextInt();
+				Manuscript selectedManuscript = currentUser.getMyManuscriptsToReview().get(input - 1);
+				System.out.println("Enter the path to the review form");
+				userInput.nextLine();
+				String path = userInput.nextLine();
+				System.out.println("Enter the title of the review form");
+				String title = userInput.nextLine();
+				
+				List<Boolean> allowed = tempReview.uploadReviewForm(currentUser, currentConference, path, 
+						currentUser.getMyName(), title, selectedManuscript);
+				
+				
+				Boolean isAllowed = allowed.get(0);
+				Boolean inTime = allowed.get(1);
+				
+				if (!isAllowed) {
+					System.out.println("Not assigned this Paper to review...\n");
 				}
+				
+				if (!inTime) {
+					System.out.println("Submission failed review deadline has passed.\n");
+				}
+				
+				if (isAllowed && inTime) {
+					System.out.println("Review submitted successfully.\n");
+				}
+						
 				reviewerMenu(theUserList, theConferenceList);
 				break;
 			case 3:
@@ -587,6 +605,21 @@ public class Main implements Serializable {
 		}
 	}
 
+	
+	public static void viewReviewerManuscripts() {
+		int count = 1;
+		if (!currentUser.getMyManuscriptsToReview().isEmpty()) {
+			for(Manuscript m: currentUser.getMyManuscriptsToReview()) {
+				System.out.println(count + ". " + m.getTitle());
+			}
+		}
+		else
+		{
+			System.out.println("No manuscripts to review");
+		}
+		System.out.println();
+		
+	}
 	/**
 	 * Subprogram chair UI menu. 
 	 * @param theFinishedFlag login flag
