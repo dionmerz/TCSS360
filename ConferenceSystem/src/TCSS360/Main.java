@@ -281,7 +281,14 @@ public class Main implements Serializable {
 				System.out.println("Enter the title of the manuscript: ");
 				prompt();
 				String title = userInput.next();				
-				currentUser.submitManuscript(path, title, currentUser, currentConference);
+				if (currentUser.submitManuscript(path, title, currentUser, currentConference)){
+					System.out.println();
+					System.out.println(title + " submitted to Conference " + currentConference.getName());
+				}
+				else {
+					System.out.println();
+					System.out.println("The deadline for manuscript submission has passed.\n");
+				}
 				
 				selectRoleMenu(theUserList, theConferenceList);
 				break;
