@@ -55,5 +55,10 @@ public class SubprogramChair extends Roles implements Serializable {
 		RecommendationForm form = new RecommendationForm(thePath, currentUser.getMyName(), date, theTitle, score);
 		theManuscript.addRecommendation(form);
 		theManuscript.setStatus(Status.RECOMMENDED);
+		
+		Main.currentConference.removeManuscript(theManuscript);
+		Main.currentConference.addManuscript(theManuscript);
+		// Remove the manuscript and add it back on.
+		
 	}		
 }
