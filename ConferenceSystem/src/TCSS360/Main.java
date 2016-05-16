@@ -455,22 +455,47 @@ public class Main implements Serializable {
 		switch(input) {
 		case 1:
 			header();
-			tempProgramChair.viewAllManuscripts(currentConference);
-			System.out.println();
+//			tempProgramChair.viewAllManuscripts(currentConference);
+//			System.out.println();
+			count = 1; 
+			for (Manuscript m : currentConference.getManuscripts()) {			// view assigned manuscripts
+				System.out.println(count + ". " + m.getTitle());
+				count++;
+			}
 			programChairMenu(theUserList, theConferenceList);
 			break;
 		case 2:
 			header();
-			acceptOrRejectManuscript(count,theUserList,theConferenceList, tempProgramChair);
+			acceptOrRejectManuscript(count,theUserList,theConferenceList, tempProgramChair);			
 			break;
 		case 3:
 			header();
-			tempProgramChair.viewAssignedSubProgManuscripts(currentConference);
+//			tempProgramChair.viewAssignedSubProgManuscripts(currentConference);
+			System.out.println("\nSubprogam Chair and Assigned Manuscripts List: ");  //Prints a list of Subprogram chairs and assigned manuscripts.
+			if (!currentConference.getSubProChairList().isEmpty()) {
+				for(User u : currentConference.getSubProChairList()) {
+					if(!u.getSubProgManuscript().isEmpty()) {
+						System.out.println(u.getMyName() + ":");
+						for (Manuscript m: u.getSubProgManuscript()) {
+							System.out.println("\t" + m.getTitle());
+						}
+					} 
+					else 
+					{
+						System.out.println(u.getMyName() + " no manuscripts assigned yet.");
+					}
+				}
+			}
+			else {
+				System.out.println("No Subprogram Chairs in this conference");
+			}
+			System.out.println();
 			programChairMenu(theUserList, theConferenceList);
 			break;
 		case 4:
 			//print list of SPCs, pick manuscript
 			header();
+			
 			viewAllAssignedSubprogramChairAndManuscript(count,theUserList,theConferenceList, tempProgramChair);
 			break;
 		case 5:
@@ -528,10 +553,12 @@ public class Main implements Serializable {
 		switch(input) {
 		case 1: 
 			tempProgramChair.acceptManuscript(selectedManuscript);
+			System.out.println(selectedManuscript.getTitle() + " by " + selectedManuscript.getAuthor() + " Accepted.");
 			programChairMenu(theUserList, theConferenceList);
 			break;
 		case 2: 
 			tempProgramChair.rejectManuscript(selectedManuscript);
+			System.out.println(selectedManuscript.getTitle() + " by " + selectedManuscript.getAuthor() + " Rejected.");
 			programChairMenu(theUserList, theConferenceList);
 			break;
 		case 3:
@@ -555,19 +582,29 @@ public class Main implements Serializable {
 
 		prompt();
 		int input = userInput.nextInt();
-		User selected = currentConference.getSubProChairList().get(input - 1);		
-		tempProgramChair.viewAllManuscripts(currentConference);
+		User selected = currentConference.getSubProChairList().get(input - 1);	
+		count = 1;
+		for (Manuscript m : currentConference.getManuscripts()) {				//view list of manuscripts assigned
+			System.out.println(count + ". " + m.getTitle());
+			count++;
+		}
 		System.out.println("Select a manuscript to assign to " + selected.getMyName());
 		prompt();
 		input = userInput.nextInt();			
 		Manuscript selectedManuscript = currentConference.getManuscripts().get(input - 1);
-
-		tempProgramChair.assignSubProgManuscript(selected, selectedManuscript);
-
-		userList.remove(selected);
-		userList.add(selected);
-
-
+		ArrayList<Boolean> temp =  new ArrayList<Boolean>();
+		
+		temp = (ArrayList<Boolean>) tempProgramChair.assignSubProgManuscript(selected, selectedManuscript);
+		
+		if(!temp.get(1)) {
+			System.out.println("Cannot assign a manuscript to the author");
+		} else if (!temp.get(0)) {
+			System.out.println("Failed to assign manuscript to " + selected.getMyName() + " because of manuscript limit");
+		} else {
+			System.out.println(selectedManuscript.getTitle() + " assigned to " + selected.getMyName());
+			userList.remove(selected);
+			userList.add(selected);
+		}
 		programChairMenu(theUserList, theConferenceList);
 	}
 
