@@ -91,20 +91,12 @@ public class ProgramChair extends Roles implements Serializable {
 		Boolean limit = false;
 		Boolean author = false;
 		
-		
 		if(!theUser.getMyName().equals(theManuscript.getAuthor())) {	// If the name does not == author
 			author = true;
-			if(theUser.getSubProgManuscript().size() < MAX_PAPERS) {			// less than 4 papers
-			
+			if(theUser.getSubProgManuscript().size() < MAX_PAPERS) {			// less than 4 papers		
 				theUser.addSubProgManuscript(theManuscript);
 				limit = true;
-				//System.out.println(theManuscript.getTitle() + " assigned to " + theUser.getMyName());
 			}
-//			} else {
-//				System.out.println("Failed to assign manuscript to " + theUser.getMyName() + " because of manuscript limit");
-//			}
-//		} else {
-//			System.out.println("Cannot assign a manuscript to the author");
 		}
 		sub.add(limit);
 		sub.add(author);
