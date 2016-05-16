@@ -239,22 +239,7 @@ public class Main implements Serializable {
 	public static void selectRoleMenu(List<User> theUserList, List<Conference> theConferenceList) {
 		header();
 		System.out.println("\nSelect an option:\nM. Submit Manuscript");
-
-		for(Roles r : currentUser.getMyRoles()) {
-			if(r.getClass().getSimpleName().equals("Author") && r.getConference().getName().equals(currentConference.getName())) {
-				System.out.println("A. Author Options");
-			}
-			if(r.getClass().getSimpleName().equals("ProgramChair") && r.getConference().getName().equals(currentConference.getName())) {
-				System.out.println("P. Program Chair Options");
-			}
-			if(r.getClass().getSimpleName().equals("Reviewer") && r.getConference().getName().equals(currentConference.getName())) {
-				System.out.println("R. Reviewer Options");
-			}
-			if(r.getClass().getSimpleName().equals("SubprogramChair") && r.getConference().getName().equals(currentConference.getName())) {
-				System.out.println("S. Subprogram Chair Options");
-			}	
-		}
-
+		printCurrentRoles();
 		System.out.println("B. Back\nE. Exit");
 
 		prompt();
@@ -275,22 +260,7 @@ public class Main implements Serializable {
 				subprogramChairMenu(theUserList, theConferenceList);
 				break;
 			case "M":
-				System.out.println("Enter the path to the manuscript: ");
-				prompt();
-				String path = userInput.next();
-				System.out.println("Enter the title of the manuscript: ");
-				prompt();
-				String title = userInput.next();				
-				if (currentUser.submitManuscript(path, title, currentUser, currentConference)){
-					System.out.println();
-					System.out.println(title + " submitted to Conference " + currentConference.getName());
-				}
-				else {
-					System.out.println();
-					System.out.println("The deadline for manuscript submission has passed.\n");
-				}
-				
-				selectRoleMenu(theUserList, theConferenceList);
+				submitManuscript(theUserList, theConferenceList);
 				break;
 			case "P": 
 				hasRole(currentConference, PROGRAM_CHAIR, currentUser);
@@ -305,6 +275,42 @@ public class Main implements Serializable {
 				selectRoleMenu(theUserList, theConferenceList);
 				break;
 		}
+	}
+	
+	public static void printCurrentRoles(){
+		for(Roles r : currentUser.getMyRoles()) {
+			if(r.getClass().getSimpleName().equals("Author") && r.getConference().getName().equals(currentConference.getName())) {
+				System.out.println("A. Author Options");
+			}
+			if(r.getClass().getSimpleName().equals("ProgramChair") && r.getConference().getName().equals(currentConference.getName())) {
+				System.out.println("P. Program Chair Options");
+			}
+			if(r.getClass().getSimpleName().equals("Reviewer") && r.getConference().getName().equals(currentConference.getName())) {
+				System.out.println("R. Reviewer Options");
+			}
+			if(r.getClass().getSimpleName().equals("SubprogramChair") && r.getConference().getName().equals(currentConference.getName())) {
+				System.out.println("S. Subprogram Chair Options");
+			}	
+		}
+	}
+	
+	public static void submitManuscript(List<User> theUserList, List<Conference> theConferenceList){
+		System.out.println("Enter the path to the manuscript: ");
+		prompt();
+		String path = userInput.next();
+		System.out.println("Enter the title of the manuscript: ");
+		prompt();
+		String title = userInput.next();				
+		if (currentUser.submitManuscript(path, title, currentUser, currentConference)){
+			System.out.println();
+			System.out.println(title + " submitted to Conference " + currentConference.getName());
+		}
+		else {
+			System.out.println();
+			System.out.println("The deadline for manuscript submission has passed.\n");
+		}
+		
+		selectRoleMenu(theUserList, theConferenceList);
 	}
 
 	/**
@@ -333,70 +339,97 @@ public class Main implements Serializable {
 		switch(Integer.parseInt(input)) {
 		case 1:
 			//Update Manuscript
-			System.out.println("Select a manuscript to update or command: ");
-			for(Manuscript m : currentUser.getMyManuscripts()) {
-				System.out.println(count + ". " + m.getTitle());
-				count++;
-			}
-			System.out.println("B. Back");
-			input = userInput.next();
-			if(!input.equals("B")) {
-				Manuscript tempManuscript = currentUser.getMyManuscripts().get(Integer.parseInt(input) - 1);			
-				System.out.println("Enter the path of the updated manuscript");
-				String path = userInput.next();
-
-				Manuscript updatedManuscript = new Manuscript(path, currentUser.getMyName(), date, tempManuscript.getTitle());
-				if (tempAuthor.updateAuthoredManuscript(currentUser, updatedManuscript, theConferenceList)) {
-					System.out.println(updatedManuscript.getTitle() + " has been updated.\n");
-				}
-				else {
-					System.out.println(updatedManuscript.getTitle() + " was not found.\n");
-				}
-				
-				authorMenu(theUserList, theConferenceList);
-			} else {
-				authorMenu(theUserList, theConferenceList);
-			}
+			updateManuscriptAuthor(count, input, date, theUserList, theConferenceList, tempAuthor);
 			break;
-			case 2:
-				//Unsubmit Manuscript
-				System.out.println("Select a manuscript to unsubmit or command: ");
-				for(Manuscript m : currentUser.getMyManuscripts()) {
-					System.out.println(count + ". " + m.getTitle());
-					count++;
-				}			
-				System.out.println("B. Back");
-				input = userInput.next();	
-				if(!input.equals("B")) {
-					
-					Manuscript removedManuscript = currentUser.getMyManuscripts().get(Integer.parseInt(input) - 1);
-					
-					if (tempAuthor.unsubmitManuscript(currentUser, removedManuscript, theConferenceList)) {
-						System.out.println(removedManuscript.getTitle() + " successfully removed.\n");
-						
-					}
-					else {
-						System.out.println("Manuscript not found.\n");
-					}
-					
-					authorMenu(theUserList, theConferenceList);
-				} else {
-					authorMenu(theUserList, theConferenceList);
-				}
-				break;
-			case 3: 
-				selectRoleMenu(theUserList, theConferenceList);
-				break;
-			case 4:
-				exit();
-				break;
-			default: 
-				System.out.println("Invalid Selection returning to last menu");
-				authorMenu(theUserList, theConferenceList);
-				break;
-			}
+		case 2:
+			//Unsubmit Manuscript
+			unsubmitManuscriptAuthor(count, input, theUserList, theConferenceList, tempAuthor);
+			break;
+		case 3: 
+			selectRoleMenu(theUserList, theConferenceList);
+			break;
+		case 4:
+			exit();
+			break;
+		default: 
+			System.out.println("Invalid Selection returning to last menu");
+			authorMenu(theUserList, theConferenceList);
+			break;
+		}
 	}
+	
+	/**
+	 * Update author's manuscript.
+	 * 
+	 * @param count
+	 * @param input
+	 * @param date
+	 * @param theUserList
+	 * @param theConferenceList
+	 * @param tempAuthor
+	 */
+	public static void updateManuscriptAuthor(int count, String input, String date, List<User> theUserList, List<Conference> theConferenceList, Author tempAuthor){
+		System.out.println("Select a manuscript to update or command: ");
+		for(Manuscript m : currentUser.getMyManuscripts()) {
+			System.out.println(count + ". " + m.getTitle());
+			count++;
+		}
+		System.out.println("B. Back");
+		input = userInput.next();
+		if(!input.equals("B")) {
+			Manuscript tempManuscript = currentUser.getMyManuscripts().get(Integer.parseInt(input) - 1);			
+			System.out.println("Enter the path of the updated manuscript");
+			String path = userInput.next();
 
+			Manuscript updatedManuscript = new Manuscript(path, currentUser.getMyName(), date, tempManuscript.getTitle());
+			if (tempAuthor.updateAuthoredManuscript(currentUser, updatedManuscript, theConferenceList)) {
+				System.out.println(updatedManuscript.getTitle() + " has been updated.\n");
+			}
+			else {
+				System.out.println(updatedManuscript.getTitle() + " was not found.\n");
+			}
+			
+			authorMenu(theUserList, theConferenceList);
+		} else {
+			authorMenu(theUserList, theConferenceList);
+		}
+	}
+	
+	/**
+	 * Unsubmit one of author's manuscript.
+	 * 
+	 * @param count
+	 * @param input
+	 * @param theUserList
+	 * @param theConferenceList
+	 * @param tempAuthor
+	 */
+	public static void unsubmitManuscriptAuthor(int count, String input, List<User> theUserList, List<Conference> theConferenceList, Author tempAuthor){
+		System.out.println("Select a manuscript to unsubmit or command: ");
+		for(Manuscript m : currentUser.getMyManuscripts()) {
+			System.out.println(count + ". " + m.getTitle());
+			count++;
+		}			
+		System.out.println("B. Back");
+		input = userInput.next();	
+		if(!input.equals("B")) {
+
+			Manuscript removedManuscript = currentUser.getMyManuscripts().get(Integer.parseInt(input) - 1);
+
+			if (tempAuthor.unsubmitManuscript(currentUser, removedManuscript, theConferenceList)) {
+				System.out.println(removedManuscript.getTitle() + " successfully removed.\n");
+
+			}
+			else {
+				System.out.println("Manuscript not found.\n");
+			}
+
+			authorMenu(theUserList, theConferenceList);
+		} else {
+			authorMenu(theUserList, theConferenceList);
+		}
+	}
+	
 	/**
 	 * Program Chair UI menu.
 	 * @param theFinishedFlag the login flag
@@ -418,102 +451,27 @@ public class Main implements Serializable {
 		int input = userInput.nextInt();
 		int count = 1;
 		ProgramChair tempProgramChair = currentUser.findProgramChairRole();
-		Manuscript selectedManuscript;
 
 		switch(input) {
-			case 1:
-				header();
-				tempProgramChair.viewAllManuscripts(currentConference);
-				System.out.println();
-				programChairMenu(theUserList, theConferenceList);
-				break;
-			case 2:
-				header();
-				System.out.println("Choose a Manuscript to accept/reject:");
-				ArrayList<Manuscript> reccomendedList = new ArrayList<Manuscript>();
-				int total = 0;
-				for(Manuscript m : currentConference.getManuscripts()) {
-	
-					if(m.getStatus() == Status.RECOMMENDED) {
-						reccomendedList.add(m);
-						System.out.println(count + ". " + m.getTitle());
-						System.out.print("\tRecommendations: ");
-						for(RecommendationForm rf : m.getRecomFormList()) {
-							System.out.print(rf.getScore() + ", ");
-						}
-						System.out.println();
-						count++;
-						total++;
-					}
-				}
-	
-				if (total == 0) {
-					System.out.println("No Manuscripts");
-					System.out.println("");
-					programChairMenu(theUserList, theConferenceList);
-	
-				}
-				prompt();
-				input = userInput.nextInt();
-				selectedManuscript = reccomendedList.get(input - 1);
-	
-	
-				System.out.println("1. Accept");
-				System.out.println("2. Reject");
-				System.out.println("3. Back");
-				System.out.println("4. Exit");
-				prompt();
-				input = userInput.nextInt();
-	
-				switch(input) {
-				case 1: 
-					tempProgramChair.acceptManuscript(selectedManuscript);
-					programChairMenu(theUserList, theConferenceList);
-					break;
-				case 2: 
-					tempProgramChair.rejectManuscript(selectedManuscript);
-					programChairMenu(theUserList, theConferenceList);
-					break;
-				case 3:
-					programChairMenu(theUserList, theConferenceList);
-					break;
-				case 4:
-					exit();
-					break;
-				}
-	
-				break;
-			case 3:
-				header();
-				tempProgramChair.viewAssignedSubProgManuscripts(currentConference);
-				programChairMenu(theUserList, theConferenceList);
-				break;
-			case 4:
-				//print list of SPCs, pick manuscript
-				header();
-				System.out.println("\nSubProgram Chair List");
-				count = 1;
-				for(User sc : currentConference.getSubProChairList()) {
-					System.out.println(count + ". " + sc.getMyName());
-					count++;
-			}
-
-			prompt();
-			input = userInput.nextInt();
-			User selected = currentConference.getSubProChairList().get(input - 1);		
+		case 1:
+			header();
 			tempProgramChair.viewAllManuscripts(currentConference);
-			System.out.println("Select a manuscript to assign to " + selected.getMyName());
-			prompt();
-			input = userInput.nextInt();			
-			selectedManuscript = currentConference.getManuscripts().get(input - 1);
-
-			tempProgramChair.assignSubProgManuscript(selected, selectedManuscript);
-			
-			userList.remove(selected);
-			userList.add(selected);
-			
-
+			System.out.println();
 			programChairMenu(theUserList, theConferenceList);
+			break;
+		case 2:
+			header();
+			acceptOrRejectManuscript(count,theUserList,theConferenceList, tempProgramChair);
+			break;
+		case 3:
+			header();
+			tempProgramChair.viewAssignedSubProgManuscripts(currentConference);
+			programChairMenu(theUserList, theConferenceList);
+			break;
+		case 4:
+			//print list of SPCs, pick manuscript
+			header();
+			viewAllAssignedSubprogramChairAndManuscript(count,theUserList,theConferenceList, tempProgramChair);
 			break;
 		case 5:
 			selectRoleMenu(theUserList, theConferenceList);
@@ -526,6 +484,91 @@ public class Main implements Serializable {
 			programChairMenu(theUserList, theConferenceList);
 			break;
 		}
+	}
+	
+	public static void acceptOrRejectManuscript(int count, List<User> theUserList, 
+												List<Conference> theConferenceList,
+												ProgramChair tempProgramChair){
+		System.out.println("Choose a Manuscript to accept/reject:");
+		ArrayList<Manuscript> reccomendedList = new ArrayList<Manuscript>();
+		int total = 0;
+		for(Manuscript m : currentConference.getManuscripts()) {
+
+			if(m.getStatus() == Status.RECOMMENDED) {
+				reccomendedList.add(m);
+				System.out.println(count + ". " + m.getTitle());
+				System.out.print("\tRecommendations: ");
+				for(RecommendationForm rf : m.getRecomFormList()) {
+					System.out.print(rf.getScore() + ", ");
+				}
+				System.out.println();
+				count++;
+				total++;
+			}
+		}
+
+		if (total == 0) {
+			System.out.println("No Manuscripts");
+			System.out.println("");
+			programChairMenu(theUserList, theConferenceList);
+
+		}
+		prompt();
+		int input = userInput.nextInt();
+		Manuscript selectedManuscript = reccomendedList.get(input - 1);
+
+
+		System.out.println("1. Accept");
+		System.out.println("2. Reject");
+		System.out.println("3. Back");
+		System.out.println("4. Exit");
+		prompt();
+		input = userInput.nextInt();
+
+		switch(input) {
+		case 1: 
+			tempProgramChair.acceptManuscript(selectedManuscript);
+			programChairMenu(theUserList, theConferenceList);
+			break;
+		case 2: 
+			tempProgramChair.rejectManuscript(selectedManuscript);
+			programChairMenu(theUserList, theConferenceList);
+			break;
+		case 3:
+			programChairMenu(theUserList, theConferenceList);
+			break;
+		case 4:
+			exit();
+			break;
+		}
+	}
+	
+	public static void viewAllAssignedSubprogramChairAndManuscript(int count, List<User> theUserList, 
+																	List<Conference> theConferenceList,
+																	ProgramChair tempProgramChair) {
+		System.out.println("\nSubProgram Chair List");
+		count = 1;
+		for(User sc : currentConference.getSubProChairList()) {
+			System.out.println(count + ". " + sc.getMyName());
+			count++;
+		}
+
+		prompt();
+		int input = userInput.nextInt();
+		User selected = currentConference.getSubProChairList().get(input - 1);		
+		tempProgramChair.viewAllManuscripts(currentConference);
+		System.out.println("Select a manuscript to assign to " + selected.getMyName());
+		prompt();
+		input = userInput.nextInt();			
+		Manuscript selectedManuscript = currentConference.getManuscripts().get(input - 1);
+
+		tempProgramChair.assignSubProgManuscript(selected, selectedManuscript);
+
+		userList.remove(selected);
+		userList.add(selected);
+
+
+		programChairMenu(theUserList, theConferenceList);
 	}
 
 	/**
@@ -554,42 +597,13 @@ public class Main implements Serializable {
 				
 				viewReviewerManuscripts();
 				
-				
 				reviewerMenu(theUserList, theConferenceList);
 				break;
 			case 2:
 				header();
-				System.out.println("Select a manuscript to upload a review for");
-					
-				viewReviewerManuscripts();
-					
-				input = userInput.nextInt();
-				Manuscript selectedManuscript = currentUser.getMyManuscriptsToReview().get(input - 1);
-				System.out.println("Enter the path to the review form");
-				userInput.nextLine();
-				String path = userInput.nextLine();
-				System.out.println("Enter the title of the review form");
-				String title = userInput.nextLine();
+
+				uploadReviewForm(input, tempReview);
 				
-				List<Boolean> allowed = tempReview.uploadReviewForm(currentUser, currentConference, path, 
-						currentUser.getMyName(), title, selectedManuscript);
-				
-				
-				Boolean isAllowed = allowed.get(0);
-				Boolean inTime = allowed.get(1);
-				
-				if (!isAllowed) {
-					System.out.println("Not assigned this Paper to review...\n");
-				}
-				
-				if (!inTime) {
-					System.out.println("Submission failed review deadline has passed.\n");
-				}
-				
-				if (isAllowed && inTime) {
-					System.out.println("Review submitted successfully.\n");
-				}
-						
 				reviewerMenu(theUserList, theConferenceList);
 				break;
 			case 3:
@@ -604,7 +618,39 @@ public class Main implements Serializable {
 				break;
 		}
 	}
-
+	
+	public static void uploadReviewForm(int input, Reviewer tempReview){
+		System.out.println("Select a manuscript to upload a review for");
+		
+		viewReviewerManuscripts();
+			
+		input = userInput.nextInt();
+		Manuscript selectedManuscript = currentUser.getMyManuscriptsToReview().get(input - 1);
+		System.out.println("Enter the path to the review form");
+		userInput.nextLine();
+		String path = userInput.nextLine();
+		System.out.println("Enter the title of the review form");
+		String title = userInput.nextLine();
+		
+		List<Boolean> allowed = tempReview.uploadReviewForm(currentUser, currentConference, path, 
+				currentUser.getMyName(), title, selectedManuscript);
+		
+		
+		Boolean isAllowed = allowed.get(0);
+		Boolean inTime = allowed.get(1);
+		
+		if (!isAllowed) {
+			System.out.println("Not assigned this Paper to review...\n");
+		}
+		
+		if (!inTime) {
+			System.out.println("Submission failed review deadline has passed.\n");
+		}
+		
+		if (isAllowed && inTime) {
+			System.out.println("Review submitted successfully.\n");
+		}
+	}
 	
 	public static void viewReviewerManuscripts() {
 		int count = 1;
@@ -620,6 +666,8 @@ public class Main implements Serializable {
 		System.out.println();
 		
 	}
+	
+	
 	/**
 	 * Subprogram chair UI menu. 
 	 * @param theFinishedFlag login flag
@@ -640,92 +688,21 @@ public class Main implements Serializable {
 		int count = 1;
 		prompt();
 		int input = userInput.nextInt();
-		Manuscript selectedManuscript;
 
 		switch(input) {
 		
 		case 1:
 			header();
-			System.out.println("Select a manuscript to assign to a reviewer");
-			
-			if(!currentUser.getSubProgManuscript().isEmpty()) {
-				for(Manuscript m : currentUser.getSubProgManuscript()) {
-					System.out.println(count + ". " + m.getTitle());
-					count++;
-				}
-				prompt();
-				input = userInput.nextInt();
-				selectedManuscript = currentUser.getSubProgManuscript().get(input - 1);
-				ArrayList<User> reviewerList = new ArrayList<User>();
 
-				for(User u : userList) {
-					if(hasRole(currentConference, REVIEWER, u )) {
-						reviewerList.add(u);
-					}
-				}				
-				//System.out.println(reviewerList.size());				
-				if (reviewerList.isEmpty()) {
-					System.out.println("No Reviewers to assign for Conference: " + currentConference.getName());
-				} else {
-					count = 1;
-					System.out.println("Select a reviewer to assign the selected manuscript");
-
-					for(User u : reviewerList) {
-						System.out.println(count + ". " + u.getMyName());
-						count++;
-					}
-
-					prompt();
-					input = userInput.nextInt();
-					User selectedReviewer = reviewerList.get(input - 1);
-
-					List<Boolean> result = tempSubprogramChair.assignReviewerManuscript(selectedReviewer, selectedManuscript);
-					
-					if(!result.get(0)) {
-						System.out.println("Cannot assign a review to the author of the manuscript");
-					} else if (!result.get(1)) {
-						System.out.println("Failed to assign review to " + selectedReviewer.getMyName() + " because of review limit");
-					} else {
-						System.out.println(selectedManuscript.getTitle() + " assigned to " + selectedReviewer.getMyName());
-					}
-				}
-			}
-			else 
-			{
-				System.out.println("\nNo manuscripts currently assigned to subprogram chair");
-			}
-
+			assignManuscriptToReviewer(count, input, tempSubprogramChair);
 
 			subprogramChairMenu(theUserList, theConferenceList);
 			break;
 		case 2:
 			header();
-			System.out.println("Select a manuscript to assign a recommendation");
-			for(Manuscript m : currentUser.getSubProgManuscript()) {
-				System.out.println(count + ". " + m.getTitle());
-				count++;
-			}
-			
-			
-			if (!currentUser.getSubProgManuscript().isEmpty()) {
-				prompt();
-				input = userInput.nextInt();
-				selectedManuscript = currentUser.getSubProgManuscript().get(input - 1);
-				System.out.println("Enter the path to the recommendation form");
-				userInput.nextLine();
-				String path = userInput.nextLine();
-				System.out.println("Enter a recommendation score");
-				int score = userInput.nextInt();
-				System.out.println("Enter a title for the recommendation form");
-				userInput.nextLine();
-				String title = userInput.nextLine();
-				tempSubprogramChair.submitRecomendation(currentUser, selectedManuscript, score, path, title);
-				System.out.println("Reccommendation Form for " + selectedManuscript.getTitle() + " submitted.");
-			}
-			else {
-				System.out.println("No Manuscripts assigned, returning to last menu.");
-			}
 
+			submitRecommendationForManuscript(count, input, tempSubprogramChair);
+			
 			subprogramChairMenu(theUserList, theConferenceList);
 			break;
 		case 3:
@@ -734,6 +711,85 @@ public class Main implements Serializable {
 		case 4:
 			exit();
 			break;
+		}
+	}
+	
+	public static void assignManuscriptToReviewer(int count, int input, SubprogramChair tempSubprogramChair){
+		System.out.println("Select a manuscript to assign to a reviewer");
+		
+		if(!currentUser.getSubProgManuscript().isEmpty()) {
+			for(Manuscript m : currentUser.getSubProgManuscript()) {
+				System.out.println(count + ". " + m.getTitle());
+				count++;
+			}
+			prompt();
+			input = userInput.nextInt();
+			Manuscript selectedManuscript = currentUser.getSubProgManuscript().get(input - 1);
+			ArrayList<User> reviewerList = new ArrayList<User>();
+
+			for(User u : userList) {
+				if(hasRole(currentConference, REVIEWER, u )) {
+					reviewerList.add(u);
+				}
+			}				
+			//System.out.println(reviewerList.size());				
+			if (reviewerList.isEmpty()) {
+				System.out.println("No Reviewers to assign for Conference: " + currentConference.getName());
+			} else {
+				count = 1;
+				System.out.println("Select a reviewer to assign the selected manuscript");
+
+				for(User u : reviewerList) {
+					System.out.println(count + ". " + u.getMyName());
+					count++;
+				}
+
+				prompt();
+				input = userInput.nextInt();
+				User selectedReviewer = reviewerList.get(input - 1);
+
+				List<Boolean> result = tempSubprogramChair.assignReviewerManuscript(selectedReviewer, selectedManuscript);
+				
+				if(!result.get(0)) {
+					System.out.println("Cannot assign a review to the author of the manuscript");
+				} else if (!result.get(1)) {
+					System.out.println("Failed to assign review to " + selectedReviewer.getMyName() + " because of review limit");
+				} else {
+					System.out.println(selectedManuscript.getTitle() + " assigned to " + selectedReviewer.getMyName());
+				}
+			}
+		}
+		else 
+		{
+			System.out.println("\nNo manuscripts currently assigned to subprogram chair");
+		}
+	}
+	
+	public static void submitRecommendationForManuscript(int count, int input, SubprogramChair tempSubprogramChair){
+		System.out.println("Select a manuscript to assign a recommendation");
+		for(Manuscript m : currentUser.getSubProgManuscript()) {
+			System.out.println(count + ". " + m.getTitle());
+			count++;
+		}
+		
+		
+		if (!currentUser.getSubProgManuscript().isEmpty()) {
+			prompt();
+			input = userInput.nextInt();
+			Manuscript selectedManuscript = currentUser.getSubProgManuscript().get(input - 1);
+			System.out.println("Enter the path to the recommendation form");
+			userInput.nextLine();
+			String path = userInput.nextLine();
+			System.out.println("Enter a recommendation score");
+			int score = userInput.nextInt();
+			System.out.println("Enter a title for the recommendation form");
+			userInput.nextLine();
+			String title = userInput.nextLine();
+			tempSubprogramChair.submitRecomendation(currentUser, selectedManuscript, score, path, title);
+			System.out.println("Reccommendation Form for " + selectedManuscript.getTitle() + " submitted.");
+		}
+		else {
+			System.out.println("No Manuscripts assigned, returning to last menu.");
 		}
 	}
 
