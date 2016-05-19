@@ -30,7 +30,7 @@ public class TerminalUserInterface {
 		myAuthorMenu = new AuthorMenu(myUserInput, this);
 		myReviewerMenu = new ReviewerMenu(myUserInput, this);
 		mySubprogramChairMenu = new SubprogramChairMenu();
-		myProgramChairMenu = new ProgramChairMenu();
+		myProgramChairMenu = new ProgramChairMenu(myUserInput, this);
 		myUserList = new ArrayList<User>();
 		myConferenceList = new ArrayList<Conference>();
 		setup(); //Just for testing.
@@ -225,7 +225,7 @@ public class TerminalUserInterface {
 		
 			
 			if (myCurrentUser.findProgramChairRole() != null) {
-				
+				myProgramChairMenu.initialProgramChairMenu(theUserList, theConferenceList, myCurrentUser, myCurrentConference);
 			}
 			else {
 				System.out.println("Invalid selection, returning to last menu");
