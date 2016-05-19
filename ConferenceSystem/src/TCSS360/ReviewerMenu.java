@@ -14,9 +14,6 @@ public class ReviewerMenu {
 	
 	public void initialReviewerMenu(List<User> theUserList, List<Conference> theConferenceList, User myCurrentUser,
 			Conference myCurrentConference) {
-		
-		
-		
 			header(myCurrentUser, myCurrentConference);
 			System.out.println("Select an option: ");
 			System.out.println("1. View assigned manuscripts to review");
@@ -51,27 +48,8 @@ public class ReviewerMenu {
 				initialReviewerMenu(theUserList, theConferenceList, myCurrentUser, myCurrentConference);
 				break;
 			}
-		
-			
 	}
-	
-	/**
-	 * User input indicator
-	 */
-	public void prompt() {
-		System.out.print(">> ");
-	}
-	
-	private void header(User theCurrentUser, Conference theCurrentConference) {
-		System.out.println();
-		System.out.println("---Scientific Manuscripts Are Reviewed in Terminal---");
-		System.out.println("User: " + theCurrentUser.getMyName());
-		System.out.println("Conference: " + theCurrentConference.getName());
-		System.out.println("_______________________________________________________");
-		System.out.println();
-	}
-	
-	
+
 	/**
 	 * Upload a review form and attach to manuscript.
 	 * 
@@ -127,19 +105,31 @@ public class ReviewerMenu {
 	}
 	
 	/**
+	 * User input indicator
+	 */
+	public void prompt() {
+		System.out.print(">> ");
+	}
+	
+	/**
+	 * Prints a header indicating the Name of the user and current conference.
+	 * @param theCurrentUser
+	 * @param theCurrentConference
+	 */
+	private void header(User theCurrentUser, Conference theCurrentConference) {
+		System.out.println();
+		System.out.println("---Scientific Manuscripts Are Reviewed in Terminal---");
+		System.out.println("User: " + theCurrentUser.getMyName());
+		System.out.println("Conference: " + theCurrentConference.getName());
+		System.out.println("_______________________________________________________");
+		System.out.println();
+	}
+	
+	/**
 	 * UI exit menu
 	 */
 	public void exit() {
 		System.out.println("You selected exit.");
-
-//		try {
-//			
-//
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		
-		
 		
 	}
 

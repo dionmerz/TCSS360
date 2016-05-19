@@ -29,7 +29,7 @@ public class TerminalUserInterface {
 		myUserInput = new Scanner(System.in);
 		myAuthorMenu = new AuthorMenu(myUserInput, this);
 		myReviewerMenu = new ReviewerMenu(myUserInput, this);
-		mySubprogramChairMenu = new SubprogramChairMenu();
+		mySubprogramChairMenu = new SubprogramChairMenu(myUserInput, this);
 		myProgramChairMenu = new ProgramChairMenu(myUserInput, this);
 		myUserList = new ArrayList<User>();
 		myConferenceList = new ArrayList<Conference>();
@@ -210,20 +210,18 @@ public class TerminalUserInterface {
 			selectConferenceMenu(theUserList, theConferenceList);
 			break;
 		case "S":
-	
 			
 			if (myCurrentUser.findSubprogramChairRole() != null) {
-				// Write SPC menu here
-				
+				mySubprogramChairMenu.initialSubprogramChairMenu(theUserList, theConferenceList, myCurrentUser, myCurrentConference);
+			}else {
+				System.out.println("Invalid selection, returning to last menu");
+				selectRoleMenu(theUserList, theConferenceList);
 			}
-		
 			break;
 		case "M":
 			submitManuscript(theUserList, theConferenceList);
 			break;
-		case "P":
-		
-			
+		case "P":			
 			if (myCurrentUser.findProgramChairRole() != null) {
 				myProgramChairMenu.initialProgramChairMenu(theUserList, theConferenceList, myCurrentUser, myCurrentConference);
 			}
@@ -240,9 +238,6 @@ public class TerminalUserInterface {
 				System.out.println("Invalid selection, returning to last menu");
 				selectRoleMenu(theUserList, theConferenceList);
 			}
-			
-			
-			
 			break;
 		default:
 			System.out.println("Invalid selection, returning to last menu");
@@ -378,12 +373,12 @@ public class TerminalUserInterface {
 
 		myCurrentUser = myUserList.get(1);
 
-//		initSubprogramChair.submitRecomendation(myCurrentUser, myCurrentConference.getManuscripts().get(0), 1,
-//				"reccomend1.txt", "rectitle1");
-//		initSubprogramChair.submitRecomendation(myCurrentUser, myCurrentConference.getManuscripts().get(1), 3,
-//				"reccomend2.txt", "rectitle2");
-//		initSubprogramChair.submitRecomendation(myCurrentUser, myCurrentConference.getManuscripts().get(2), 2,
-//				"reccomend3.txt", "rectitle3");
+		initSubprogramChair.submitRecomendation(myCurrentUser, myCurrentConference, myCurrentConference.getManuscripts().get(0), 1,
+				"reccomend1.txt", "rectitle1");
+		initSubprogramChair.submitRecomendation(myCurrentUser, myCurrentConference, myCurrentConference.getManuscripts().get(1), 3,
+				"reccomend2.txt", "rectitle2");
+		initSubprogramChair.submitRecomendation(myCurrentUser, myCurrentConference, myCurrentConference.getManuscripts().get(2), 2,
+				"reccomend3.txt", "rectitle3");
 
 		myCurrentConference = myConferenceList.get(1);
 		myCurrentUser = myUserList.get(1);

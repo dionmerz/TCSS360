@@ -65,8 +65,6 @@ public class AuthorMenu {
 		
 	}
 	
-	
-
 	/**
 	 * Update author's manuscript.
 	 * 
@@ -161,16 +159,6 @@ public class AuthorMenu {
 	 */
 	public void exit() {
 		System.out.println("You selected exit.");
-
-//		try {
-//			
-//
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		
-		
-		
 	}
 	
 	
