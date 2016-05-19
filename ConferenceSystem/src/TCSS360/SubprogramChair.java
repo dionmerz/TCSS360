@@ -48,17 +48,17 @@ public class SubprogramChair extends Roles implements Serializable {
 	}
 	
 	
-	public void submitRecomendation(User currentUser, Manuscript theManuscript, int score, String thePath, String theTitle) {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Calendar cal = Calendar.getInstance();
-		String date = dateFormat.format(cal.getTime());	
-		RecommendationForm form = new RecommendationForm(thePath, currentUser.getMyName(), date, theTitle, score);
-		theManuscript.addRecommendation(form);
-		theManuscript.setStatus(Status.RECOMMENDED);
-		
-		Main.currentConference.removeManuscript(theManuscript);
-		Main.currentConference.addManuscript(theManuscript);
-		// Remove the manuscript and add it back on.
-		
-	}		
+//	public void submitRecomendation(User currentUser, Manuscript theManuscript, int score, String thePath, String theTitle) {
+//		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//		Calendar cal = Calendar.getInstance();
+//		String date = dateFormat.format(cal.getTime());	
+//		RecommendationForm form = new RecommendationForm(thePath, currentUser.getMyName(), date, theTitle, score);
+//		theManuscript.addRecommendation(form);
+//		theManuscript.setStatus(Status.RECOMMENDED);
+//		
+//		Main.currentConference.removeManuscript(theManuscript);
+//		Main.currentConference.addManuscript(theManuscript);
+//		// Remove the manuscript and add it back on.
+//		
+//	}		
 }

@@ -271,7 +271,7 @@ public class User implements Serializable {
 		if(cal.before(currentConference.getPaperDeadlineDate())) {
 			currentUser.addMyManuscript(newPaper);
 			currentConference.addManuscript(newPaper);
-			if(!Main.hasRole(currentConference, Main.AUTHOR, currentUser)) {
+			if(!hasRole(currentConference, Main.AUTHOR, currentUser)) {
 				currentUser.addMyRole(new Author(currentConference));
 			}
 			isAllowed = true;
@@ -354,6 +354,28 @@ public class User implements Serializable {
 			}
 		}
 		return equal;
+	}
+	
+	
+	/**
+	 * This method checks to see if the user has a specified role in a
+	 * conference.
+	 * 
+	 * @param theConference a conference
+	 * @param theRole a role
+	 * @param theUser a user
+	 * @return true or false
+	 */
+	public boolean hasRole(Conference theConference, Roles theRole, User theUser) {
+		boolean result = false;
+
+		for (Roles r : theUser.getMyRoles()) {
+			if (r.getConference().getName().equals(theConference.getName())
+					&& theRole.getClass().getSimpleName().equals(r.getClass().getSimpleName())) {
+				result = true;
+			}
+		}
+		return result;
 	}
 	
 	

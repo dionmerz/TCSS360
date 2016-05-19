@@ -68,14 +68,14 @@ public class SubprogramChairTest {
 		
 	}
 	
-	@Test
-	public void testSubmitRecommendation() {
-		assertTrue(script2.getRecomFormList().size() == 0);
-		spc.submitRecomendation(usr, script2, 5, "recommend.txt", "PaperRecommendation");
-		
-		assertTrue(script2.getRecomFormList().size() == 1);
-		
-		assertTrue(script2.getStatus() == Status.RECOMMENDED);
-	}
+//	@Test
+//	public void testSubmitRecommendation() {
+//		assertTrue(script2.getRecomFormList().size() == 0);
+//		spc.submitRecomendation(usr, script2, 5, "recommend.txt", "PaperRecommendation");
+//		
+//		assertTrue(script2.getRecomFormList().size() == 1);
+//		
+//		assertTrue(script2.getStatus() == Status.RECOMMENDED);
+//	}
 
 }
