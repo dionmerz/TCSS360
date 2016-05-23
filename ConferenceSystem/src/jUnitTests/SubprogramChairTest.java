@@ -12,17 +12,21 @@ import TCSS360.Conference;
 import TCSS360.Manuscript;
 import TCSS360.Manuscript.Status;
 import TCSS360.Reviewer;
+import TCSS360.Roles;
 import TCSS360.SubprogramChair;
 import TCSS360.User;
 
 public class SubprogramChairTest {
 
 	private List<Conference> conferenceList;
+	private List<Roles> emptyRolesList;
 	private Manuscript manuscript1;
 	private Manuscript manuscript2;
 	private Manuscript manuscript3;
 	private Manuscript manuscript4;
 	private Manuscript manuscript5;
+	private List<Manuscript> listOneManuscript;
+	private List<Manuscript> listFourManuscript;
 	private User reviewerNoManuscriptsToReview;
 	private User reviewerOneManuscriptToReview;
 	private User reviewerFourManuscriptsToReview;
@@ -31,6 +35,7 @@ public class SubprogramChairTest {
 
 	@Before
 	public void setUp() throws Exception {
+		emptyRolesList = new ArrayList<Roles>();
 		
 		manuscript1 = new Manuscript("test1.txt", "TestAuthor1", "SubmitDate", "TestTitle1");
 		manuscript2 = new Manuscript("test2.txt", "TestAuthor2", "SubmitDate", "TestTitle2");
@@ -38,11 +43,22 @@ public class SubprogramChairTest {
 		manuscript4 = new Manuscript("test4.txt", "TestAuthor4", "SubmitDate", "TestTitle4");
 		manuscript5 = new Manuscript("test5.txt", "TestAuthor5", "SubmitDate", "TestTitle5");
 		
+		listOneManuscript = new ArrayList<Manuscript>();
+		listOneManuscript.add(manuscript1);
+		
+		listFourManuscript = new ArrayList<Manuscript>();
+		listFourManuscript.add(manuscript1);
+		listFourManuscript.add(manuscript2);
+		listFourManuscript.add(manuscript3);
+		listFourManuscript.add(manuscript4);
+		
 		reviewerNoManuscriptsToReview  = new User("TestReviewer1", "ReviewerLogin1", "reviewer1@email.com");
 		reviewerNoManuscriptsToReview.addMyRole(new Reviewer(conference));
-		reviewerOneManuscriptToReview  = new User("TestReviewer2", "ReviewerLogin2", "reviewer2@email.com");
+		reviewerOneManuscriptToReview  = new User("TestReviewer2", "ReviewerLogin2", "reviewer2@email.com",
+													emptyRolesList, null, listOneManuscript, null, null);
 		reviewerOneManuscriptToReview.addMyRole(new Reviewer(conference));
-		reviewerFourManuscriptsToReview  = new User("TestReviewer3", "ReviewerLogin3", "reviewer3@email.com");
+		reviewerFourManuscriptsToReview  = new User("TestReviewer3", "ReviewerLogin3", "reviewer3@email.com",
+													emptyRolesList, null, listFourManuscript, null, null);
 		reviewerFourManuscriptsToReview.addMyRole(new Reviewer(conference));
 		
 		subprogramChairUser = new User("TestSubprogramChair", "SubprogramLogin", "subprogram@email.com");
@@ -56,14 +72,15 @@ public class SubprogramChairTest {
 	}
 
 	@Test
-	public void testAssignReviewerManuscript_ReviewerNoManuscriptsToReview() {
-		assertTrue(reviewerNoManuscriptsToReview.getMyManuscriptsToReview().size() == 0);
+	public void testAssignReviewerManuscriptReviewerNoManuscriptsToReview() {
+		assertEquals(reviewerNoManuscriptsToReview.getMyManuscriptsToReview().size(), 0);
 		subprogramChairUser.findSubprogramChairRole().assignReviewerManuscript(reviewerNoManuscriptsToReview, manuscript1);
-		assertTrue(reviewerNoManuscriptsToReview.getMyManuscriptsToReview().size() == 1);
+		assertEquals(reviewerNoManuscriptsToReview.getMyManuscriptsToReview().size(), 1);
+		assertEquals(reviewerNoManuscriptsToReview.getMyManuscriptsToReview().get(0).getTitle(), "TestTitle1");
 		
 		manuscript1 = new Manuscript("test.txt", "TempUser", "SubmitDate", "TestTitle");
 		subprogramChairUser.findSubprogramChairRole().assignReviewerManuscript(reviewerNoManuscriptsToReview, manuscript1);
-		assertFalse(reviewerNoManuscriptsToReview.getMyManuscriptsToReview().size() > 1);
+		assertTrue(reviewerNoManuscriptsToReview.getMyManuscriptsToReview().size() > 1);
 		
 		manuscript1 = new Manuscript("test.txt", "OtherUser", "SubmitDate", "TestTitle");
 		subprogramChairUser.findSubprogramChairRole().assignReviewerManuscript(reviewerNoManuscriptsToReview, manuscript2);
@@ -75,18 +92,23 @@ public class SubprogramChairTest {
 	}
 	
 	@Test
-	public void testAssignReviewerManuscript_ReviewerOneManuscriptToReview() {
-		
+	public void testAssignReviewerManuscriptReviewerOneManuscriptToReview() {
+		assertEquals(reviewerOneManuscriptToReview.getMyManuscriptsToReview().size(), 1);
+		subprogramChairUser.findSubprogramChairRole().assignReviewerManuscript(reviewerOneManuscriptToReview, manuscript2);
+		assertEquals(reviewerOneManuscriptToReview.getMyManuscriptsToReview().size(), 2);
+		assertEquals(reviewerOneManuscriptToReview.getMyManuscriptsToReview().get(1).getTitle(), "TestTitle2");
 	}
 	
 	@Test
-	public void testAssignReviewerManuscript_ReviewerFourManuscriptsToReview() {
-	
+	public void testAssignReviewerManuscriptReviewerFourManuscriptsToReview() {
+		assertEquals(reviewerFourManuscriptsToReview.getMyManuscriptsToReview().size(), 4);
+		subprogramChairUser.findSubprogramChairRole().assignReviewerManuscript(reviewerFourManuscriptsToReview, manuscript5);
+		assertEquals(reviewerFourManuscriptsToReview.getMyManuscriptsToReview().size(), 4);
 	}
 	
 	@Test
-	public void testAssignReviewerManuscript_ReviewerSelfAuthoredManuscript() {
-		
+	public void testAssignReviewerManuscriptReviewerSelfAuthoredManuscript() {
+		assertTrue(true);
 	}
 	
 	@Test

@@ -77,8 +77,8 @@ public class User implements Serializable {
 		this.myName = theName;
 		this.myLoginName = theLoginName;
 		this.myEmail = theEmail;
-		this.myAuthoredManuscripts = new ArrayList<Manuscript>();
 		this.myRoles = new ArrayList<Roles>();
+		this.myAuthoredManuscripts = new ArrayList<Manuscript>();
 		this.myManuscriptsToReview = new ArrayList<Manuscript>();
 		this.myReviews = new ArrayList<ReviewForm>();
 		this.mySubProgManuscripts = new ArrayList<Manuscript>();
