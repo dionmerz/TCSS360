@@ -147,13 +147,6 @@ public class TerminalUserInterface {
 	 */
 	public void exit() {
 		System.out.println("You selected exit.");
-
-//		try {
-//			
-//
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 	}
 	
 	/**

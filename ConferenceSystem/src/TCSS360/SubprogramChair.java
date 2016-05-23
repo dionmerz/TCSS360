@@ -11,8 +11,6 @@ import TCSS360.Manuscript.Status;
 
 public class SubprogramChair extends Roles implements Serializable {
 
-
-
 	/**
 	 * 
 	 */
@@ -25,7 +23,6 @@ public class SubprogramChair extends Roles implements Serializable {
 		super(theConference);
 
 	}
-
 
 	public List<Boolean> assignReviewerManuscript(User theUser, Manuscript theManuscript) {
 		//Get instance of Reviewer 	
