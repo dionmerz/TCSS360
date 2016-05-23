@@ -67,7 +67,7 @@ public class User implements Serializable {
 	//private List<Conference> mySubprogChairsConferences;
 	
 	/**
-	 * Constructor for user object. 
+	 * Constructor for user object using minimum arguments for instantiation.
 	 * @param theName User name.
 	 * @param theLoginName User login name.
 	 * @param theEmail User email.
@@ -82,7 +82,25 @@ public class User implements Serializable {
 		this.myManuscriptsToReview = new ArrayList<Manuscript>();
 		this.myReviews = new ArrayList<ReviewForm>();
 		this.mySubProgManuscripts = new ArrayList<Manuscript>();
-		//this.mySubprogChairsConferences = theSubprogChairsConferences;
+	}
+	
+	/**
+	 * Constructor for user object using minimum arguments for instantiation.
+	 * @param theName User name.
+	 * @param theLoginName User login name.
+	 * @param theEmail User email.
+	 */
+	public User(String theName, String theLoginName, String theEmail, List<Roles> theRoles, List<Manuscript> theAuthoredManuscripts,
+				List<Manuscript> theManuscriptsToReview, List<ReviewForm> theReviews, List<Manuscript> theSubprogramManuscripts) {
+		super();
+		this.myName = theName;
+		this.myLoginName = theLoginName;
+		this.myEmail = theEmail;
+		this.myRoles = theRoles;
+		this.myAuthoredManuscripts = theAuthoredManuscripts;
+		this.myManuscriptsToReview = theManuscriptsToReview;
+		this.myReviews = theReviews;
+		this.mySubProgManuscripts = theSubprogramManuscripts;
 	}
 
 	/**
@@ -244,14 +262,6 @@ public class User implements Serializable {
 	public void removeReview(ReviewForm theReview) {
 		this.myReviews.remove(theReview);
 	}
-
-//	public List<User> getMyReviewers() {
-//		return myReviewers;
-//	}
-//
-//	public void addMyReviewers(User theReviewers) {
-//		this.myReviewers.add(theReviewers);
-//	}
 	
 	/**
 	 * Submits a manuscript to a conference.

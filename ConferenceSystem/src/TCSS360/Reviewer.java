@@ -21,13 +21,13 @@ public class Reviewer extends Roles implements Serializable {
 	private static final long serialVersionUID = 2085432913222156308L;
 
 	/**
-	 * Reviewer Class Constructor
+	 * Reviewer Class Constructor with conference parameter
 	 * @param theConference
 	 */
 	public Reviewer(Conference theConference) {
 		super(theConference);
 	}
-	
+
 	/**
 	 * Uploads a review form to a manuscript
 	 * @param currentUser

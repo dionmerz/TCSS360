@@ -40,6 +40,10 @@ public class SubprogramChairTest {
 		
 		reviewerNoManuscriptsToReview  = new User("TestReviewer1", "ReviewerLogin1", "reviewer1@email.com");
 		reviewerNoManuscriptsToReview.addMyRole(new Reviewer(conference));
+		reviewerOneManuscriptToReview  = new User("TestReviewer2", "ReviewerLogin2", "reviewer2@email.com");
+		reviewerOneManuscriptToReview.addMyRole(new Reviewer(conference));
+		reviewerFourManuscriptsToReview  = new User("TestReviewer3", "ReviewerLogin3", "reviewer3@email.com");
+		reviewerFourManuscriptsToReview.addMyRole(new Reviewer(conference));
 		
 		subprogramChairUser = new User("TestSubprogramChair", "SubprogramLogin", "subprogram@email.com");
 		subprogramChairUser.addMyRole(new SubprogramChair(conference));
