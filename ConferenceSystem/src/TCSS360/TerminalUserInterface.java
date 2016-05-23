@@ -1,28 +1,28 @@
 package TCSS360;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class TerminalUserInterface {
+public class TerminalUserInterface implements Serializable {
 	
-	private AuthorMenu myAuthorMenu;
-	private ReviewerMenu myReviewerMenu;
-	private SubprogramChairMenu mySubprogramChairMenu;
-	private ProgramChairMenu myProgramChairMenu;
+	/**
+	 * Serial Version ID
+	 */
+	private static final long serialVersionUID = -5250437601882775308L;
+	
+	private transient AuthorMenu myAuthorMenu;
+	private transient ReviewerMenu myReviewerMenu;
+	private transient SubprogramChairMenu mySubprogramChairMenu;
+	private transient ProgramChairMenu myProgramChairMenu;
+	private transient Scanner myUserInput;
 	private ArrayList<User> myUserList; 
 	private ArrayList<Conference> myConferenceList;
 	private User myCurrentUser;
 	private Conference myCurrentConference;
 	private boolean mySetupStatus;
-	private Scanner myUserInput;
+	
 
 	
 	public TerminalUserInterface() {
@@ -33,12 +33,22 @@ public class TerminalUserInterface {
 		myProgramChairMenu = new ProgramChairMenu(myUserInput, this);
 		myUserList = new ArrayList<User>();
 		myConferenceList = new ArrayList<Conference>();
-		setup(); //Just for testing.
+		mySetupStatus = false;
+		
 		
 	}
 	
 	public void loginRegisterMenu() {
-		// System.out.println("---Conference Management Systems---\n");
+		
+		if (myUserInput == null) {
+			myUserInput = new Scanner(System.in);
+		}
+	
+		if (!mySetupStatus) {
+			setup();
+			mySetupStatus = true;
+		}
+		
 		System.out.println("---Scientific Manuscripts Are Reviewed in Terminal---\n"
 				+ "_______________________________________________________\n");
 		System.out.println("Welcome to S.M.A.R.T, please select an option: \n1.Login\n2.Register\n3.Exit");
@@ -146,7 +156,7 @@ public class TerminalUserInterface {
 	 * UI exit menu
 	 */
 	public void exit() {
-		System.out.println("You selected exit.");
+		//System.out.println("You selected exit.");
 	}
 	
 	/**

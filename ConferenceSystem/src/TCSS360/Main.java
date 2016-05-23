@@ -1,21 +1,16 @@
 package TCSS360;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Scanner;
 
-import TCSS360.Manuscript.Status;
+
+
+
 
 /**
  * This class represents a conference object.
@@ -23,7 +18,7 @@ import TCSS360.Manuscript.Status;
  * @author Andrew Merz, Adam Marr, Bernabe Guzman, Bincheng Li
  * @version 1.0 5/8/2016
  */
-public class Main implements Serializable {
+public class Main {
 
 	/**
 	 * Serial identification number
@@ -39,6 +34,7 @@ public class Main implements Serializable {
 //	private static List<Conference> conferenceList;
 //	private static List<User> userList;
 //	private static Scanner userInput = new Scanner(System.in);
+	private static TerminalUserInterface myUI;
 
 	/**
 	 * Runs the SMART Scientific Manuscripts Are Reviewed in Terminal program
@@ -48,35 +44,29 @@ public class Main implements Serializable {
 	@SuppressWarnings({ "resource", "unchecked" })
 	public static void main(String[] theargs) {
 
-//		try {
-//			FileInputStream fileIn = new FileInputStream("userList.ser");
-//			ObjectInputStream in = new ObjectInputStream(fileIn);
-//			userList = (ArrayList<User>) in.readObject();
-//
-//			fileIn = new FileInputStream("conferenceList.ser");
-//			in = new ObjectInputStream(fileIn);
-//			conferenceList = (ArrayList<Conference>) in.readObject();
-//
-//			fileIn = new FileInputStream("initialized.ser");
-//			DataInputStream dataIn = new DataInputStream(fileIn);
-//			initialized = (boolean) dataIn.readBoolean();
-//
-//		} catch (ClassNotFoundException e) {
-//
-//		} catch (IOException e) {
-//
-//		}
-//
-//		if (!initialized) {
-//			initialized = setup();
-//		}
+		try {
+			FileInputStream fileIn = new FileInputStream("UI.ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			myUI = (TerminalUserInterface) in.readObject();
+			
+		} catch (FileNotFoundException e) {
+			myUI = new TerminalUserInterface();
+
+
+		} catch (ClassNotFoundException e) {
+			myUI = new TerminalUserInterface();
+		} catch (IOException e) {
+
+		}
+
+
 
 		// First menu
-		TerminalUserInterface UI = new TerminalUserInterface();
-		UI.loginRegisterMenu();
+		//TerminalUserInterface UI = new TerminalUserInterface();
+		myUI.loginRegisterMenu();
 	
+		exit();
 
-		// display options for current conference based on roles.
 
 	}
 
@@ -180,30 +170,22 @@ public class Main implements Serializable {
 //		System.out.print(">> ");
 //	}
 //
-//	/**
-//	 * UI exit menu
-//	 */
-//	public static void exit() {
-//		System.out.println("You selected exit.");
-//
-//		try {
-//			FileOutputStream fileOut = new FileOutputStream("userList.ser");
-//			ObjectOutputStream output = new ObjectOutputStream(fileOut);
-//			output.writeObject(userList);
-//
-//			fileOut = new FileOutputStream("conferenceList.ser");
-//			output = new ObjectOutputStream(fileOut);
-//			output.writeObject(conferenceList);
-//
-//			fileOut = new FileOutputStream("initialized.ser");
-//			DataOutputStream dataOutput = new DataOutputStream(fileOut);
-//			dataOutput.writeBoolean(initialized);
-//
-//			output.close();
-//			fileOut.close();
-//
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
+	/**
+	 * UI exit menu
+	 */
+	public static void exit() {
+		System.out.println("You selected exit.");
+
+		try {
+			FileOutputStream fileOut = new FileOutputStream("UI.ser");
+			ObjectOutputStream output = new ObjectOutputStream(fileOut);
+			output.writeObject(myUI);
+
+			output.close();
+			fileOut.close();
+
+		} catch (IOException e) {
+			
+		}
+	}
 }// end of main
