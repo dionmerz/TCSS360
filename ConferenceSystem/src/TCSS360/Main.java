@@ -41,28 +41,29 @@ public class Main {
 	 * 
 	 * @param theargs
 	 */
-	@SuppressWarnings({ "resource", "unchecked" })
 	public static void main(String[] theargs) {
 
 		try {
 			FileInputStream fileIn = new FileInputStream("UI.ser");
 			ObjectInputStream in = new ObjectInputStream(fileIn);
+			
 			myUI = (TerminalUserInterface) in.readObject();
+			
+			fileIn.close();
+			in.close();
+			
+			
 			
 		} catch (FileNotFoundException e) {
 			myUI = new TerminalUserInterface();
-
-
+			
 		} catch (ClassNotFoundException e) {
-			myUI = new TerminalUserInterface();
+			System.out.println(e);
+			
 		} catch (IOException e) {
-
+			System.out.println(e);
 		}
-
-
-
-		// First menu
-		//TerminalUserInterface UI = new TerminalUserInterface();
+		
 		myUI.loginRegisterMenu();
 	
 		exit();

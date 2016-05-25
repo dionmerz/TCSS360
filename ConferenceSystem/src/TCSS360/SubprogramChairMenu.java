@@ -1,10 +1,16 @@
 package TCSS360;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class SubprogramChairMenu {
+public class SubprogramChairMenu implements Serializable  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3353649043191045626L;
+	
 	private transient Scanner myUserInput;
 	private TerminalUserInterface myTerminalUI;
 	

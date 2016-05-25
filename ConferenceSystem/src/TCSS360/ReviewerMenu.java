@@ -1,9 +1,15 @@
 package TCSS360;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Scanner;
 
-public class ReviewerMenu {
+public class ReviewerMenu implements Serializable  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8912679648268928423L;
+	
 	private transient Scanner myUserInput;
 	private TerminalUserInterface myTerminalUI;
 	

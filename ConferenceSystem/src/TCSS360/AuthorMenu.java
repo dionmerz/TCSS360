@@ -1,12 +1,18 @@
 package TCSS360;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
-public class AuthorMenu {
+public class AuthorMenu implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5035785019253162377L;
 	
 	private transient Scanner myUserInput;
 	private TerminalUserInterface myTerminalUI;
