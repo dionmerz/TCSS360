@@ -14,11 +14,11 @@ public class ProgramChairMenu implements Serializable{
 	 */
 	private static final long serialVersionUID = 3967503335206776162L;
 	private transient Scanner myUserInput;
-	private TerminalUserInterface myTerminalUI;
+	private boolean hasExited;
 
-	public ProgramChairMenu(Scanner theUserInput, TerminalUserInterface theTerminalUI) {
+	public ProgramChairMenu(Scanner theUserInput) {
 		myUserInput = theUserInput;
-		myTerminalUI = theTerminalUI;
+		hasExited = false;
 	}
 	
 	
@@ -30,8 +30,9 @@ public class ProgramChairMenu implements Serializable{
 	 * @param theUserList a user list
 	 * @param theConferenceList a conference list
 	 */
-	public void initialProgramChairMenu(List<User> theUserList, List<Conference> theConferenceList, User theUser, Conference theConference) {
+	public boolean initialProgramChairMenu(List<User> theUserList, List<Conference> theConferenceList, User theUser, Conference theConference) {
 		header(theUser, theConference);
+		hasExited = false;
 		System.out.println("Select an option: ");
 		System.out.println("1. View all manuscripts");
 		System.out.println("2. Reject/Accept Manuscript");
@@ -74,7 +75,7 @@ public class ProgramChairMenu implements Serializable{
 			viewAllAssignedSubprogramChairAndManuscript(count, theUserList, theConferenceList, tempProgramChair, theUser, theConference);
 			break;
 		case 5:
-			myTerminalUI.selectRoleMenu(theUserList, theConferenceList);
+			// Back to previous menu
 			break;
 		case 6:
 			exit();
@@ -84,6 +85,7 @@ public class ProgramChairMenu implements Serializable{
 			initialProgramChairMenu(theUserList, theConferenceList, theUser, theConference);
 			break;
 		}
+		return hasExited;
 	}
 
 
@@ -248,16 +250,7 @@ public class ProgramChairMenu implements Serializable{
 	 * UI exit menu
 	 */
 	public void exit() {
-		//System.out.println("You selected exit.");
-
-//		try {
-//			
-//
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-		
-		
-		
+		hasExited = true;
+				
 	}
 }

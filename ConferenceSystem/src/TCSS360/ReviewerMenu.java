@@ -11,20 +11,20 @@ public class ReviewerMenu implements Serializable  {
 	private static final long serialVersionUID = -8912679648268928423L;
 	
 	private transient Scanner myUserInput;
-	private TerminalUserInterface myTerminalUI;
+	private boolean hasExited;
 	
-	public ReviewerMenu(Scanner theUserInput, TerminalUserInterface theTerminalUI) {
+	public ReviewerMenu(Scanner theUserInput) {
 		myUserInput = theUserInput;
-		myTerminalUI = theTerminalUI;
+		hasExited = false;
 	}
 
-	public void initialReviewerMenu(List<User> theUserList, List<Conference> theConferenceList, User myCurrentUser,
+	public boolean initialReviewerMenu(List<User> theUserList, List<Conference> theConferenceList, User myCurrentUser,
 			Conference myCurrentConference) {
 
 		if (myUserInput == null) {
 			myUserInput = new Scanner(System.in);
 		}
-
+		hasExited = false;
 		header(myCurrentUser, myCurrentConference);
 		System.out.println("Select an option: ");
 		System.out.println("1. View assigned manuscripts to review");
@@ -49,7 +49,7 @@ public class ReviewerMenu implements Serializable  {
 			initialReviewerMenu(theUserList, theConferenceList, myCurrentUser, myCurrentConference);
 			break;
 		case 3:
-			myTerminalUI.selectRoleMenu(theUserList, theConferenceList);
+			//Backs to previous menu
 			break;
 		case 4:
 			exit();
@@ -59,6 +59,7 @@ public class ReviewerMenu implements Serializable  {
 			initialReviewerMenu(theUserList, theConferenceList, myCurrentUser, myCurrentConference);
 			break;
 		}
+		return hasExited;
 	}
 
 	/**
@@ -140,7 +141,7 @@ public class ReviewerMenu implements Serializable  {
 	 * UI exit menu
 	 */
 	public void exit() {
-		System.out.println("You selected exit.");
+		hasExited = true;
 		
 	}
 

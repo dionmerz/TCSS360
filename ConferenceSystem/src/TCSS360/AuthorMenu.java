@@ -15,11 +15,11 @@ public class AuthorMenu implements Serializable {
 	private static final long serialVersionUID = -5035785019253162377L;
 	
 	private transient Scanner myUserInput;
-	private TerminalUserInterface myTerminalUI;
+	private boolean hasExited;
 
-	public AuthorMenu(Scanner theUserInput, TerminalUserInterface theTerminalUI) {
+	public AuthorMenu(Scanner theUserInput) {
 		myUserInput = theUserInput;
-		myTerminalUI = theTerminalUI;
+		hasExited = false;
 	}
 	
 	/**
@@ -30,10 +30,12 @@ public class AuthorMenu implements Serializable {
 	 * @param theUserList a user list
 	 * @param theConferenceList a conference list
 	 */
-	public void initialAuthorMenu(List<User> theUserList, List<Conference> theConferenceList, User theUser, Conference theConference) {
+	public boolean initialAuthorMenu(List<User> theUserList, List<Conference> theConferenceList, User theUser, Conference theConference) {
 		if (myUserInput == null) {
 			myUserInput = new Scanner(System.in);
 		}
+		hasExited = false;
+		
 		header(theUser, theConference);
 		System.out.println("Select an option: ");
 		System.out.println("1. Update Manuscript");
@@ -60,7 +62,7 @@ public class AuthorMenu implements Serializable {
 			break;
 		case 3:
 			// Back to previous menu.
-			myTerminalUI.selectRoleMenu(theUserList, theConferenceList);
+			//myTerminalUI.selectRoleMenu(theUserList, theConferenceList);
 			break;
 		case 4:
 			exit();
@@ -70,6 +72,7 @@ public class AuthorMenu implements Serializable {
 			initialAuthorMenu(theUserList, theConferenceList, theUser, theConference);
 			break;
 		}
+		return hasExited;
 		
 	}
 	
@@ -166,7 +169,7 @@ public class AuthorMenu implements Serializable {
 	 * UI exit menu
 	 */
 	public void exit() {
-		System.out.println("You selected exit.");
+		hasExited = true;
 	}
 	
 	

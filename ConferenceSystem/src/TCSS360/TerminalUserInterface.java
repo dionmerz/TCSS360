@@ -25,10 +25,10 @@ public class TerminalUserInterface implements Serializable {
 	
 	public TerminalUserInterface() {
 		myUserInput = new Scanner(System.in);
-		myAuthorMenu = new AuthorMenu(myUserInput, this);
-		myReviewerMenu = new ReviewerMenu(myUserInput, this);
-		mySubprogramChairMenu = new SubprogramChairMenu(myUserInput, this);
-		myProgramChairMenu = new ProgramChairMenu(myUserInput, this);
+		myAuthorMenu = new AuthorMenu(myUserInput);
+		myReviewerMenu = new ReviewerMenu(myUserInput);
+		mySubprogramChairMenu = new SubprogramChairMenu(myUserInput);
+		myProgramChairMenu = new ProgramChairMenu(myUserInput);
 		myUserList = new ArrayList<User>();
 		myConferenceList = new ArrayList<Conference>();
 		mySetupStatus = false;
@@ -154,7 +154,7 @@ public class TerminalUserInterface implements Serializable {
 	 * UI exit menu
 	 */
 	public void exit() {
-		//System.out.println("You selected exit.");
+		
 	}
 	
 	/**
@@ -196,7 +196,13 @@ public class TerminalUserInterface implements Serializable {
 		switch (roleChoiceInput.toUpperCase()) {
 		case "A":		
 			if (myCurrentUser.findAuthorRole() != null) {
-				myAuthorMenu.initialAuthorMenu(theUserList, theConferenceList, myCurrentUser, myCurrentConference);
+				boolean exited = false;
+				exited = myAuthorMenu.initialAuthorMenu(theUserList, theConferenceList, 
+						myCurrentUser, myCurrentConference);
+				
+				if (!exited) {
+					selectRoleMenu(theUserList, theConferenceList);
+				}
 			}
 			else {
 				System.out.println("Invalid selection, returning to last menu");
@@ -211,9 +217,16 @@ public class TerminalUserInterface implements Serializable {
 			selectConferenceMenu(theUserList, theConferenceList);
 			break;
 		case "S":
-			
+
 			if (myCurrentUser.findSubprogramChairRole() != null) {
-				mySubprogramChairMenu.initialSubprogramChairMenu(theUserList, theConferenceList, myCurrentUser, myCurrentConference);
+				boolean exited = false;
+				exited = mySubprogramChairMenu.initialSubprogramChairMenu(theUserList, theConferenceList, 
+						myCurrentUser, myCurrentConference);
+
+				if (!exited) {
+					selectRoleMenu(theUserList, theConferenceList);
+				}
+
 			}else {
 				System.out.println("Invalid selection, returning to last menu");
 				selectRoleMenu(theUserList, theConferenceList);
@@ -222,20 +235,31 @@ public class TerminalUserInterface implements Serializable {
 		case "M":
 			submitManuscript(theUserList, theConferenceList);
 			break;
-		case "P":			
+		case "P":						
 			if (myCurrentUser.findProgramChairRole() != null) {
-				myProgramChairMenu.initialProgramChairMenu(theUserList, theConferenceList, myCurrentUser, myCurrentConference);
-			}
-			else {
+				boolean exited = false;
+				exited = myProgramChairMenu.initialProgramChairMenu(theUserList, theConferenceList, 
+						myCurrentUser, myCurrentConference);
+
+				if (!exited) {
+					selectRoleMenu(theUserList, theConferenceList);
+				}
+			}else {
 				System.out.println("Invalid selection, returning to last menu");
 				selectRoleMenu(theUserList, theConferenceList);
 			}		
 			break;
 		case "R":
 			if (myCurrentUser.findReviewerRole() != null) {
-				myReviewerMenu.initialReviewerMenu(theUserList, theConferenceList, myCurrentUser, myCurrentConference);
-			}
-			else {
+				boolean exited = false;
+				exited = myReviewerMenu.initialReviewerMenu(theUserList, theConferenceList, 
+						myCurrentUser, myCurrentConference);
+
+				if (!exited) {
+					selectRoleMenu(theUserList, theConferenceList);
+				}
+				
+			}else {
 				System.out.println("Invalid selection, returning to last menu");
 				selectRoleMenu(theUserList, theConferenceList);
 			}
