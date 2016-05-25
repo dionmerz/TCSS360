@@ -7,9 +7,7 @@ import java.util.Scanner;
 
 public class TerminalUserInterface implements Serializable {
 	
-	/**
-	 * Serial Version ID
-	 */
+
 	private static final long serialVersionUID = -5250437601882775308L;
 	
 	private AuthorMenu myAuthorMenu;
