@@ -19,8 +19,6 @@ import java.io.ObjectOutputStream;
 public class Main {
 
 
-	public static final Author AUTHOR = new Author(null);
-
 	private static TerminalUserInterface myUI;
 
 	/**

@@ -281,7 +281,8 @@ public class User implements Serializable {
 		if(cal.before(currentConference.getPaperDeadlineDate())) {
 			currentUser.addMyManuscript(newPaper);
 			currentConference.addManuscript(newPaper);
-			if(!hasRole(currentConference, Main.AUTHOR, currentUser)) {
+			
+			if (this.findAuthorRole() == null) {
 				currentUser.addMyRole(new Author(currentConference));
 			}
 			isAllowed = true;
