@@ -8,8 +8,8 @@ import java.util.Scanner;
 
 public class AuthorMenu {
 	
-	Scanner myUserInput;
-	TerminalUserInterface myTerminalUI;
+	private transient Scanner myUserInput;
+	private TerminalUserInterface myTerminalUI;
 
 	public AuthorMenu(Scanner theUserInput, TerminalUserInterface theTerminalUI) {
 		myUserInput = theUserInput;
@@ -25,7 +25,9 @@ public class AuthorMenu {
 	 * @param theConferenceList a conference list
 	 */
 	public void initialAuthorMenu(List<User> theUserList, List<Conference> theConferenceList, User theUser, Conference theConference) {
-		
+		if (myUserInput == null) {
+			myUserInput = new Scanner(System.in);
+		}
 		header(theUser, theConference);
 		System.out.println("Select an option: ");
 		System.out.println("1. Update Manuscript");

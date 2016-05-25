@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SubprogramChairMenu {
-	Scanner myUserInput;
-	TerminalUserInterface myTerminalUI;
+	private transient Scanner myUserInput;
+	private TerminalUserInterface myTerminalUI;
 	
 	public SubprogramChairMenu(Scanner theUserInput, TerminalUserInterface theTerminalUI) {
 		myUserInput = theUserInput;
@@ -23,6 +23,11 @@ public class SubprogramChairMenu {
 	 */
 	public void initialSubprogramChairMenu(List<User> theUserList, List<Conference> theConferenceList, User theCurrentUser,
 			Conference theCurrentConference) {
+		
+		if (myUserInput == null) {
+			myUserInput = new Scanner(System.in);
+		}
+		
 		header(theCurrentUser, theCurrentConference);
 		System.out.println("Select an option: ");
 		System.out.println("1. Assign a manuscript to a reviewer");

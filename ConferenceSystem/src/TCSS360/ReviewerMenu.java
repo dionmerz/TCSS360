@@ -4,50 +4,55 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ReviewerMenu {
-	Scanner myUserInput;
-	TerminalUserInterface myTerminalUI;
+	private transient Scanner myUserInput;
+	private TerminalUserInterface myTerminalUI;
 	
 	public ReviewerMenu(Scanner theUserInput, TerminalUserInterface theTerminalUI) {
 		myUserInput = theUserInput;
 		myTerminalUI = theTerminalUI;
 	}
-	
+
 	public void initialReviewerMenu(List<User> theUserList, List<Conference> theConferenceList, User myCurrentUser,
 			Conference myCurrentConference) {
+
+		if (myUserInput == null) {
+			myUserInput = new Scanner(System.in);
+		}
+
+		header(myCurrentUser, myCurrentConference);
+		System.out.println("Select an option: ");
+		System.out.println("1. View assigned manuscripts to review");
+		System.out.println("2. Upload a review form");
+		System.out.println("3. Back");
+		System.out.println("4. Exit");
+
+		Reviewer tempReview = myCurrentUser.findReviewerRole();
+
+		prompt();
+		int input = myUserInput.nextInt();
+
+		switch (input) {
+		case 1:
 			header(myCurrentUser, myCurrentConference);
-			System.out.println("Select an option: ");
-			System.out.println("1. View assigned manuscripts to review");
-			System.out.println("2. Upload a review form");
-			System.out.println("3. Back");
-			System.out.println("4. Exit");
-
-			Reviewer tempReview = myCurrentUser.findReviewerRole();
-
-			prompt();
-			int input = myUserInput.nextInt();
-
-			switch (input) {
-			case 1:
-				header(myCurrentUser, myCurrentConference);
-				viewReviewerManuscripts(myCurrentConference, myCurrentUser);
-				initialReviewerMenu(theUserList, theConferenceList, myCurrentUser, myCurrentConference);
-				break;
-			case 2:
-				header(myCurrentUser, myCurrentConference);
-				uploadReviewForm(input, tempReview, myCurrentUser, myCurrentConference);
-				initialReviewerMenu(theUserList, theConferenceList, myCurrentUser, myCurrentConference);
-				break;
-			case 3:
-				myTerminalUI.selectRoleMenu(theUserList, theConferenceList);
-				break;
-			case 4:
-				exit();
-				break;
-			default:
-				System.out.println("Invalid selection.");
-				initialReviewerMenu(theUserList, theConferenceList, myCurrentUser, myCurrentConference);
-				break;
-			}
+			viewReviewerManuscripts(myCurrentConference, myCurrentUser);
+			initialReviewerMenu(theUserList, theConferenceList, myCurrentUser, myCurrentConference);
+			break;
+		case 2:
+			header(myCurrentUser, myCurrentConference);
+			uploadReviewForm(input, tempReview, myCurrentUser, myCurrentConference);
+			initialReviewerMenu(theUserList, theConferenceList, myCurrentUser, myCurrentConference);
+			break;
+		case 3:
+			myTerminalUI.selectRoleMenu(theUserList, theConferenceList);
+			break;
+		case 4:
+			exit();
+			break;
+		default:
+			System.out.println("Invalid selection.");
+			initialReviewerMenu(theUserList, theConferenceList, myCurrentUser, myCurrentConference);
+			break;
+		}
 	}
 
 	/**

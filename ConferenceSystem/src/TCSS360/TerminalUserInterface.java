@@ -12,10 +12,10 @@ public class TerminalUserInterface implements Serializable {
 	 */
 	private static final long serialVersionUID = -5250437601882775308L;
 	
-	private transient AuthorMenu myAuthorMenu;
-	private transient ReviewerMenu myReviewerMenu;
-	private transient SubprogramChairMenu mySubprogramChairMenu;
-	private transient ProgramChairMenu myProgramChairMenu;
+	private AuthorMenu myAuthorMenu;
+	private ReviewerMenu myReviewerMenu;
+	private SubprogramChairMenu mySubprogramChairMenu;
+	private ProgramChairMenu myProgramChairMenu;
 	private transient Scanner myUserInput;
 	private ArrayList<User> myUserList; 
 	private ArrayList<Conference> myConferenceList;

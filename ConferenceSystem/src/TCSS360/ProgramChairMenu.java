@@ -1,15 +1,20 @@
 package TCSS360;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import TCSS360.Manuscript.Status;
 
-public class ProgramChairMenu {
+public class ProgramChairMenu implements Serializable{
 	
-	Scanner myUserInput;
-	TerminalUserInterface myTerminalUI;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3967503335206776162L;
+	private transient Scanner myUserInput;
+	private TerminalUserInterface myTerminalUI;
 
 	public ProgramChairMenu(Scanner theUserInput, TerminalUserInterface theTerminalUI) {
 		myUserInput = theUserInput;
@@ -34,6 +39,10 @@ public class ProgramChairMenu {
 		System.out.println("4. Assign a manuscript to a Subprogram Chair");
 		System.out.println("5. Back");
 		System.out.println("6. Exit");
+		
+		if (myUserInput == null) {
+			myUserInput = new Scanner(System.in);
+		}
 
 		prompt();
 		int input = myUserInput.nextInt();
@@ -239,7 +248,7 @@ public class ProgramChairMenu {
 	 * UI exit menu
 	 */
 	public void exit() {
-		System.out.println("You selected exit.");
+		//System.out.println("You selected exit.");
 
 //		try {
 //			
