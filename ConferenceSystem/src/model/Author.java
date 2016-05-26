@@ -1,9 +1,12 @@
 package model;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 /**
@@ -59,6 +62,15 @@ public class Author extends Roles implements Serializable {
 				c.addManuscript(theManuscript);
 				currentUser.addMyManuscript(theManuscript);
 				found = true;	
+				
+				try {
+					Path localFile = Paths.get(theManuscript.getPath());
+					File uploadedFile = new File(Paths.get(".").toAbsolutePath().normalize().toString() + "/uploaded/" + c.getName() + "_" + localFile.getFileName());
+					Files.copy(localFile, uploadedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
 			}
 		}
 		return found;
