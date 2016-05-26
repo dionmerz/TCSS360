@@ -1,6 +1,9 @@
 package view;
 
+import java.io.File;
 import java.io.Serializable;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -96,6 +99,8 @@ public class AuthorMenu implements Serializable {
 		System.out.println("Enter the title of the manuscript: ");
 		prompt();
 		String title = myUserInput.nextLine();
+		
+		
 		if (theUser.submitManuscript(path, title, theUser, theConference)) {
 			System.out.println();
 			System.out.println(title + " submitted to Conference " + theConference.getName());

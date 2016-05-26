@@ -358,7 +358,6 @@ public class TerminalUserInterface implements Serializable {
 																				// login
 																				// and
 																				// roles
-		myUserList.get(0).addMyRole(new Author(myConferenceList.get(0)));
 		myUserList.get(0).addMyRole(new ProgramChair(myConferenceList.get(0)));
 		myUserList.get(0).addMyRole(new Reviewer(myConferenceList.get(0)));
 
@@ -380,9 +379,9 @@ public class TerminalUserInterface implements Serializable {
 		myCurrentConference = myConferenceList.get(0);
 		myCurrentConference.addSubProChairList(myUserList.get(1));
 
-		myCurrentUser.submitManuscript("CoolCS.txt", "How Good is Almost Perfect?", myCurrentUser, myCurrentConference);
-		myCurrentUser.submitManuscript("IEEE.txt", "Learning Natural Coding Conventions", myCurrentUser, myCurrentConference);
-		myCurrentUser.submitManuscript("PP.txt", "On the Steady-State of Cache Networks", myCurrentUser, myCurrentConference);
+//		myCurrentUser.submitManuscript("CoolCS.txt", "How Good is Almost Perfect?", myCurrentUser, myCurrentConference);
+//		myCurrentUser.submitManuscript("IEEE.txt", "Learning Natural Coding Conventions", myCurrentUser, myCurrentConference);
+//		myCurrentUser.submitManuscript("PP.txt", "On the Steady-State of Cache Networks", myCurrentUser, myCurrentConference);
 
 		myCurrentUser = myUserList.get(0);
 		SubprogramChair initSubprogramChair = myCurrentUser.findSubprogramChairRole();
@@ -391,21 +390,21 @@ public class TerminalUserInterface implements Serializable {
 		// currentConference.getManuscripts().get(0));
 		// initProgramChair.assignSubProgManuscript(userList.get(1),
 		// currentConference.getManuscripts().get(1));
-		initSubprogramChair.assignReviewerManuscript(myUserList.get(1), myCurrentConference.getManuscripts().get(2));
+		//initSubprogramChair.assignReviewerManuscript(myUserList.get(1), myCurrentConference.getManuscripts().get(2));
 
 		myCurrentUser = myUserList.get(1);
 
-		initSubprogramChair.submitRecomendation(myCurrentUser, myCurrentConference, myCurrentConference.getManuscripts().get(0), 1,
-				"reccomend1.txt", "rectitle1");
-		initSubprogramChair.submitRecomendation(myCurrentUser, myCurrentConference, myCurrentConference.getManuscripts().get(1), 3,
-				"reccomend2.txt", "rectitle2");
-		initSubprogramChair.submitRecomendation(myCurrentUser, myCurrentConference, myCurrentConference.getManuscripts().get(2), 2,
-				"reccomend3.txt", "rectitle3");
+//		initSubprogramChair.submitRecomendation(myCurrentUser, myCurrentConference, myCurrentConference.getManuscripts().get(0), 1,
+//				"reccomend1.txt", "rectitle1");
+//		initSubprogramChair.submitRecomendation(myCurrentUser, myCurrentConference, myCurrentConference.getManuscripts().get(1), 3,
+//				"reccomend2.txt", "rectitle2");
+//		initSubprogramChair.submitRecomendation(myCurrentUser, myCurrentConference, myCurrentConference.getManuscripts().get(2), 2,
+//				"reccomend3.txt", "rectitle3");
 
-		myCurrentConference = myConferenceList.get(1);
-		myCurrentUser = myUserList.get(1);
-		myCurrentUser.submitManuscript("path1", "Queues Don't Matter When You Can JUMP Them!", myCurrentUser,
-				myCurrentConference);
+//		myCurrentConference = myConferenceList.get(1);
+//		myCurrentUser = myUserList.get(1);
+//		myCurrentUser.submitManuscript("path1", "Queues Don't Matter When You Can JUMP Them!", myCurrentUser,
+//				myCurrentConference);
 		// initSubprogramChair.assignReviewerManuscript(userList.get(0),
 		// currentConference.getManuscripts().get(0));
 		// initSubprogramChair.assignReviewerManuscript(userList.get(1),

@@ -1,6 +1,9 @@
 package model;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -76,6 +79,14 @@ public class Author extends Roles implements Serializable {
 				c.removeManuscript(theManuscript);
 				currentUser.removeManuscript(theManuscript);
 				found = true;
+				
+				try {
+					System.out.println(theManuscript.getPath());
+					Files.delete(Paths.get(theManuscript.getPath()));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		return found;
