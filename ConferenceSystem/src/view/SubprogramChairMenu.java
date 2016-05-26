@@ -1,9 +1,15 @@
-package TCSS360;
+package view;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import model.Conference;
+import model.Manuscript;
+import model.Reviewer;
+import model.SubprogramChair;
+import model.User;
 
 public class SubprogramChairMenu implements Serializable  {
 	/**

@@ -1,8 +1,13 @@
-package TCSS360;
+package view;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Scanner;
+
+import model.Conference;
+import model.Manuscript;
+import model.Reviewer;
+import model.User;
 
 public class ReviewerMenu implements Serializable  {
 	/**

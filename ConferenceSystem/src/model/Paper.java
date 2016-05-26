@@ -1,4 +1,4 @@
-package TCSS360;
+package model;
 //
 import java.io.Serializable;
 import java.util.Calendar;

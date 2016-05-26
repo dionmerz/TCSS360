@@ -8,13 +8,13 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import TCSS360.Conference;
-import TCSS360.Manuscript;
-import TCSS360.Manuscript.Status;
-import TCSS360.Reviewer;
-import TCSS360.Roles;
-import TCSS360.SubprogramChair;
-import TCSS360.User;
+import model.Conference;
+import model.Manuscript;
+import model.Reviewer;
+import model.Roles;
+import model.SubprogramChair;
+import model.User;
+import model.Manuscript.Status;
 
 public class SubprogramChairTest {
 

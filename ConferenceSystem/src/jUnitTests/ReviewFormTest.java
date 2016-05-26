@@ -5,8 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import TCSS360.ReviewForm;
-import TCSS360.User;
+import model.ReviewForm;
+import model.User;
 
 public class ReviewFormTest {
 	private ReviewForm testReviewForm;

@@ -1,9 +1,17 @@
-package TCSS360;
+package view;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import model.Author;
+import model.Conference;
+import model.ProgramChair;
+import model.Reviewer;
+import model.Roles;
+import model.SubprogramChair;
+import model.User;
 
 public class TerminalUserInterface implements Serializable {
 	

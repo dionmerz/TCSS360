@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import TCSS360.Paper;
+import model.Paper;
 
 public class PaperTest {
 	private Paper testPaper;

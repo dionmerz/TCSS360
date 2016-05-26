@@ -1,4 +1,4 @@
-package TCSS360;
+package view;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -6,6 +6,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
+
+import model.Author;
+import model.Conference;
+import model.Manuscript;
+import model.User;
 
 public class AuthorMenu implements Serializable {
 	

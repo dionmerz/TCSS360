@@ -6,10 +6,10 @@ import java.util.Calendar;
 import org.junit.Before;
 import org.junit.Test;
 
-import TCSS360.Conference;
-import TCSS360.Manuscript;
-import TCSS360.Paper;
-import TCSS360.User;
+import model.Conference;
+import model.Manuscript;
+import model.Paper;
+import model.User;
 
 /**
  * Test the Conference class by creating 

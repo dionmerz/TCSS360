@@ -1,9 +1,9 @@
-package TCSS360;
+package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import TCSS360.Manuscript.Status;
+import model.Manuscript.Status;
 
 /**
  * This class represents a Program Chair role. 

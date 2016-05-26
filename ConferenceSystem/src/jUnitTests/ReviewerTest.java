@@ -8,11 +8,11 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import TCSS360.Conference;
-import TCSS360.Manuscript;
-import TCSS360.Reviewer;
-import TCSS360.SubprogramChair;
-import TCSS360.User;
+import model.Conference;
+import model.Manuscript;
+import model.Reviewer;
+import model.SubprogramChair;
+import model.User;
 
 public class ReviewerTest {
 

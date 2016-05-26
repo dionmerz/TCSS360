@@ -6,16 +6,16 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import TCSS360.Author;
-import TCSS360.Conference;
-import TCSS360.Manuscript;
-import TCSS360.Manuscript.Status;
-import TCSS360.Paper;
-import TCSS360.ProgramChair;
-import TCSS360.ReviewForm;
-import TCSS360.Reviewer;
-import TCSS360.SubprogramChair;
-import TCSS360.User;
+import model.Author;
+import model.Conference;
+import model.Manuscript;
+import model.Paper;
+import model.ProgramChair;
+import model.ReviewForm;
+import model.Reviewer;
+import model.SubprogramChair;
+import model.User;
+import model.Manuscript.Status;
 
 public class UserTest {
 	private Paper script1;

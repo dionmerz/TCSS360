@@ -1,11 +1,16 @@
-package TCSS360;
+package view;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import TCSS360.Manuscript.Status;
+import model.Conference;
+import model.Manuscript;
+import model.ProgramChair;
+import model.RecommendationForm;
+import model.User;
+import model.Manuscript.Status;
 
 public class ProgramChairMenu implements Serializable{
 	

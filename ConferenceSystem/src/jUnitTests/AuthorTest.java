@@ -8,11 +8,11 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import TCSS360.Author;
-import TCSS360.Conference;
-import TCSS360.Manuscript;
-import TCSS360.Paper;
-import TCSS360.User;
+import model.Author;
+import model.Conference;
+import model.Manuscript;
+import model.Paper;
+import model.User;
 
 /**
  * Test for the Author Class.

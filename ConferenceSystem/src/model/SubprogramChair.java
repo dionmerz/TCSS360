@@ -1,4 +1,4 @@
-package TCSS360;
+package model;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import TCSS360.Manuscript.Status;
+import model.Manuscript.Status;
 
 public class SubprogramChair extends Roles implements Serializable {
 
