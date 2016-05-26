@@ -50,6 +50,7 @@ public class AuthorMenu implements Serializable {
 		if (theUser.findAuthorRole() != null) {
 			System.out.println("D. Update Manuscript");
 			System.out.println("N. Unsubmit Manuscript");
+			System.out.println("V. View Authored Manuscripts");
 		}
 			System.out.println("S. Submit manuscript");
 			System.out.println("B. Back");
@@ -81,6 +82,19 @@ public class AuthorMenu implements Serializable {
 			break;
 		case "E":
 			exit();
+			break;
+		case "V": 
+			if(!theUser.getMyManuscripts().isEmpty()) {
+				count = 1;
+				System.out.println("Manuscripts authored by " + theUser.getMyName());
+				for(Manuscript m: theUser.getMyManuscripts()) {
+					System.out.println(count + ". " + m.getTitle());
+					count++;
+				}
+			}
+			else {
+				System.out.println("No submitted manuscripts");
+			}
 			break;
 		default:
 			System.out.println("Invalid Selection returning to last menu");
@@ -195,6 +209,7 @@ public class AuthorMenu implements Serializable {
 		System.out.println();
 		System.out.println("---Scientific Manuscripts Are Reviewed in Terminal---");
 		System.out.println("User: " + theCurrentUser.getMyName());
+		System.out.println("Current Role: Author");
 		System.out.println("Conference: " + theCurrentConference.getName());
 		System.out.println("_______________________________________________________");
 		System.out.println();

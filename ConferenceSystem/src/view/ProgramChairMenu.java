@@ -246,6 +246,7 @@ public class ProgramChairMenu implements Serializable{
 		System.out.println();
 		System.out.println("---Scientific Manuscripts Are Reviewed in Terminal---");
 		System.out.println("User: " + theCurrentUser.getMyName());
+		System.out.println("Current Role: Program Chair");
 		System.out.println("Conference: " + theCurrentConference.getName());
 		System.out.println("_______________________________________________________");
 		System.out.println();
