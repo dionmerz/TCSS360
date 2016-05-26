@@ -285,7 +285,7 @@ public class User implements Serializable {
 		
 		Path localFile = Paths.get(thePath);
 		//new File("","");
-		File uploadedFile = new File(Paths.get(".").toAbsolutePath().normalize().toString() +"/src/uploaded/" + localFile.getFileName());
+		File uploadedFile = new File(Paths.get(".").toAbsolutePath().normalize().toString() +"/uploaded/" + localFile.getFileName());
 		System.out.println(Paths.get(".").toAbsolutePath().normalize().toString());
 		System.out.println(localFile);
 		System.out.println(uploadedFile.getPath());
