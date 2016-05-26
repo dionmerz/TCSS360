@@ -1,6 +1,12 @@
 package model;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -276,17 +282,34 @@ public class User implements Serializable {
 		Calendar cal = Calendar.getInstance();
 		String date = dateFormat.format(cal.getTime());
 		
-		Manuscript newPaper = new Manuscript(thePath, currentUser.getMyName(), date, theTitle);
 		
-		if(cal.before(currentConference.getPaperDeadlineDate())) {
-			currentUser.addMyManuscript(newPaper);
-			currentConference.addManuscript(newPaper);
+		Path localFile = Paths.get(thePath);
+		//new File("","");
+		File uploadedFile = new File(Paths.get(".").toAbsolutePath().normalize().toString() +"/src/uploaded/" + localFile.getFileName());
+		System.out.println(Paths.get(".").toAbsolutePath().normalize().toString());
+		System.out.println(localFile);
+		System.out.println(uploadedFile.getPath());
+		
+		try {
+			Files.copy(localFile, uploadedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);	
+			Manuscript newPaper = new Manuscript(thePath, currentUser.getMyName(), date, theTitle);
 			
-			if (this.findAuthorRole() == null) {
-				currentUser.addMyRole(new Author(currentConference));
+			
+			if(cal.before(currentConference.getPaperDeadlineDate())) {
+				currentUser.addMyManuscript(newPaper);
+				currentConference.addManuscript(newPaper);
+				
+				if (this.findAuthorRole() == null) {
+					currentUser.addMyRole(new Author(currentConference));
+				}
+				isAllowed = true;
 			}
-			isAllowed = true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+
 		return isAllowed;
 	}
 

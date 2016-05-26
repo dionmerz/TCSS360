@@ -1,4 +1,5 @@
 package model;
+import java.io.File;
 //
 import java.io.Serializable;
 import java.util.Calendar;
@@ -15,7 +16,7 @@ public class Paper implements Serializable {
 	 * Serial identification number
 	 */
 	private static final long serialVersionUID = -8190150644233894201L;
-	private String myPath;
+	private File myFile;
 	private String myAuthor;
 	private String myTitle;
 	private String mySubmitDateString;
@@ -30,7 +31,7 @@ public class Paper implements Serializable {
 	 */
 	public Paper(String thePath, String theAuthor, String theDate,
 			     String theTitle) {
-		myPath = thePath;
+		myFile = new File(thePath);
 		myAuthor = theAuthor;
 		mySubmitDateString = theDate;
 		myTitle = theTitle;
@@ -44,16 +45,9 @@ public class Paper implements Serializable {
 	 * @return the path as a string
 	 */
 	public String getPath() {
-		return myPath;
+		return myFile.getAbsolutePath();
 	}
 
-	/**
-	 * Sets the path of the paper.
-	 * @param path file path
-	 */
-	public void setPath(String path) {
-		this.myPath = path;
-	}
 
 	/**
 	 * Gets the author of the paper.

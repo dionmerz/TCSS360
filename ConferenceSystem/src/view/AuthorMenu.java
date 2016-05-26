@@ -71,7 +71,7 @@ public class AuthorMenu implements Serializable {
 			break;
 		case "S":
 			// Submit Manuscript
-			submitManuscript(theUserList, theConferenceList, theUser, theConference);
+			submitManuscriptUI(theUserList, theConferenceList, theUser, theConference);
 			break;
 		case "B":
 			// Back to previous menu.
@@ -88,7 +88,7 @@ public class AuthorMenu implements Serializable {
 		
 	}
 	
-	public void submitManuscript(List<User> theUserList, List<Conference> theConferenceList, User theUser, Conference theConference) {
+	public void submitManuscriptUI(List<User> theUserList, List<Conference> theConferenceList, User theUser, Conference theConference) {
 		System.out.println("Enter the path to the manuscript: ");
 		prompt();
 		myUserInput.nextLine(); // System.in newline buffer
