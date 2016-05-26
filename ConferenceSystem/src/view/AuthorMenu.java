@@ -42,11 +42,15 @@ public class AuthorMenu implements Serializable {
 		hasExited = false;
 		
 		header(theUser, theConference);
+		
 		System.out.println("Select an option: ");
-		System.out.println("1. Update Manuscript");
-		System.out.println("2. Unsubmit Manuscript");
-		System.out.println("3. Back");
-		System.out.println("4. Exit");
+		if (theUser.findAuthorRole() != null) {
+			System.out.println("D. Update Manuscript");
+			System.out.println("N. Unsubmit Manuscript");
+		}
+			System.out.println("S. Submit manuscript");
+			System.out.println("B. Back");
+			System.out.println("E. Exit");
 
 		prompt();
 		String input = myUserInput.next();
@@ -56,20 +60,23 @@ public class AuthorMenu implements Serializable {
 		Calendar cal = Calendar.getInstance();
 		String date = dateFormat.format(cal.getTime());
 
-		switch (Integer.parseInt(input)) {
-		case 1:
+		switch (input.toUpperCase()) {
+		case "D":
 			// Update Manuscript
 			updateManuscriptAuthor(count, input, date, theUserList, theConferenceList, tempAuthor, theUser, theConference);
 			break;
-		case 2:
+		case "N":
 			// Unsubmit Manuscript
 			unsubmitManuscriptAuthor(count, input, theUserList, theConferenceList, tempAuthor, theUser, theConference);
 			break;
-		case 3:
-			// Back to previous menu.
-			//myTerminalUI.selectRoleMenu(theUserList, theConferenceList);
+		case "S":
+			// Submit Manuscript
+			submitManuscript(theUserList, theConferenceList, theUser, theConference);
 			break;
-		case 4:
+		case "B":
+			// Back to previous menu.
+			break;
+		case "E":
 			exit();
 			break;
 		default:
@@ -79,6 +86,24 @@ public class AuthorMenu implements Serializable {
 		}
 		return hasExited;
 		
+	}
+	
+	public void submitManuscript(List<User> theUserList, List<Conference> theConferenceList, User theUser, Conference theConference) {
+		System.out.println("Enter the path to the manuscript: ");
+		prompt();
+		myUserInput.nextLine(); // System.in newline buffer
+		String path = myUserInput.nextLine();
+		System.out.println("Enter the title of the manuscript: ");
+		prompt();
+		String title = myUserInput.nextLine();
+		if (theUser.submitManuscript(path, title, theUser, theConference)) {
+			System.out.println();
+			System.out.println(title + " submitted to Conference " + theConference.getName());
+		} else {
+			System.out.println();
+			System.out.println("The deadline for manuscript submission has passed.\n");
+		}
+		initialAuthorMenu(theUserList, theConferenceList, theUser, theConference);
 	}
 	
 	/**

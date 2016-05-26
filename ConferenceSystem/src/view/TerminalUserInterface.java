@@ -194,29 +194,35 @@ public class TerminalUserInterface implements Serializable {
 	 * @param theConferenceList a conference list
 	 */
 	public void selectRoleMenu(List<User> theUserList, List<Conference> theConferenceList) {
+		boolean exited;
 		header();
-		System.out.println("Select an option:\nM. Submit Manuscript");
+		System.out.println("Select an option:\nA. Author Options");
 		printCurrentRoles();
 		System.out.println("B. Back\nE. Exit");
-
+		
 		prompt();
 		String roleChoiceInput = myUserInput.next();
 		switch (roleChoiceInput.toUpperCase()) {
 		case "A":		
-			if (myCurrentUser.findAuthorRole() != null) {
-				boolean exited = false;
+//			if (myCurrentUser.findAuthorRole() != null) {
+//				boolean exited = false;
+//				exited = myAuthorMenu.initialAuthorMenu(theUserList, theConferenceList, 
+//						myCurrentUser, myCurrentConference);
+//				
+//				if (!exited) {
+//					selectRoleMenu(theUserList, theConferenceList);
+//				}
+//			}
+//			else {
+//				System.out.println("Invalid selection, returning to last menu");
+//				selectRoleMenu(theUserList, theConferenceList);
+//			}
+				exited = false;
 				exited = myAuthorMenu.initialAuthorMenu(theUserList, theConferenceList, 
 						myCurrentUser, myCurrentConference);
-				
 				if (!exited) {
 					selectRoleMenu(theUserList, theConferenceList);
 				}
-			}
-			else {
-				System.out.println("Invalid selection, returning to last menu");
-				selectRoleMenu(theUserList, theConferenceList);
-			}
-			
 			break;
 		case "E":
 			exit();
@@ -227,7 +233,7 @@ public class TerminalUserInterface implements Serializable {
 		case "S":
 
 			if (myCurrentUser.findSubprogramChairRole() != null) {
-				boolean exited = false;
+				exited = false;
 				exited = mySubprogramChairMenu.initialSubprogramChairMenu(theUserList, theConferenceList, 
 						myCurrentUser, myCurrentConference);
 
@@ -240,12 +246,12 @@ public class TerminalUserInterface implements Serializable {
 				selectRoleMenu(theUserList, theConferenceList);
 			}
 			break;
-		case "M":
-			submitManuscript(theUserList, theConferenceList);
-			break;
+//		case "M":
+//			submitManuscript(theUserList, theConferenceList);
+//			break;
 		case "P":						
 			if (myCurrentUser.findProgramChairRole() != null) {
-				boolean exited = false;
+				exited = false;
 				exited = myProgramChairMenu.initialProgramChairMenu(theUserList, theConferenceList, 
 						myCurrentUser, myCurrentConference);
 
@@ -259,7 +265,7 @@ public class TerminalUserInterface implements Serializable {
 			break;
 		case "R":
 			if (myCurrentUser.findReviewerRole() != null) {
-				boolean exited = false;
+				exited = false;
 				exited = myReviewerMenu.initialReviewerMenu(theUserList, theConferenceList, 
 						myCurrentUser, myCurrentConference);
 
@@ -305,10 +311,10 @@ public class TerminalUserInterface implements Serializable {
 	 */
 	public void printCurrentRoles() {
 		for (Roles r : myCurrentUser.getMyRoles()) {
-			if (r.getClass().getSimpleName().equals("Author")
-					&& r.getConference().getName().equals(myCurrentConference.getName())) {
-				System.out.println("A. Author Options");
-			}
+//			if (r.getClass().getSimpleName().equals("Author")
+//					&& r.getConference().getName().equals(myCurrentConference.getName())) {
+//				System.out.println("A. Author Options");
+//			}
 			if (r.getClass().getSimpleName().equals("ProgramChair")
 					&& r.getConference().getName().equals(myCurrentConference.getName())) {
 				System.out.println("P. Program Chair Options");
@@ -331,23 +337,6 @@ public class TerminalUserInterface implements Serializable {
 		System.out.println("Conference: " + myCurrentConference.getName());
 		System.out.println("_______________________________________________________");
 		System.out.println();
-	}
-	
-	public void submitManuscript(List<User> theUserList, List<Conference> theConferenceList) {
-		System.out.println("Enter the path to the manuscript: ");
-		prompt();
-		String path = myUserInput.next();
-		System.out.println("Enter the title of the manuscript: ");
-		prompt();
-		String title = myUserInput.next();
-		if (myCurrentUser.submitManuscript(path, title, myCurrentUser, myCurrentConference)) {
-			System.out.println();
-			System.out.println(title + " submitted to Conference " + myCurrentConference.getName());
-		} else {
-			System.out.println();
-			System.out.println("The deadline for manuscript submission has passed.\n");
-		}
-		selectRoleMenu(theUserList, theConferenceList);
 	}
 	
 	private boolean setup() {
