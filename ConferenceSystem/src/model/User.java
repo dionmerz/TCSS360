@@ -21,62 +21,24 @@ import java.util.List;
  */
 public class User implements Serializable {
 	
-	/**
-	 * Serial identification number 
-	 */
 	private static final long serialVersionUID = -5949934155104871686L;
 
-	/**
-	 * User name.
-	 */
 	private String myName;
-	
-	/**
-	 * User login name.
-	 */
 	private String myLoginName;
-	
-	/**
-	 * User email.
-	 */
 	private String myEmail;
 	
-	/**
-	 * User's submit manuscript.
-	 */
 	private List<Manuscript> myAuthoredManuscripts;
-	
-	/**
-	 * User's roles list.
-	 */
-	private List<Roles> myRoles;
-	
-	/**
-	 * List of manuscript to review for user.
-	 */
 	private List<Manuscript> myManuscriptsToReview;
-	
-	/**
-	 * List of manuscript assigned by program chair from subprogram chair.
-	 */
 	private List<Manuscript> mySubProgManuscripts;
 	
-	/**
-	 * List of reviews that user submitted.
-	 */
+	private List<Roles> myRoles;
+	
 	private List<ReviewForm> myReviews;
 	
 	/**
-	 * List of reviewers for user. 
-	 */
-	//private List<User> myReviewers;
-	//private List<Conference> mySubprogChairsConferences;
-	
-	/**
-	 * Constructor for user object using minimum arguments for instantiation.
-	 * @param theName User name.
-	 * @param theLoginName User login name.
-	 * @param theEmail User email.
+	 * @param theName The full name of the user.
+	 * @param theLoginName The login name of the user.
+	 * @param theEmail The user's email address.
 	 */
 	public User(String theName, String theLoginName, String theEmail) {
 		super();
@@ -91,7 +53,7 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 * Constructor for user object using minimum arguments for instantiation.
+	 * Constructor only for use in testing.
 	 * @param theName User name.
 	 * @param theLoginName User login name.
 	 * @param theEmail User email.
@@ -110,128 +72,128 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * Getter for user's name.
-	 * @return user's name.
+	 * Getter for the user's full name.
+	 * @return The user's full name.
 	 */
 	public String getMyName() {
 		return myName;
 	}
 
 	/**
-	 * Setter for user's name.
-	 * @param theName user's name
+	 * Setter for user's full name.
+	 * @param theName The user's full name.
 	 */
 	public void setMyName(String theName) {
 		this.myName = theName;
 	}
 
 	/**
-	 * Getter for user's login name.
-	 * @return user's login name.
+	 * Getter for the user's login name.
+	 * @return The user's login name.
 	 */
 	public String getMyLoginName() {
 		return myLoginName;
 	}
 
 	/**
-	 * Setter for user's login name.
-	 * @param theLoginName user's login name.
+	 * Setter for the user's login name.
+	 * @param theLoginName The user's login name.
 	 */
 	public void setMyLoginName(String theLoginName) {
 		this.myLoginName = theLoginName;
 	}
 
 	/**
-	 * Getter for user's email. 
-	 * @return 
+	 * Getter for the user's email address. 
+	 * @return the user's email address.
 	 */
 	public String getMyEmail() {
 		return myEmail;
 	}
 
 	/**
-	 * Setter for emial
-	 * @param theEmail
+	 * Setter for the user's email address.
+	 * @param theEmail The user's email address.
 	 */
 	public void setMyEmail(String theEmail) {
 		this.myEmail = theEmail;
 	}
 
 	/**
-	 * Gets a list of manuscripts
-	 * @return manuscripts
+	 * Getter for the list of manuscripts authored by the user.
+	 * @return manuscripts The list of manuscripts authored by the user.
 	 */
 	public List<Manuscript> getMyManuscripts() {
 		return myAuthoredManuscripts;
 	}
 
 	/**
-	 * Adds a manuscript
-	 * @param theManuscript
+	 * Adds a manuscript to the list of manuscripts authored by the user.
+	 * @param theManuscript The manuscript to add to the list of manuscripts authored by the user.
 	 */
 	public void addMyManuscript(Manuscript theManuscript) {
 		this.myAuthoredManuscripts.add(theManuscript);
 	}
 
 	/**
-	 * Removes a manuscript
-	 * @param theManuscript
+	 * Removes a manuscript from the list of manuscripts authored by the user.
+	 * @param theManuscript The manuscript to remove from the list of manuscripts authored by the user.
 	 */
 	public void removeManuscript(Manuscript theManuscript) {
 		this.myAuthoredManuscripts.remove(theManuscript);
 	}
 	
 	/**
-	 * Gets a list of Subprogram Chairs
-	 * @return Subprogram Chairs
+	 * Getter for the list of manuscripts assigned by a program chair.
+	 * @return mySubProgManuscripts A list of all manuscripts assigned by a program chair.
 	 */
 	public List<Manuscript> getSubProgManuscript() {
 		return this.mySubProgManuscripts;
 	}
 	
 	/**
-	 * Adds a manuscript the the Subprogram Chairs manuscript list.
-	 * @param theManuscript
+	 * Adds a manuscript to the Subprogram Chairs manuscript list.
+	 * @param theManuscript The manuscript to be added to the Subprogram Chairs manuscript list.
 	 */
 	public void addSubProgManuscript(Manuscript theManuscript) {
 		this.mySubProgManuscripts.add(theManuscript);
 	}
 	
 	/**
-	 * Gets a list of roles.
-	 * @return roles
+	 * Getter for the list of all roles this user contains.
+	 * @return roles the list of all roles this user contains.
 	 */
 	public List<Roles> getMyRoles() {
 		return myRoles;
 	}
 
 	/**
-	 * Adds a role 
-	 * @param theRole
+	 * Adds a role to this user's list of roles.
+	 * @param theRole the role to add to this users list of roles.
 	 */
 	public void addMyRole(Roles theRole) {
 		this.myRoles.add(theRole);
 	}
 	
 	/**
-	 * Removes a role
-	 * @param theRole
+	 * Removes a role from this user's list of roles.
+	 * @param theRole The role to remove from this user's list of roles.
 	 */
 	public void removeMyRole(Roles theRole) {
 		this.myRoles.remove(theRole);
 	}
 
 	/**
-	 * Gets a list of manuscripts to review
-	 * @return manuscripts to review
+	 * Getter for the list of manuscripts this user has been assigned to review.
+	 * @return myManuscriptsToReview the list of manuscripts a user has been assigned to review.
 	 */
 	public List<Manuscript> getMyManuscriptsToReview() {
 		return myManuscriptsToReview;
 	}
 
 	/**
-	 * Adds a manuscript to a list of manuscripts to review
-	 * @param theManuscript
+	 * Adds a manuscript to the list of manuscripts this user has been assigned to review.
+	 * @param theManuscript The manuscript to add to the list of manuscripts a user has been assigned to review.
 	 */
 	public void addMyManuscriptsToReview(Manuscript theManuscript) {
 		this.myManuscriptsToReview.add(theManuscript);
@@ -246,7 +208,7 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 * Gets a list of my review forms
+	 * Getter for the list of review forms submitted by this user.
 	 * @return
 	 */
 	public List<ReviewForm> getMyReviews() {
@@ -254,7 +216,7 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 * Adds a review form to list
+	 * Adds a review form to the list of review forms submitted by this user.
 	 * @param theReview
 	 */
 	public void addReview(ReviewForm theReview) {
@@ -262,7 +224,7 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 * Removes a review form 
+	 * Removes a review form from the list of review forms submitted by this user.
 	 * @param theReview
 	 */
 	public void removeReview(ReviewForm theReview) {
@@ -270,11 +232,11 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 * Submits a manuscript to a conference.
-	 * @param thePath file path
-	 * @param theTitle title 
-	 * @param currentUser current user
-	 * @param currentConference conference
+	 * Submits a manuscript to a conference and uploads the file.
+	 * @param thePath Absolute path of the manuscript to be submitted.
+	 * @param theTitle The title of the manuscript to be submitted.
+	 * @param currentUser The author of the manuscript to be submitted.
+	 * @param currentConference The conference the manuscript will be submitted to.
 	 */
 	public boolean submitManuscript(final String thePath, String theTitle, User currentUser, Conference currentConference) {
 		boolean isAllowed = false;
@@ -311,8 +273,8 @@ public class User implements Serializable {
 	}
 
 	/**
-	 * Finds and returns author role
-	 * @return author
+	 * Finds and returns this user's author role if it exists.
+	 * @return author This user's Author role if found, null otherwise.
 	 */
 	public Author findAuthorRole() {
 		Author AuthorRole = null;
@@ -325,8 +287,8 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 * Finds and returns the Program Chari role
-	 * @return program chair 
+	 * Finds and returns this user's Program Chair role if it exists.
+	 * @return program chair This user's ProgramChair role if found, null otherwise.
 	 */
 	public ProgramChair findProgramChairRole() {
 		ProgramChair ProgramChairRole = null;
@@ -339,8 +301,8 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 * Finds and returns the Subprogram Chair role. 
-	 * @return Subprogram Chair
+	 * Finds and returns this user's Subprogram Chair role if it exists.
+	 * @return Subprogram Chair This user's SubprogramChair role if found, null otherwise.
 	 */
 	public SubprogramChair findSubprogramChairRole() {
 		SubprogramChair SubprogramChairRole = null;
@@ -353,8 +315,8 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 * Finds and returns the reviewer role
-	 * @return a reviewer
+	 * Finds and returns this user's reviewer role if it exists.
+	 * @return a reviewer This user's Reviewer role if found, null otherwise.
 	 */
 	public Reviewer findReviewerRole() {
 		Reviewer ReviewerRole = null;
@@ -368,9 +330,9 @@ public class User implements Serializable {
 	
 	/**
 	 * Overrides the object equals method. Checks to see if the
-	 * user has the same login.
-	 * @param theOther object
-	 * @return true or false
+	 * user has the same login name.
+	 * @param theOther Object to be compared with
+	 * @return equal true if both objects are the same, false otherwise.
 	 */
 	@Override
 	public boolean equals(Object theOther) {
@@ -390,12 +352,12 @@ public class User implements Serializable {
 	
 	/**
 	 * This method checks to see if the user has a specified role in a
-	 * conference.
+	 * specified conference.
 	 * 
-	 * @param theConference a conference
-	 * @param theRole a role
-	 * @param theUser a user
-	 * @return true or false
+	 * @param theConference The specified conference the role has permissions for.
+	 * @param theRole The specified role to check for.
+	 * @param theUser The user to check for the specified role in.
+	 * @return result true if the user has the specified role in the specified conference, false otherwise.
 	 */
 	public boolean hasRole(Conference theConference, Roles theRole, User theUser) {
 		boolean result = false;
