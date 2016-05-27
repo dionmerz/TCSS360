@@ -14,8 +14,8 @@ import org.junit.runners.Suite;
 	ReviewerTest.class,
 	ReviewFormTest.class,
 	SubprogramChairTest.class,
-	UserTest.class
-	
+	UserTest.class,
+	RolesTest.class
 })
 public class ConferenceSuiteTest {
 

@@ -50,105 +50,138 @@ public class UserTest {
 	}
 
 	@Test
-	public void testName() {
-		assertTrue(usr.getMyName().equals("TempUser"));
-		usr.setMyName("newUserName");
-		assertTrue(usr.getMyName().equals("newUserName"));
-	}
-	
-	@Test
-	public void testLoginName() {
-		assertTrue(usr.getMyLoginName().equals("UserLogin"));
-		usr.setMyLoginName("newLoginName");
-		assertTrue(usr.getMyLoginName().equals("newLoginName"));
+	public void testGetMyName() {
+		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testEmail() {
-		assertTrue(usr.getMyEmail().equals("User@email.com"));
-		usr.setMyEmail("newEmail");
-		assertTrue(usr.getMyEmail().equals("newEmail"));
+	public void testSetMyName() {
+		fail("Not yet implemented");
 	}
-	
-	@Test 
-	public void testAuthoredManuscripts() {
-		assertEquals(usr.getMyManuscripts().size(),0);
-		usr.addMyManuscript((Manuscript)script1);
-		usr.addMyManuscript((Manuscript)script2);
-		assertEquals(usr.getMyManuscripts().size(), 2);
-		assertTrue(usr.getMyManuscripts().get(0).getPath().equals("test.txt"));
-		assertTrue(usr.getMyManuscripts().get(1).getPath().equals("test2.txt"));
+
+	@Test
+	public void testGetMyLoginName() {
+		fail("Not yet implemented");
 	}
-	
-	@Test 
-	public void testSubProgManuscripts() {
-		assertEquals(usr.getSubProgManuscript().size(),0);
-		usr.addSubProgManuscript((Manuscript)script1);
-		usr.addSubProgManuscript((Manuscript)script2);
-		assertEquals(usr.getSubProgManuscript().size(), 2);
-		assertTrue(usr.getSubProgManuscript().get(0).getPath().equals("test.txt"));
-		assertTrue(usr.getSubProgManuscript().get(1).getPath().equals("test2.txt"));
+
+	@Test
+	public void testSetMyLoginName() {
+		fail("Not yet implemented");
 	}
-	
-	@Test 
-	public void testReviews() {
-		assertEquals(usr.getMyReviews().size(),0);
-		usr.addReview((ReviewForm) script3);
-		usr.addReview((ReviewForm) script4);
-		assertEquals(usr.getMyReviews().size(), 2);
-		assertTrue(usr.getMyReviews().get(0).getPath().equals("test3.txt"));
-		assertTrue(usr.getMyReviews().get(1).getPath().equals("test4.txt"));
+
+	@Test
+	public void testGetMyEmail() {
+		fail("Not yet implemented");
 	}
-	
+
+	@Test
+	public void testSetMyEmail() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testGetMyManuscripts() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testAddMyManuscript() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testRemoveManuscript() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testGetSubProgManuscript() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testAddSubProgManuscript() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testGetMyRoles() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testAddMyRole() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testRemoveMyRole() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testGetMyManuscriptsToReview() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testAddMyManuscriptsToReview() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testRemoveMyManuscriptsToReview() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testGetMyReviews() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testAddReview() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testRemoveReview() {
+		fail("Not yet implemented");
+	}
+
 	@Test
 	public void testSubmitManuscript() {
-		usr.addMyManuscript((Manuscript)script1);
-		usr.addMyManuscript((Manuscript)script2);
-		assertEquals(usr.getMyManuscripts().get(0).getStatus(), Status.SUBMITTED);
-		usr.submitManuscript("submitManuscript.txt", "SUBMITMANUSCRITPT", usr, conf);
-		assertEquals(usr.getMyManuscripts().size(), 3);
+		fail("Not yet implemented");
 	}
-	
+
 	@Test
 	public void testFindAuthorRole() {
-		User user  = new User("TempAuthor", "UserLogin", "User@email.com");
-		Author author = new Author(conf);
-		user.addMyRole(author);
-		assertEquals(user.findAuthorRole(), author);
+		fail("Not yet implemented");
 	}
-	
+
 	@Test
-	public void testFindProgramChariRole() {
-		User user  = new User("TempAuthor", "UserLogin", "User@email.com");
-		ProgramChair programchair = new ProgramChair(conf);
-		user.addMyRole(programchair);
-		assertEquals(user.findProgramChairRole(), programchair);
+	public void testFindProgramChairRole() {
+		fail("Not yet implemented");
 	}
-	
+
 	@Test
-	public void testFindSubProgramChairRole() {
-		User user  = new User("TempAuthor", "UserLogin", "User@email.com");
-		SubprogramChair subprog = new SubprogramChair(conf);
-		user.addMyRole(subprog);
-		assertEquals(user.findSubprogramChairRole(), subprog);
+	public void testFindSubprogramChairRole() {
+		fail("Not yet implemented");
 	}
-	
+
 	@Test
 	public void testFindReviewerRole() {
-		User user  = new User("TempAuthor", "UserLogin", "User@email.com");
-		Reviewer reviewer = new Reviewer(conf);
-		user.addMyRole(reviewer);
-		assertEquals(user.findReviewerRole(), reviewer);
+		fail("Not yet implemented");
 	}
-	
+
 	@Test
-	public void testEquals() {
-		User temp = new User("TempRev1", "UserLogin", "User@email.com");
-		User temp2 = new User("TempRev3", "UserLogin3", "User@email.com3");
-		assertTrue(rev1.equals(rev1)); 
-		assertTrue(rev1.equals(temp));
-		assertFalse(rev1.equals(temp2));
-		assertFalse(rev1.equals(null));
+	public void testEqualsObject() {
+		fail("Not yet implemented");
 	}
-	
+
+	@Test
+	public void testHasRole() {
+		fail("Not yet implemented");
+	}
+
 }
