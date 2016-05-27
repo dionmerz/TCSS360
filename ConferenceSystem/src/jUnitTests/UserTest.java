@@ -17,71 +17,111 @@ import model.SubprogramChair;
 import model.User;
 import model.Manuscript.Status;
 
+/**
+ * Tests all non constructor methods of the User class.
+ * @author Adam Marr
+ *
+ */
 public class UserTest {
-	private Paper script1;
-	private Paper script2;
-	private Paper script3;
-	private Paper script4;
-	private User usr;
-	private User rev1;
-	private User rev2;
-	private Reviewer reviewer1;
-	private Reviewer reviewer2;
-	private Conference conf;
+
+	private User testUser;
+	private User testUser2;
+
+	private Conference testConference1;
 	
+	Manuscript testManuscript;
+	Manuscript testManuscript2;
+	Manuscript testManuscript3;
 
 	@Before
 	public void setUp() throws Exception {
-		new ArrayList<Conference>();
-		script1 = new Manuscript("test.txt", "TestAuthor", "SubmitDate", "TestTitle1");
-		script2 = new Manuscript("test2.txt", "TestAuthor", "SubmitDate", "TestTitle2");
-		usr  = new User("TempUser", "UserLogin", "User@email.com");
-		conf = new Conference("Conf1", usr, "start", "stop", "PDeadline", "RDeadline", 10, 10);
-		conf.addManuscript((Manuscript) script1);
-		rev1  = new User("TempRev1", "UserLogin", "User@email.com");
-		rev2 = new User("TempRev2", "UserLogin", "User@email.com");
-		reviewer1 = new Reviewer(conf);
-		reviewer2 = new Reviewer(conf);
-		rev1.addMyRole(reviewer1);
-		rev2.addMyRole(reviewer2);
-		script3 = new ReviewForm("test3.txt", "TestAuthor", "SubmitDate", "TestTitle1", rev1);
-		script4 = new ReviewForm("test4.txt", "TestAuthor", "SubmitDate", "TestTitle2", rev2);
+		testConference1 = new Conference("Conf1", testUser, "start", "stop", "PDeadline", "RDeadline", 10, 10);
+		
+		testUser = new User("Ted Testsworth", "BigTed", "TedsAddress@gmail.com");
+		testUser2 = new User("Fred Testsworth", "FiredUpFred", "FredsAddress@gmail.com");
+		
+		testManuscript = new Manuscript("source path 1", testUser.getMyName(), "Entry date", "How to Find Bugs in C# Code for Dummies");
+		testManuscript2 = new Manuscript("source path 2", testUser.getMyName(), "Entry date", "How to Find Bugs in C++ Code for Dummies");
+		testManuscript3 = new Manuscript("source path 3", testUser.getMyName(), "Entry date", "How to Find Bugs in Java Code for Dummies");
+		
 		
 	}
 
+	/**
+	 * Tests the getMyName getter to make sure it returns the expected value.
+	 */
 	@Test
 	public void testGetMyName() {
-		fail("Not yet implemented");
+		assertEquals(testUser.getMyName(), "Ted Testsworth");
+		assertEquals(testUser2.getMyName(), "Fred Testsworth");
 	}
 
+
+	/**
+	 * Tests the setMyName setter to make sure it changes the name field as expected.
+	 */
 	@Test
 	public void testSetMyName() {
-		fail("Not yet implemented");
+		assertEquals(testUser.getMyName(), "Ted Testsworth");
+		testUser.setMyName("Teddie Testsworth");
+		assertEquals(testUser.getMyName(), "Teddie Testsworth");
 	}
 
+	/**
+	 * Tests the getMyLoginName setter to make sure it returns the expected value.
+	 */ 
 	@Test
 	public void testGetMyLoginName() {
-		fail("Not yet implemented");
+		assertEquals(testUser.getMyLoginName(), "BigTed");
+		assertEquals(testUser2.getMyLoginName(), "FiredUpFred");
 	}
 
+	/**
+	 * Tests the setMyLoginName setter to make sure it changes the login name field as expected.
+	 */
 	@Test
 	public void testSetMyLoginName() {
-		fail("Not yet implemented");
+		assertEquals(testUser2.getMyLoginName(), "FiredUpFred");
+		testUser2.setMyLoginName("FreeManFred");
+		assertEquals(testUser2.getMyLoginName(), "FreeManFred");
 	}
 
+	/**
+	 * Tests the getMyEmail getter to make sure it returns the expected value.
+	 */
 	@Test
 	public void testGetMyEmail() {
-		fail("Not yet implemented");
+		assertEquals(testUser.getMyEmail(), "TedsAddress@gmail.com");
+		assertEquals(testUser2.getMyEmail(), "FredsAddress@gmail.com");
 	}
 
+	/**
+	 * Tests the setMyEmail setter to make sure it changes the email field as expected.
+	 */
 	@Test
 	public void testSetMyEmail() {
-		fail("Not yet implemented");
+		assertEquals(testUser.getMyEmail(), "TedsAddress@gmail.com");
+		testUser.setMyEmail("TedsNewAddress@gmail.com");
+		assertEquals(testUser.getMyEmail(), "TedsNewAddress@gmail.com");
 	}
 
+	/**
+	 * Tests the getMyManuscripts field to make sure it correctly returns a list of all manuscripts authored by the user.
+	 * Tests three distinct partitions. A list with no items, a list with one item, and a list with 2 items.
+	 */
 	@Test
 	public void testGetMyManuscripts() {
-		fail("Not yet implemented");
+		assertEquals(testUser.getMyManuscripts().size() , 0);
+		
+		testUser.addMyManuscript(testManuscript);
+		assertEquals(testUser.getMyManuscripts().size() , 1);
+		assertEquals(testUser.getMyManuscripts().get(0) , testManuscript);
+		
+		
+		testUser.addMyManuscript(testManuscript2);
+		assertEquals(testUser.getMyManuscripts().size() , 2);
+		assertEquals(testUser.getMyManuscripts().get(0) , testManuscript);
+		assertEquals(testUser.getMyManuscripts().get(1) , testManuscript2);
 	}
 
 	@Test
