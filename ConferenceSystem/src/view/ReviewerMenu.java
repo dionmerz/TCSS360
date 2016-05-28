@@ -10,11 +10,8 @@ import model.Reviewer;
 import model.User;
 
 public class ReviewerMenu implements Serializable  {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -8912679648268928423L;
-	
 	private transient Scanner myUserInput;
 	private boolean hasExited;
 	

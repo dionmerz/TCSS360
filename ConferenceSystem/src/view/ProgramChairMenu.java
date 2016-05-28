@@ -12,6 +12,12 @@ import model.RecommendationForm;
 import model.User;
 import model.Manuscript.Status;
 
+/**
+ * This class is a sub menu of the user interface which carries 
+ * program chair menu options. 
+ * @author Andrew Merz, Adam Marr, Bernabe Guzman, Bincheng Li
+ * @version 1.0 5/27/2016
+ */
 public class ProgramChairMenu implements Serializable{
 	
 	private static final long serialVersionUID = 3967503335206776162L;
@@ -28,7 +34,6 @@ public class ProgramChairMenu implements Serializable{
 	
 	/**
 	 * Program Chair UI menu. Runs a logical finite state machine with Program Chair options. 
-	 * 
 	 * @param theFinishedFlag the login flag
 	 * @param theExitFlag the exit flag
 	 * @param theUserList a user list
@@ -131,8 +136,8 @@ public class ProgramChairMenu implements Serializable{
 		}
 		promptSymbol();
 		int manuscriptIndex = myUserConsoleInput.nextInt();
-		List<Manuscript> recomendedList = theUser.findProgramChairRole().getListOfManuscriptsWithRecommendations(theConference);
-		Manuscript selectedManuscript = recomendedList.get(manuscriptIndex - 1);
+		List<Manuscript> recommendedList = theUser.findProgramChairRole().getListOfManuscriptsWithRecommendations(theConference);
+		Manuscript selectedManuscript = recommendedList.get(manuscriptIndex - 1);
 
 		System.out.println("1. Accept");
 		System.out.println("2. Reject");

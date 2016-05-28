@@ -46,16 +46,18 @@ public class ProgramChair extends Roles implements Serializable {
 	}
 	
 	/**
-	 * 
+	 * Returns a list of manuscripts with recommendations. 
+	 * @param theCurrentConference
+	 * @return a list of manuscripts with recommendations
 	 */
 	public List<Manuscript> getListOfManuscriptsWithRecommendations(Conference theCurrentConference) {
-		List<Manuscript> reccomendedList = new ArrayList<Manuscript>();
+		List<Manuscript> reccommendedList = new ArrayList<Manuscript>();
 		for (Manuscript m : theCurrentConference.getManuscripts()) {
 			if (m.getStatus() == Status.RECOMMENDED) {
-				reccomendedList.add(m);
+				reccommendedList.add(m);
 			}
 		}
-		return reccomendedList;
+		return reccommendedList;
 	}
 	
 	/**
