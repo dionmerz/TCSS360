@@ -1,13 +1,11 @@
 package view;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import model.Conference;
 import model.Manuscript;
-import model.Reviewer;
 import model.SubprogramChair;
 import model.User;
 
@@ -94,14 +92,8 @@ public class SubprogramChairMenu implements Serializable  {
 			promptSymbol();
 			int subprogramChairManuscriptIndex = myUserInput.nextInt();
 			Manuscript selectedManuscript = theCurrentUser.getSubProgManuscript().get(subprogramChairManuscriptIndex - 1);
-			ArrayList<User> reviewerList = new ArrayList<User>();
-
-			for (User u : theUserList) {
-				Reviewer tempRev = u.findReviewerRole();
-				if (tempRev != null) {
-					reviewerList.add(u);
-				}
-			}
+			List<User> reviewerList = theCurrentUser.findSubprogramChairRole().getListOfReviewersFromListOfUsers(theUserList);
+			
 			if (reviewerList.isEmpty()) {
 				System.out.println("No Reviewers to assign for Conference: " + theCurrentConference.getName());
 			} else {
