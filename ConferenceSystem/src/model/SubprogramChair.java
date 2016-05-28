@@ -60,4 +60,16 @@ public class SubprogramChair extends Roles implements Serializable {
 		theCurrentConference.removeManuscript(theManuscript); // Remove the manuscript and add it back on.
 		theCurrentConference.addManuscript(theManuscript);
 	}		
+	
+	public List<User> getListOfReviewersFromListOfUsers(List<User> theUserList) {
+		List<User> reviewerList = new ArrayList<User>();
+		for (User u : theUserList) {
+			Reviewer tempRev = u.findReviewerRole();
+			if (tempRev != null) {
+				reviewerList.add(u);
+			}
+		}
+			return reviewerList;
+	}
+	
 }
