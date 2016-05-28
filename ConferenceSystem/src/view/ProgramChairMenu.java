@@ -14,21 +14,20 @@ import model.Manuscript.Status;
 
 public class ProgramChairMenu implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3967503335206776162L;
-	private transient Scanner myUserInput;
-	private boolean hasExited;
+	private transient Scanner myUserConsoleInput;
+	private boolean hasExitedProgramChairMenu;
 
+	/**
+	 * @param theUserInput The user input from the console.
+	 */
 	public ProgramChairMenu(Scanner theUserInput) {
-		myUserInput = theUserInput;
-		hasExited = false;
+		myUserConsoleInput = theUserInput;
+		hasExitedProgramChairMenu = false;
 	}
 	
-	
 	/**
-	 * Program Chair UI menu.
+	 * Program Chair UI menu. Runs a logical finite state machine with Program Chair options. 
 	 * 
 	 * @param theFinishedFlag the login flag
 	 * @param theExitFlag the exit flag
@@ -36,8 +35,8 @@ public class ProgramChairMenu implements Serializable{
 	 * @param theConferenceList a conference list
 	 */
 	public boolean initialProgramChairMenu(List<User> theUserList, List<Conference> theConferenceList, User theUser, Conference theConference) {
-		header(theUser, theConference);
-		hasExited = false;
+		printProgramChairMenuHeader(theUser, theConference);
+		hasExitedProgramChairMenu = false;
 		System.out.println("Select an option: ");
 		System.out.println("1. View all manuscripts");
 		System.out.println("2. Reject/Accept Manuscript");
@@ -46,38 +45,33 @@ public class ProgramChairMenu implements Serializable{
 		System.out.println("5. Back");
 		System.out.println("6. Exit");
 		
-		if (myUserInput == null) {
-			myUserInput = new Scanner(System.in);
+		if (myUserConsoleInput == null) {
+			myUserConsoleInput = new Scanner(System.in);
 		}
 
-		prompt();
-		int input = myUserInput.nextInt();
-		int count = 1;
-		ProgramChair tempProgramChair = theUser.findProgramChairRole();
+		promptSymbol();
+		int programChairMenuOption = myUserConsoleInput.nextInt();
+		ProgramChair currentProgramChair = theUser.findProgramChairRole();
 
-		switch (input) {
+		switch (programChairMenuOption) {
 		case 1:
-			header(theUser, theConference);
-			count = 1;
-			for (Manuscript m : theConference.getManuscripts()) { // view assigned manuscripts
-				System.out.println(count + ". " + m.getTitle());
-				count++;
-			}
+			printProgramChairMenuHeader(theUser, theConference);
+			printNumberedListOfProgramChairConferenceManuscripts(theConference);
 			initialProgramChairMenu(theUserList, theConferenceList, theUser, theConference);
 			break;
 		case 2:
-			header(theUser, theConference);
-			acceptOrRejectManuscript(count, theUserList, theConferenceList, tempProgramChair, theUser, theConference);
+			printProgramChairMenuHeader(theUser, theConference);
+			acceptOrRejectManuscript(theUserList, theConferenceList, currentProgramChair, theUser, theConference);
 			break;
 		case 3:
-			header(theUser, theConference);
+			printProgramChairMenuHeader(theUser, theConference);
 			viewAssignedSubProgManuscripts(theConference);
 			initialProgramChairMenu(theUserList, theConferenceList, theUser, theConference);
 			break;
 		case 4:
 			// print list of SPCs, pick manuscript
-			header(theUser, theConference);
-			viewAllAssignedSubprogramChairAndManuscript(count, theUserList, theConferenceList, tempProgramChair, theUser, theConference);
+			printProgramChairMenuHeader(theUser, theConference);
+			viewAllAssignedSubprogramChairAndManuscript(theUserList, theConferenceList, currentProgramChair, theUser, theConference);
 			break;
 		case 5:
 			// Back to previous menu
@@ -90,12 +84,12 @@ public class ProgramChairMenu implements Serializable{
 			initialProgramChairMenu(theUserList, theConferenceList, theUser, theConference);
 			break;
 		}
-		return hasExited;
+		return hasExitedProgramChairMenu;
 	}
-
 
 	/**
 	 * Prints a list of Subprogram chairs and assigned manuscripts.
+	 * @param theConferenceList
 	 */
 	public void viewAssignedSubProgManuscripts(Conference theConference) {	
 		System.out.println("\nSubprogam Chair and Assigned Manuscripts List: ");
@@ -120,51 +114,34 @@ public class ProgramChairMenu implements Serializable{
 	}
 	
 	/**
-	 * Program Chair accept or reject a manuscript.
-	 * 
+	 * Program Chair accept or reject a manuscript user interface menu.
 	 * @param count
 	 * @param theUserList
 	 * @param theConferenceList
 	 * @param tempProgramChair
 	 */
-	public void acceptOrRejectManuscript(int count, List<User> theUserList, List<Conference> theConferenceList,
-			ProgramChair tempProgramChair, User theUser, Conference theConference) {
+	public void acceptOrRejectManuscript( List<User> theUserList, List<Conference> theConferenceList,
+	    ProgramChair tempProgramChair, User theUser, Conference theConference) {
 		System.out.println("Choose a Manuscript to accept/reject:");
-		ArrayList<Manuscript> reccomendedList = new ArrayList<Manuscript>();
-		int total = 0;
-		for (Manuscript m : theConference.getManuscripts()) {
-
-			if (m.getStatus() == Status.RECOMMENDED) {
-				reccomendedList.add(m);
-				System.out.println(count + ". " + m.getTitle());
-				System.out.print("\tRecommendations: ");
-				for (RecommendationForm rf : m.getRecomFormList()) {
-					System.out.print(rf.getScore() + ", ");
-				}
-				System.out.println();
-				count++;
-				total++;
-			}
-		}
-
-		if (total == 0) {
+		boolean hasManuscripts = printNumberedListOfManuscriptsAndRecommendations(theConference);
+		if (!hasManuscripts) {
 			System.out.println("No Manuscripts");
 			System.out.println("");
 			initialProgramChairMenu(theUserList, theConferenceList, theUser, theConference);
-
 		}
-		prompt();
-		int input = myUserInput.nextInt();
-		Manuscript selectedManuscript = reccomendedList.get(input - 1);
+		promptSymbol();
+		int manuscriptIndex = myUserConsoleInput.nextInt();
+		List<Manuscript> recomendedList = theUser.findProgramChairRole().getListOfManuscriptsWithRecommendations(theConference);
+		Manuscript selectedManuscript = recomendedList.get(manuscriptIndex - 1);
 
 		System.out.println("1. Accept");
 		System.out.println("2. Reject");
 		System.out.println("3. Back");
 		System.out.println("4. Exit");
-		prompt();
-		input = myUserInput.nextInt();
+		promptSymbol();
+		int acceptOrRejectMenuOption = myUserConsoleInput.nextInt();
 
-		switch (input) {
+		switch (acceptOrRejectMenuOption) {
 		case 1:
 			tempProgramChair.acceptManuscript(selectedManuscript);
 			System.out.println(selectedManuscript.getTitle() + " by " + selectedManuscript.getAuthor() + " Accepted.");
@@ -183,66 +160,103 @@ public class ProgramChairMenu implements Serializable{
 			break;
 		}
 	}
-	
-	
+
 	/**
 	 * View all Subprogram Chairs and assigned manuscripts.
-	 * 
 	 * @param count
 	 * @param theUserList list of users
 	 * @param theConferenceList list of conferences
-	 * @param tempProgramChair Program Chair
+	 * @param theProgramChair Program Chair
 	 */
-	public void viewAllAssignedSubprogramChairAndManuscript(int count, List<User> theUserList,
-			List<Conference> theConferenceList, ProgramChair tempProgramChair, User theUser, Conference theConference) {
+	public void viewAllAssignedSubprogramChairAndManuscript(List<User> theUserList, List<Conference> theConferenceList, 
+			ProgramChair theProgramChair, User theUser, Conference theConference) {
 		System.out.println("\nSubProgram Chair List");
-		count = 1;
-		for (User sc : theConference.getSubProChairList()) {
-			System.out.println(count + ". " + sc.getMyName());
-			count++;
-		}
-
-		prompt();
-		int input = myUserInput.nextInt();
-		User selected = theConference.getSubProChairList().get(input - 1);
-		count = 1;
-		for (Manuscript m : theConference.getManuscripts()) { // view list
-																	// of
-																	// manuscripts
-																	// assigned
-			System.out.println(count + ". " + m.getTitle());
-			count++;
-		}
-		System.out.println("Select a manuscript to assign to " + selected.getMyName());
-		prompt();
-		input = myUserInput.nextInt();
-		Manuscript selectedManuscript = theConference.getManuscripts().get(input - 1);
-		ArrayList<Boolean> temp = new ArrayList<Boolean>();
-
-		temp = (ArrayList<Boolean>) tempProgramChair.assignSubProgManuscript(selected, selectedManuscript);
-
-		if (!temp.get(1)) {
+		printNumberedListOfSubprogramChairUsers(theConference);
+		promptSymbol();
+		int subprogamChairIndex = myUserConsoleInput.nextInt();
+		User selectedUser = theConference.getSubProChairList().get(subprogamChairIndex - 1);
+		printNumberedListOfProgramChairConferenceManuscripts(theConference);
+		System.out.println("Select a manuscript to assign to " + selectedUser.getMyName());
+		promptSymbol();
+		subprogamChairIndex = myUserConsoleInput.nextInt();
+		Manuscript selectedManuscript = theConference.getManuscripts().get(subprogamChairIndex - 1);
+		
+		ArrayList<Boolean> subprogramChairAllowedManuscript = new ArrayList<Boolean>();
+		subprogramChairAllowedManuscript = theProgramChair.assignSubProgManuscript(selectedUser, selectedManuscript);
+		if (!subprogramChairAllowedManuscript.get(1)) {
 			System.out.println("Cannot assign a manuscript to the author");
-		} else if (!temp.get(0)) {
-			System.out
-					.println("Failed to assign manuscript to " + selected.getMyName() + " because of manuscript limit");
+		} else if (!subprogramChairAllowedManuscript.get(0)) {
+			System.out.println("Failed to assign manuscript to " + selectedUser.getMyName() + " because of manuscript limit");
 		} else {
-			System.out.println(selectedManuscript.getTitle() + " assigned to " + selected.getMyName());
-			theUserList.remove(selected);
-			theUserList.add(selected);
+			System.out.println(selectedManuscript.getTitle() + " assigned to " + selectedUser.getMyName());
+			theUserList.remove(selectedUser);
+			theUserList.add(selectedUser);
 		}
 		initialProgramChairMenu(theUserList, theConferenceList, theUser, theConference);
 	}
+	
+	/**
+	 * Prints a list of manuscripts with recommendations.
+	 * @param theCurrentConference
+	 */
+	public boolean printNumberedListOfManuscriptsAndRecommendations(Conference theCurrentConference) {
+		int count = 1;
+		boolean hasManuscript = false;
+		//ArrayList<Manuscript> reccomendedList = new ArrayList<Manuscript>();
+		for (Manuscript m : theCurrentConference.getManuscripts()) {
+			if (m.getStatus() == Status.RECOMMENDED) {
+				//reccomendedList.add(m);
+				System.out.println(count + ". " + m.getTitle());
+				System.out.print("\tRecommendations: ");
+				for (RecommendationForm rf : m.getRecomFormList()) {
+					System.out.print(rf.getScore() + ", ");
+				}
+				System.out.println();
+				count++;
+				hasManuscript = true;
+			}
+		}
+		return hasManuscript;
+	}
 
+	/**
+	 * Prints a list of Subprogram Chair users in the conference that the Program Chair is assigned to. 
+	 * @param theCurrentConference
+	 */
+	public void printNumberedListOfSubprogramChairUsers(Conference theCurrentConference) {
+		int count = 1;
+		for (User sc : theCurrentConference.getSubProChairList()) {
+			System.out.println(count + ". " + sc.getMyName());
+			count++;
+		}
+	}
+	
+	/**
+	 * Prints a list of manuscripts in the conference that the Program Chair is assigned to. 
+	 * @param theCurrentConference
+	 */
+	public void printNumberedListOfProgramChairConferenceManuscripts(Conference theCurrentConference) {
+		int count = 1; 
+		for (Manuscript m : theCurrentConference.getManuscripts()) { // view assigned manuscripts
+			System.out.println(count + ". " + m.getTitle());
+			count++;
+		}
+	}
 	
 	/**
 	 * User input indicator
 	 */
-	public void prompt() {
+	public void promptSymbol() {
 		System.out.print(">> ");
 	}
 	
-	private void header(User theCurrentUser, Conference theCurrentConference) {
+	/**
+	 * Prints the Program Chairs Menu header containing program title, name of current user, role of current user,
+	 * and current conference.
+	 * @param theCurrentUser
+	 * @param theCurrentConference
+	 */
+	private void printProgramChairMenuHeader(User theCurrentUser, Conference theCurrentConference) {
 		System.out.println();
 		System.out.println("---Scientific Manuscripts Are Reviewed in Terminal---");
 		System.out.println("User: " + theCurrentUser.getMyName());
@@ -256,7 +270,6 @@ public class ProgramChairMenu implements Serializable{
 	 * UI exit menu
 	 */
 	public void exit() {
-		hasExited = true;
-				
+		hasExitedProgramChairMenu = true;			
 	}
 }

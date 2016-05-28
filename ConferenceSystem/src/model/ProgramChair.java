@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import model.Manuscript.Status;
 
@@ -28,17 +29,6 @@ public class ProgramChair extends Roles implements Serializable {
 	
 	}
 	
-//	/**
-//	 * Prints a list of manuscripts in program chair conference to the console.
-//	 */
-//	public void viewAllManuscripts(Conference currentConference) {	
-//		int count = 1;
-//		for (Manuscript m : currentConference.getManuscripts()) {
-//			System.out.println(count + ". " + m.getTitle());
-//			count++;
-//		}
-//	}
-	
 	/**
 	 * Changes the state of a manuscript to rejected.
 	 * @param theManuscript a manuscript
@@ -55,30 +45,18 @@ public class ProgramChair extends Roles implements Serializable {
 		theManuscript.setStatus(Status.ACCEPTED);	
 	}
 	
-//	/**
-//	 * Prints a list of Subprogram chairs and assigned manuscripts.
-//	 */
-//	public void viewAssignedSubProgManuscripts(Conference theConference) {	
-//		System.out.println("\nSubprogam Chair and Assigned Manuscripts List: ");
-//		if (!theConference.getSubProChairList().isEmpty()) {
-//			for(User u : theConference.getSubProChairList()) {
-//				if(!u.getSubProgManuscript().isEmpty()) {
-//					System.out.println(u.getMyName() + ":");
-//					for (Manuscript m: u.getSubProgManuscript()) {
-//						System.out.println("\t" + m.getTitle());
-//					}
-//				} 
-//				else 
-//				{
-//					System.out.println(u.getMyName() + " no manuscripts assigned yet.");
-//				}
-//			}
-//		}
-//		else {
-//			System.out.println("No Subprogram Chairs in this conference");
-//		}
-//		System.out.println();
-//	}
+	/**
+	 * 
+	 */
+	public List<Manuscript> getListOfManuscriptsWithRecommendations(Conference theCurrentConference) {
+		List<Manuscript> reccomendedList = new ArrayList<Manuscript>();
+		for (Manuscript m : theCurrentConference.getManuscripts()) {
+			if (m.getStatus() == Status.RECOMMENDED) {
+				reccomendedList.add(m);
+			}
+		}
+		return reccomendedList;
+	}
 	
 	/**
 	 * Assigns a Subprogram Chair a Manuscript to review. 
