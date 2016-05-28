@@ -9,6 +9,7 @@ import model.Manuscript.Status;
 /**
  * This class represents a Program Chair role. 
  * @author Andrew Merz, Adam Marr, Bernabe Guzman, Bincheng Li
+ * @author Bernabe Guzman maintained
  * @version 1.0 5/5/2016
  */
 public class ProgramChair extends Roles implements Serializable {
@@ -17,7 +18,6 @@ public class ProgramChair extends Roles implements Serializable {
 	 * Serial identification number
 	 */
 	private static final long serialVersionUID = 4555961000972804977L;
-	
 	private static final int MAX_PAPERS = 4;
 
 	/**

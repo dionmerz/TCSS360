@@ -14,8 +14,9 @@ import model.Manuscript.Status;
 
 /**
  * This class is a sub menu of the user interface which carries 
- * program chair menu options. 
+ * Program Chair menu options. 
  * @author Andrew Merz, Adam Marr, Bernabe Guzman, Bincheng Li
+ * @author Bernabe Guzman maintained
  * @version 1.0 5/27/2016
  */
 public class ProgramChairMenu implements Serializable{

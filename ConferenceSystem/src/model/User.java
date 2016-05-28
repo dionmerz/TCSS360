@@ -349,7 +349,6 @@ public class User implements Serializable {
 		return equal;
 	}
 	
-	
 	/**
 	 * This method checks to see if the user has a specified role in a
 	 * specified conference.

@@ -14,7 +14,6 @@ import model.SubprogramChair;
 import model.User;
 
 public class TerminalUserInterface implements Serializable {
-	
 
 	private static final long serialVersionUID = -5250437601882775308L;
 	
@@ -29,8 +28,6 @@ public class TerminalUserInterface implements Serializable {
 	private Conference myCurrentConference;
 	private boolean mySetupStatus;
 	
-
-	
 	public TerminalUserInterface() {
 		myUserInput = new Scanner(System.in);
 		myAuthorMenu = new AuthorMenu(myUserInput);
@@ -39,9 +36,7 @@ public class TerminalUserInterface implements Serializable {
 		myProgramChairMenu = new ProgramChairMenu(myUserInput);
 		myUserList = new ArrayList<User>();
 		myConferenceList = new ArrayList<Conference>();
-		mySetupStatus = false;
-		
-		
+		mySetupStatus = false;	
 	}
 	
 	public void loginRegisterMenu() {

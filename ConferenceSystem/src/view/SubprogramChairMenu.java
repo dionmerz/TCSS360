@@ -11,23 +11,29 @@ import model.Reviewer;
 import model.SubprogramChair;
 import model.User;
 
+/**
+ * This class is a sub menu of the user interface which carries 
+ * Subprogram Chair menu options. 
+ * @author Andrew Merz, Adam Marr, Bernabe Guzman, Bincheng Li
+ * @author Bernabe Guzman maintained
+ * @version 1.0 5/27/2016
+ */
 public class SubprogramChairMenu implements Serializable  {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -3353649043191045626L;
-	
 	private transient Scanner myUserInput;
-	private boolean hasExited;
+	private boolean hasExitedSubprogramChairMenu;
 	
+	/**
+	 * @param theUserInput The user input from the console.
+	 */
 	public SubprogramChairMenu(Scanner theUserInput) {
 		myUserInput = theUserInput;
-		hasExited = false;
+		hasExitedSubprogramChairMenu = false;
 	}
 	
 	/**
-	 * Subprogram chair UI menu.
-	 * 
+     * Subprogram Chair UI menu. Runs a logical finite state machine with Subprogram Chair options. 
 	 * @param theFinishedFlag login flag
 	 * @param theExitFlag exit flag
 	 * @param theUserList list of users
@@ -39,8 +45,8 @@ public class SubprogramChairMenu implements Serializable  {
 		if (myUserInput == null) {
 			myUserInput = new Scanner(System.in);
 		}
-		hasExited = false;
-		header(theCurrentUser, theCurrentConference);
+		hasExitedSubprogramChairMenu = false;
+		printSubprogramChairMenuHeader(theCurrentUser, theCurrentConference);
 		System.out.println("Select an option: ");
 		System.out.println("1. Assign a manuscript to a reviewer");
 		System.out.println("2. Submit a recommendation for a manuscript");
@@ -48,20 +54,18 @@ public class SubprogramChairMenu implements Serializable  {
 		System.out.println("4. Exit");
 
 		SubprogramChair tempSubprogramChair = theCurrentUser.findSubprogramChairRole();
-		int count = 1;
-		prompt();
-		int input = myUserInput.nextInt();
+		promptSymbol();
+		int subprogramChairMenuOption = myUserInput.nextInt();
 
-		switch (input) {
-
+		switch (subprogramChairMenuOption) {
 		case 1:
-			header(theCurrentUser, theCurrentConference);
-			assignManuscriptToReviewer(count, input, tempSubprogramChair, theUserList, theCurrentUser, theCurrentConference);
+			printSubprogramChairMenuHeader(theCurrentUser, theCurrentConference);
+			assignManuscriptToReviewer(tempSubprogramChair, theUserList, theCurrentUser, theCurrentConference);
 			initialSubprogramChairMenu(theUserList, theConferenceList, theCurrentUser, theCurrentConference);
 			break;
 		case 2:
-			header(theCurrentUser, theCurrentConference);
-			submitRecommendationForManuscript(count, input, tempSubprogramChair, theCurrentUser, theCurrentConference);
+			printSubprogramChairMenuHeader(theCurrentUser, theCurrentConference);
+			submitRecommendationForManuscript(tempSubprogramChair, theCurrentUser, theCurrentConference);
 			initialSubprogramChairMenu(theUserList, theConferenceList, theCurrentUser, theCurrentConference);
 			break;
 		case 3:
@@ -71,7 +75,7 @@ public class SubprogramChairMenu implements Serializable  {
 			exit();
 			break;
 		}
-		return hasExited;
+		return hasExitedSubprogramChairMenu;
 	}
 
 	/**
@@ -81,30 +85,23 @@ public class SubprogramChairMenu implements Serializable  {
 	 * @param input user input
 	 * @param tempSubprogramChair Subprogram Chair
 	 */
-	public void assignManuscriptToReviewer(int count, int input, SubprogramChair tempSubprogramChair, List<User> theUserList, 
+	public void assignManuscriptToReviewer(SubprogramChair tempSubprogramChair, List<User> theUserList, 
 			User theCurrentUser, Conference theCurrentConference) {
-
+		int count = 1;
 		if (!theCurrentUser.getSubProgManuscript().isEmpty()) {
 			System.out.println("Select a manuscript to assign to a reviewer");
-			for (Manuscript m : theCurrentUser.getSubProgManuscript()) {
-				System.out.println(count + ". " + m.getTitle());
-				count++;
-			}
-			prompt();
-			input = myUserInput.nextInt();
-			Manuscript selectedManuscript = theCurrentUser.getSubProgManuscript().get(input - 1);
+			printNumberedListOfSubprogramChairManuscripts(theCurrentUser);
+			promptSymbol();
+			int subprogramChairManuscriptIndex = myUserInput.nextInt();
+			Manuscript selectedManuscript = theCurrentUser.getSubProgManuscript().get(subprogramChairManuscriptIndex - 1);
 			ArrayList<User> reviewerList = new ArrayList<User>();
 
 			for (User u : theUserList) {
-//				if (hasRole(theCurrentConference, REVIEWER, u)) { ------------------------------------------------------------
-//					reviewerList.add(u);
-//				}
 				Reviewer tempRev = u.findReviewerRole();
 				if (tempRev != null) {
 					reviewerList.add(u);
 				}
 			}
-			// System.out.println(reviewerList.size());
 			if (reviewerList.isEmpty()) {
 				System.out.println("No Reviewers to assign for Conference: " + theCurrentConference.getName());
 			} else {
@@ -116,9 +113,9 @@ public class SubprogramChairMenu implements Serializable  {
 					count++;
 				}
 
-				prompt();
-				input = myUserInput.nextInt();
-				User selectedReviewer = reviewerList.get(input - 1);
+				promptSymbol();
+				int userIndex = myUserInput.nextInt();
+				User selectedReviewer = reviewerList.get(userIndex - 1);
 				List<Boolean> result = tempSubprogramChair.assignReviewerManuscript(selectedReviewer,
 						selectedManuscript);
 
@@ -138,23 +135,19 @@ public class SubprogramChairMenu implements Serializable  {
 
 	/**
 	 * Submits a recommendation to a manuscript.
-	 * 
 	 * @param count
 	 * @param input user choice
 	 * @param tempSubprogramChair Subprogram Chair
 	 */
-	public void submitRecommendationForManuscript(int count, int input, SubprogramChair tempSubprogramChair,
+	public void submitRecommendationForManuscript(SubprogramChair tempSubprogramChair,
 			User theCurrentUser, Conference theCurrentConference) {
 		System.out.println("Select a manuscript to assign a recommendation");
-		for (Manuscript m : theCurrentUser.getSubProgManuscript()) {
-			System.out.println(count + ". " + m.getTitle());
-			count++;
-		}
+		printNumberedListOfSubprogramChairManuscripts(theCurrentUser);
 
 		if (!theCurrentUser.getSubProgManuscript().isEmpty()) {
-			prompt();
-			input = myUserInput.nextInt();
-			Manuscript selectedManuscript = theCurrentUser.getSubProgManuscript().get(input - 1);
+			promptSymbol();
+			int subProgramChairManuscriptIndex = myUserInput.nextInt();
+			Manuscript selectedManuscript = theCurrentUser.getSubProgManuscript().get(subProgramChairManuscriptIndex - 1);
 			System.out.println("Enter the path to the recommendation form");
 			myUserInput.nextLine();
 			String path = myUserInput.nextLine();
@@ -169,11 +162,19 @@ public class SubprogramChairMenu implements Serializable  {
 			System.out.println("No Manuscripts assigned, returning to last menu.");
 		}
 	}
+	
+	public void printNumberedListOfSubprogramChairManuscripts(User theCurrentUser){
+		int count = 1;
+		for (Manuscript m : theCurrentUser.getSubProgManuscript()) {
+			System.out.println(count + ". " + m.getTitle());
+			count++;
+		}
+	}
 
 	/**
 	 * User input indicator
 	 */
-	public void prompt() {
+	public void promptSymbol() {
 		System.out.print(">> ");
 	}
 	
@@ -182,7 +183,7 @@ public class SubprogramChairMenu implements Serializable  {
 	 * @param theCurrentUser
 	 * @param theCurrentConference
 	 */
-	private void header(User theCurrentUser, Conference theCurrentConference) {
+	private void printSubprogramChairMenuHeader(User theCurrentUser, Conference theCurrentConference) {
 		System.out.println();
 		System.out.println("---Scientific Manuscripts Are Reviewed in Terminal---");
 		System.out.println("User: " + theCurrentUser.getMyName());
@@ -196,7 +197,7 @@ public class SubprogramChairMenu implements Serializable  {
 	 * UI exit menu
 	 */
 	public void exit() {
-		hasExited = true;
+		hasExitedSubprogramChairMenu = true;
 		
 	}
 	

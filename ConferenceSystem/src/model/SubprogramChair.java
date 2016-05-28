@@ -9,19 +9,22 @@ import java.util.List;
 
 import model.Manuscript.Status;
 
+/**
+ * This class represents a Subprogram Chair role. 
+ * @author Andrew Merz, Adam Marr, Bernabe Guzman, Bincheng Li
+ * @author Bernabe Guzman maintained
+ * @version 1.0 5/5/2016
+ */
 public class SubprogramChair extends Roles implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 560617491878906874L;
-	
 	private static final int MAX_PAPERS = 4;
 
-
+	/**
+	 * @param theConference the current conference
+	 */
 	public SubprogramChair(Conference theConference) {
 		super(theConference);
-
 	}
 
 	public List<Boolean> assignReviewerManuscript(User theUser, Manuscript theManuscript) {
@@ -54,9 +57,7 @@ public class SubprogramChair extends Roles implements Serializable {
 		theManuscript.addRecommendation(form);
 		theManuscript.setStatus(Status.RECOMMENDED);
 		
-		theCurrentConference.removeManuscript(theManuscript);
+		theCurrentConference.removeManuscript(theManuscript); // Remove the manuscript and add it back on.
 		theCurrentConference.addManuscript(theManuscript);
-		// Remove the manuscript and add it back on.
-		
 	}		
 }
