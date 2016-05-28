@@ -22,48 +22,51 @@ import model.User;
 public class AuthorTest {
 	private List<Conference> confList;
 	private Paper script;
-	private Paper script2;
-	private User usr;
+	private Paper updatedManuscript;
+	private User authorUser;
 	private Author auth;
-	private Conference conf;
+	private Conference testConference;
 
 	@Before
 	public void setUp() throws Exception {
+
+		authorUser  = new User("TempUser", "UserLogin", "User@email.com");
 		confList = new ArrayList<Conference>();
-		script = new Manuscript("test.txt", "TestAuthor", "SubmitDate", "TestTitle");
-		script2 = new Manuscript("test2.txt", "TestAuthor", "SubmitDate", "TestTitle");
-		usr  = new User("TempUser", "UserLogin", "User@email.com");
-		conf = new Conference("Conf1", usr, "start", "stop", "PDeadline", "RDeadline", 0, 0);
-		conf.addManuscript((Manuscript) script);
-		auth = new Author(conf);
-		
-		confList.add(conf);
+		updatedManuscript = new Manuscript("updatedScript.txt", "AuthorTestFile", "SubmitDate", "TestTitle");
+		testConference = new Conference("Conf1", authorUser, "start", "stop", "PDeadline", "RDeadline", 60, 60);
+		authorUser.submitManuscript("testFile.txt", "AuthorTestFile", authorUser, testConference);
+		script = new Manuscript("testFile.txt", "TempUser", "SubmitDate", "AuthorTestFile");
+		confList.add(testConference);
 	}
 	
 	@Test
 	public void testAuthorConstructor() {
-		Author tempAuthor = new Author(conf);
-		assertTrue(tempAuthor.getConference().getName().equals(conf.getName()));
+		Author tempAuthor = new Author(testConference);
+		assertTrue(tempAuthor.getConference().getName().equals(testConference.getName()));
 
 	}
 
 	@Test
 	public void testUpdateAuthoredManuscript() {
-		
-		auth.updateAuthoredManuscript(usr, (Manuscript) script2, confList);
-		
-		assertTrue("test2.txt".equals(confList.get(0).getManuscripts().get(0).getPath()));
+		auth.updateAuthoredManuscript(authorUser, (Manuscript) updatedManuscript, confList);
+		System.out.println(confList.get(0).getManuscripts().get(0).getPath());
+		assertTrue("updatedScript.txt".equals(confList.get(0).getManuscripts().get(0).getPath()));
 		
 	}
+
 	
 	@Test
 	public void testUnsubmitManuscript() {
 		
-		assertTrue(conf.getManuscripts().size() == 1);
 		
-		auth.unsubmitManuscript(usr, (Manuscript) script, confList);
+		assertTrue(testConference.getManuscripts().size() == 1);
 		
-		assertTrue(conf.getManuscripts().size() == 0);
+		auth.unsubmitManuscript(authorUser, (Manuscript) script, confList);
+		
+		assertTrue(testConference.getManuscripts().size() == 0);
+		
+		// Replace the test file.
+		authorUser.submitManuscript("testFile.txt", "AuthorTestFile", authorUser, testConference);
 		
 	}
 
