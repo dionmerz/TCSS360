@@ -13,7 +13,7 @@ import model.Manuscript.Status;
  * This class represents a Subprogram Chair role. 
  * @author Andrew Merz, Adam Marr, Bernabe Guzman, Bincheng Li
  * @author Bernabe Guzman maintained
- * @version 1.0 5/5/2016
+ * @version 1.0 5/27/2016
  */
 public class SubprogramChair extends Roles implements Serializable {
 
