@@ -44,7 +44,7 @@ public class Reviewer extends Roles implements Serializable {
 		String date = dateFormat.format(cal.getTime());
 
 		ReviewForm r = new ReviewForm(thePath, theAuthor, date, theTitle, currentUser);
-		if(cal.before(getConference().getReviewDeadlineDate())) {
+		if(cal.before(currentConference.getReviewDeadlineDate())) {
 			inTime = true;
 			for(Manuscript m: currentUser.getMyManuscriptsToReview()) {
 				if (m.getTitle() == theManuscript.getTitle() && m.getAuthor() == theManuscript.getAuthor()) {
