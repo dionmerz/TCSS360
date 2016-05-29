@@ -54,11 +54,9 @@ public class ProgramChairMenu implements Serializable{
 		if (myUserConsoleInput == null) {
 			myUserConsoleInput = new Scanner(System.in);
 		}
-
 		promptSymbol();
 		int programChairMenuOption = myUserConsoleInput.nextInt();
 		ProgramChair currentProgramChair = theUser.findProgramChairRole();
-
 		switch (programChairMenuOption) {
 		case 1:
 			printProgramChairMenuHeader(theUser, theConference);

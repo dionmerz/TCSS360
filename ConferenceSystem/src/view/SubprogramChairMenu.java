@@ -38,8 +38,7 @@ public class SubprogramChairMenu implements Serializable  {
 	 * @param theConferenceList list of conferences
 	 */
 	public boolean initialSubprogramChairMenu(List<User> theUserList, List<Conference> theConferenceList, User theCurrentUser,
-			Conference theCurrentConference) {
-		
+			Conference theCurrentConference) {	
 		if (myUserInput == null) {
 			myUserInput = new Scanner(System.in);
 		}
@@ -54,7 +53,6 @@ public class SubprogramChairMenu implements Serializable  {
 		SubprogramChair tempSubprogramChair = theCurrentUser.findSubprogramChairRole();
 		promptSymbol();
 		int subprogramChairMenuOption = myUserInput.nextInt();
-
 		switch (subprogramChairMenuOption) {
 		case 1:
 			printSubprogramChairMenuHeader(theCurrentUser, theCurrentConference);
@@ -85,37 +83,26 @@ public class SubprogramChairMenu implements Serializable  {
 	 */
 	public void assignManuscriptToReviewer(SubprogramChair tempSubprogramChair, List<User> theUserList, 
 			User theCurrentUser, Conference theCurrentConference) {
-		int count = 1;
 		if (!theCurrentUser.getSubProgManuscript().isEmpty()) {
 			System.out.println("Select a manuscript to assign to a reviewer");
 			printNumberedListOfSubprogramChairManuscripts(theCurrentUser);
 			promptSymbol();
 			int subprogramChairManuscriptIndex = myUserInput.nextInt();
 			Manuscript selectedManuscript = theCurrentUser.getSubProgManuscript().get(subprogramChairManuscriptIndex - 1);
-			List<User> reviewerList = theCurrentUser.findSubprogramChairRole().getListOfReviewersFromListOfUsers(theUserList);
-			
+			List<User> reviewerList = theCurrentUser.findSubprogramChairRole().getListOfReviewersFromListOfUsers(theUserList);		
 			if (reviewerList.isEmpty()) {
 				System.out.println("No Reviewers to assign for Conference: " + theCurrentConference.getName());
 			} else {
-				count = 1;
 				System.out.println("Select a reviewer to assign the selected manuscript");
-
-				for (User u : reviewerList) {
-					System.out.println(count + ". " + u.getMyName());
-					count++;
-				}
-
+				printNumberedListOfReviewers(reviewerList);
 				promptSymbol();
-				int userIndex = myUserInput.nextInt();
-				User selectedReviewer = reviewerList.get(userIndex - 1);
-				List<Boolean> result = tempSubprogramChair.assignReviewerManuscript(selectedReviewer,
-						selectedManuscript);
-
-				if (!result.get(0)) {
+				int reviewerIndex = myUserInput.nextInt();
+				User selectedReviewer = reviewerList.get(reviewerIndex - 1);
+				List<Boolean> canAssignReviewerManuscript = tempSubprogramChair.assignReviewerManuscript(selectedReviewer, selectedManuscript);
+				if (!canAssignReviewerManuscript.get(0)) {
 					System.out.println("Cannot assign a review to the author of the manuscript");
-				} else if (!result.get(1)) {
-					System.out.println(
-							"Failed to assign review to " + selectedReviewer.getMyName() + " because of review limit");
+				} else if (!canAssignReviewerManuscript.get(1)) {
+					System.out.println("Failed to assign review to " + selectedReviewer.getMyName() + " because of review limit");
 				} else {
 					System.out.println(selectedManuscript.getTitle() + " assigned to " + selectedReviewer.getMyName());
 				}
@@ -135,7 +122,6 @@ public class SubprogramChairMenu implements Serializable  {
 			User theCurrentUser, Conference theCurrentConference) {
 		System.out.println("Select a manuscript to assign a recommendation");
 		printNumberedListOfSubprogramChairManuscripts(theCurrentUser);
-
 		if (!theCurrentUser.getSubProgManuscript().isEmpty()) {
 			promptSymbol();
 			int subProgramChairManuscriptIndex = myUserInput.nextInt();
@@ -155,6 +141,22 @@ public class SubprogramChairMenu implements Serializable  {
 		}
 	}
 	
+	/**
+	 * Prints a list of reviewers assigned to the Subprogram Chair.
+	 * @param theReviewerList
+	 */
+	public void printNumberedListOfReviewers(List<User> theReviewerList) {
+		int count = 1;
+		for (User u : theReviewerList) {
+			System.out.println(count + ". " + u.getMyName());
+			count++;
+		}
+	}
+	
+	/**
+	 * Prints a list of manuscripts assigned to the Subprogam Chair.
+	 * @param theCurrentUser
+	 */
 	public void printNumberedListOfSubprogramChairManuscripts(User theCurrentUser){
 		int count = 1;
 		for (Manuscript m : theCurrentUser.getSubProgManuscript()) {
