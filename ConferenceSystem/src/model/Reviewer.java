@@ -8,21 +8,18 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * Tests for the Reviewer Class.
+ * A Reviewer role for a specific Conference.
  * 
  * @author Andrew Merz, Bernabe Guzman
  * @version 5/8/2016
  */
 public class Reviewer extends Roles implements Serializable {	
 
-	/**
-	 * Serial identification number
-	 */
 	private static final long serialVersionUID = 2085432913222156308L;
 
 	/**
-	 * Reviewer Class Constructor with conference parameter
-	 * @param theConference
+	 * @param theConference, The conference that this Reviewer is an 
+	 * 			Reviewer for.
 	 */
 	public Reviewer(Conference theConference) {
 		super(theConference);
@@ -30,14 +27,14 @@ public class Reviewer extends Roles implements Serializable {
 
 	/**
 	 * Uploads a review form to a manuscript
-	 * @param currentUser
-	 * @param thePath
-	 * @param theAuthor
-	 * @param theTitle
-	 * @param theManuscript
+	 * @param currentUser The current User who is logged in as a Reviewer.
+	 * @param thePath The file path of the review form.
+	 * @param theAuthor The author of the review form's name.
+	 * @param theTitle  The title of the review form.
+	 * @param theManuscript The manuscript that is being reviewed.
 	 */
-	public List<Boolean> uploadReviewForm(User currentUser,Conference currentConference, final String thePath, final String theAuthor, 
-			final String theTitle, Manuscript theManuscript) {
+	public List<Boolean> uploadReviewForm(User currentUser,Conference currentConference, 
+			final String thePath, final String theAuthor, final String theTitle, Manuscript theManuscript) {
 		boolean isAllowed = false;
 		boolean inTime = false;
 		List<Boolean> allowed = new ArrayList<Boolean>();

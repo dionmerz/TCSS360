@@ -20,8 +20,8 @@ public class ReviewerMenu implements Serializable  {
 		hasExited = false;
 	}
 
-	public boolean initialReviewerMenu(List<User> theUserList, List<Conference> theConferenceList, User myCurrentUser,
-			Conference myCurrentConference) {
+	public boolean initialReviewerMenu(List<User> theUserList, List<Conference> theConferenceList, 
+			User myCurrentUser, Conference myCurrentConference) {
 
 		if (myUserInput == null) {
 			myUserInput = new Scanner(System.in);

@@ -10,29 +10,25 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 /**
- * One of the subclass of Roles called Author.
+ * An Author role for a specific Conference.
  * 
  * @author Andrew Merz, Adam Marr, Bernabe Guzman, Bincheng Li
  * @version 1.0 5/5/2016
  */
 public class Author extends Roles implements Serializable {
-	
-	/**
-	 * Serial identification number
-	 */
+
 	private static final long serialVersionUID = 3594012237429715507L;
 
-	/**
-	 * Constructor for author class
-	 * 
-	 * @param theConference A conference
+	/** 
+	 * @param theConference, The conference that this Author is an 
+	 * 			Author for.
 	 */
 	public Author(Conference theConference) {
 		super(theConference);
 	}
 	
 	/**
-	 * View all your submitted manuscript.
+	 * View all the logged in User's submitted manuscript.
 	 */
 	public void viewAuthorSubManuscript(User currentUser) {
 		List<Manuscript> manuList = currentUser.getMyManuscripts();
@@ -45,7 +41,7 @@ public class Author extends Roles implements Serializable {
 	}
 	
 	/**
-	 * Update one of your submitted manuscript.
+	 * Update one of the logged in User's submitted manuscript.
 	 * 
 	 * @param theManuscript The submitted manuscript. 
 	 * @param theConferences List of conference
@@ -79,7 +75,7 @@ public class Author extends Roles implements Serializable {
 	}
 	
 	/**
-	 * Unsubmit one of your manuscript. 
+	 * Unsubmit one of the logged in User's submitted manuscripts. 
 	 * 
 	 * @param theManuscript The manuscript you want to remove.
 	 * @param theConferences A list of conference.
