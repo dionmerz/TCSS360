@@ -19,6 +19,7 @@ import model.Manuscript.Status;
 public class SubprogramChairTest {
 
 	private List<Conference> conferenceList;
+	private List<User> userList;
 	private List<Roles> emptyRolesList;
 	private Manuscript manuscript1;
 	private Manuscript manuscript2;
@@ -36,6 +37,7 @@ public class SubprogramChairTest {
 	@Before
 	public void setUp() throws Exception {
 		emptyRolesList = new ArrayList<Roles>();
+		userList = new ArrayList<User>();
 		
 		manuscript1 = new Manuscript("test1.txt", "TestAuthor1", "SubmitDate", "TestTitle1");
 		manuscript2 = new Manuscript("test2.txt", "TestAuthor2", "SubmitDate", "TestTitle2");
@@ -69,6 +71,11 @@ public class SubprogramChairTest {
 		
 		conferenceList = new ArrayList<Conference>();
 		conferenceList.add(conference);
+		
+		userList.add(reviewerNoManuscriptsToReview);
+		userList.add(reviewerOneManuscriptToReview);
+		userList.add(reviewerFourManuscriptsToReview);
+		userList.add(subprogramChairUser);
 	}
 
 	@Test
@@ -108,17 +115,23 @@ public class SubprogramChairTest {
 	
 	@Test
 	public void testAssignReviewerManuscriptReviewerSelfAuthoredManuscript() {
-		assertTrue(true);
+		reviewerOneManuscriptToReview.setMyName("TestAuthor1");
+		assertEquals(reviewerOneManuscriptToReview.getMyManuscriptsToReview().size(), 1);
+		subprogramChairUser.findSubprogramChairRole().assignReviewerManuscript(reviewerOneManuscriptToReview, manuscript1);
+		assertEquals(reviewerOneManuscriptToReview.getMyManuscriptsToReview().size(), 1);
 	}
 	
 	@Test
 	public void testSubmitRecommendation() {
 		assertTrue(manuscript2.getRecomFormList().size() == 0);
 		subprogramChairUser.findSubprogramChairRole().submitRecomendation(reviewerNoManuscriptsToReview, conference, manuscript2, 5, "recommend.txt", "PaperRecommendation");
-		
 		assertTrue(manuscript2.getRecomFormList().size() == 1);
-		
 		assertTrue(manuscript2.getStatus() == Status.RECOMMENDED);
 	}
 
+	@Test
+	public void testGetListOfReviewersWithEmptyList() {
+		List<User> emptyUserList;
+	}
+	
 }

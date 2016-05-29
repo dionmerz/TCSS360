@@ -27,17 +27,17 @@ public class SubprogramChair extends Roles implements Serializable {
 		super(theConference);
 	}
 
-	public List<Boolean> assignReviewerManuscript(User theUser, Manuscript theManuscript) {
+	public List<Boolean> assignReviewerManuscript(User theUserWithReviewerRole, Manuscript theManuscript) {
 		//Get instance of Reviewer 	
 		List<Boolean> result = new ArrayList<Boolean>();
 		result.add(false);
 		result.add(false);
-		
-		if(!theUser.getMyName().equals(theManuscript.getAuthor())) {
+		if(!theUserWithReviewerRole.getMyName().equals(theManuscript.getAuthor())) {
 			result.set(0, true);
-			if(theUser.getMyManuscriptsToReview().size() < MAX_PAPERS) {
+			
+			if(theUserWithReviewerRole.getMyManuscriptsToReview().size() < MAX_PAPERS) {
 				result.set(1, true);
-				theUser.addMyManuscriptsToReview(theManuscript);
+				theUserWithReviewerRole.addMyManuscriptsToReview(theManuscript);
 			} else {
 				result.set(1, false);				
 			}
@@ -47,7 +47,6 @@ public class SubprogramChair extends Roles implements Serializable {
 		return result;
 	}
 	
-	
 	public void submitRecomendation(User theCurrentUser, Conference theCurrentConference, Manuscript theManuscript, 
 									int score, String thePath, String theTitle) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -55,8 +54,7 @@ public class SubprogramChair extends Roles implements Serializable {
 		String date = dateFormat.format(cal.getTime());	
 		RecommendationForm form = new RecommendationForm(thePath, theCurrentUser.getMyName(), date, theTitle, score);
 		theManuscript.addRecommendation(form);
-		theManuscript.setStatus(Status.RECOMMENDED);
-		
+		theManuscript.setStatus(Status.RECOMMENDED);	
 		theCurrentConference.removeManuscript(theManuscript); // Remove the manuscript and add it back on.
 		theCurrentConference.addManuscript(theManuscript);
 	}		
