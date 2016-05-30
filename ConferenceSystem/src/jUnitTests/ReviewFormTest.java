@@ -8,6 +8,12 @@ import org.junit.Test;
 import model.ReviewForm;
 import model.User;
 
+/**
+ * Test class for review form.
+ * 
+ * @author Bincheng Li
+ * @version 1.0
+ */
 public class ReviewFormTest {
 	private ReviewForm testReviewForm;
 	private static final String TEST_PATH = "Test Path";
@@ -22,10 +28,15 @@ public class ReviewFormTest {
 	
 	@Before
 	public void setupTests() {
+		// reviewer for the test
 		testReviewer = new User(TEST_NAME, TEST_LOGIN_NAME, TEST_EMAIL);
+		// review form for the test
 		testReviewForm = new ReviewForm(TEST_PATH, TEST_AUTHOR, TEST_DATE, TEST_TITLE, testReviewer);
 	}
 	
+	/**
+	 * Check the constructor for review form works or not.
+	 */
 	@Test
 	public void testConstructor() {
 		assertTrue(testReviewForm.getPath().equals(TEST_PATH));

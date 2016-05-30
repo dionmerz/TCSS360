@@ -8,6 +8,12 @@ import org.junit.Test;
 
 import model.RecommendationForm;
 
+/**
+ * Test class for recommendation form.
+ * 
+ * @author Bincheng Li
+ * @version 1.0
+ */
 public class RecommendationTest {
 	private RecommendationForm testRecommendation;
 	private static final String TEST_PATH = "Test Path";
@@ -18,9 +24,13 @@ public class RecommendationTest {
 	
 	@Before
 	public void setupTests() {
+		// recommedation form for the test.
 		testRecommendation = new RecommendationForm(TEST_PATH, TEST_AUTHOR, TEST_DATE, TEST_TITLE, TEST_SCORE);
 	}
 	
+	/**
+	 * Check the constructor for recommendation form works or not.
+	 */
 	@Test
 	public void testConstructor() {
 		assertTrue(testRecommendation.getPath().equals(TEST_PATH));

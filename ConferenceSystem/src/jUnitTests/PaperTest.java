@@ -8,6 +8,12 @@ import org.junit.Test;
 
 import model.Paper;
 
+/**
+ * Test class for paper.
+ * 
+ * @author Bincheng Li
+ * @version 1.0
+ */
 public class PaperTest {
 	private Paper testPaper;
 	private static final String TEST_PATH = "Test Path";
@@ -17,9 +23,13 @@ public class PaperTest {
 	
 	@Before
 	public void setupTests() {
+		// Paper for the test.
 		testPaper = new Paper(TEST_PATH, TEST_AUTHOR, TEST_DATE, TEST_TITLE);
 	}
 	
+	/**
+	 * Check the constructor for paper works or not.
+	 */
 	@Test
 	public void testConstructor() {
 		assertTrue(testPaper.getPath().equals(TEST_PATH));

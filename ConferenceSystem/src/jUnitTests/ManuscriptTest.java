@@ -13,6 +13,12 @@ import model.RecommendationForm;
 import model.ReviewForm;
 import model.User;
 
+/**
+ * Test class for manuscript.
+ * 
+ * @author Bincheng Li
+ * @version 1.0
+ */
 public class ManuscriptTest {
 	
 	private Manuscript testManuscript;
@@ -37,10 +43,13 @@ public class ManuscriptTest {
 	
 	@Before
 	public void setupTests() {
+		//Set up default test manuscript
 		testManuscript = new Manuscript(TEST_PATH, TEST_AUTHOR, TEST_DATE, TEST_TITLE);
+		// Set up different test manuscript with different value.
 		testManuscript2 = new Manuscript(TEST_PATH, TEST_AUTHOR, TEST_DATE, TEST_TITLE);
 		testManuscript3 = new Manuscript(TEST_PATH, TEST_AUTHOR2, TEST_DATE, TEST_TITLE);
 		testManuscript4 = new Manuscript(TEST_PATH, TEST_AUTHOR, TEST_DATE, TEST_TITLE2);
+		
 		testRecommendationFormList = new ArrayList<RecommendationForm>();
 		testReviewerList = new ArrayList<User>();
 		testReviewFormList = new ArrayList<ReviewForm>();
@@ -49,6 +58,9 @@ public class ManuscriptTest {
 		testRecommendationForm = new RecommendationForm(TEST_PATH, TEST_AUTHOR, TEST_DATE, TEST_TITLE, 5);
 	}
 	
+	/**
+	 * Tests if constructor for manuscript works or not. 
+	 */
 	@Test
 	public void testConstructor() {
 		assertTrue(testManuscript.getPath().equals(TEST_PATH));
@@ -57,6 +69,9 @@ public class ManuscriptTest {
 		assertTrue(testManuscript.getTitle().equals(TEST_TITLE));
 	}
 	
+	/**
+	 * Tests add a reviewer for a manuscript works or not. 
+	 */
 	@Test
 	public void testAddReviewerList(){
 		int size = testReviewerList.size();
@@ -64,6 +79,9 @@ public class ManuscriptTest {
 		assertTrue(testReviewerList.size() - size == 1);
 	}
 	
+	/**
+	 * Test add a review from for a manuscript works or not.
+	 */
 	@Test
 	public void testAddReviewFormList(){
 		int size = testReviewFormList.size();
@@ -71,6 +89,9 @@ public class ManuscriptTest {
 		assertTrue(testReviewFormList.size() - size == 1);
 	}
 	
+	/**
+	 * Test add a recommendation form for a manuscript works or not.
+	 */
 	@Test
 	public void testAddRecommendationFormList(){
 		int size = testRecommendationFormList.size();
@@ -78,6 +99,10 @@ public class ManuscriptTest {
 		assertTrue(testRecommendationFormList.size() - size == 1);
 	}
 	
+	/**
+	 * Test equals method (check are both manuscripts same or not) for 
+	 * a manuscript.
+	 */
 	@Test
 	public void testEquals(){
 		assertTrue(testManuscript.equals(testManuscript2));
