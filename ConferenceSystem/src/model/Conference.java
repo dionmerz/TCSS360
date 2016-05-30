@@ -5,22 +5,20 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * This class represents a conference object. 
+ * This class represents a conference object. The conference has a starting date
+ * and ending date along with manuscript and review deadlines.
  * 
  * @author Andrew Merz, Adam Marr, Bernabe Guzman, Bincheng Li
  * @version 1.0 5/5/2016
  */
 public class Conference implements Serializable {
 	
-	/**
-	 * Serial identification number
-	 */
 	private static final long serialVersionUID = 2834762961375246670L;
 	private String Name;
 	private User programChair;
 	private String startingDate;
 	private String endingDate;
-	private String paperDeadline;
+	private String manuscriptDeadline;
 	private String reviewDeadline;
 	private List<Manuscript> mySubmittedManuscriptList;
 	private List<User> subProChairList;
@@ -44,7 +42,7 @@ public class Conference implements Serializable {
 		this.programChair = theProgramChair;
 		this.startingDate = theStartingDate;
 		this.endingDate = theEndingDate;
-		this.paperDeadline = thePaperDeadline;
+		this.manuscriptDeadline = thePaperDeadline;
 		this.reviewDeadline = theReviewDeadline;
 		this.mySubmittedManuscriptList = new ArrayList<Manuscript>();
 		this.subProChairList = new ArrayList<User>();
@@ -133,7 +131,7 @@ public class Conference implements Serializable {
 	 * @return conference paper deadline
 	 */
 	public String getPaperDeadline() {
-		return paperDeadline;
+		return manuscriptDeadline;
 	}
 	
 	/**
@@ -142,7 +140,7 @@ public class Conference implements Serializable {
 	 * @param paperDeadline date
 	 */
 	public void setPaperDeadline(String paperDeadline) {
-		this.paperDeadline = paperDeadline;
+		this.manuscriptDeadline = paperDeadline;
 	}
 	
 	/**
@@ -243,7 +241,7 @@ public class Conference implements Serializable {
 	public String toString() {
 		return "conference [Name: " + Name + ", programChair: " + programChair
 				+ ", startingDate: " + startingDate + ", endingDate: "
-				+ endingDate + ", paperDeadline: " + paperDeadline
+				+ endingDate + ", paperDeadline: " + manuscriptDeadline
 				+ ", reviewDeadline: " + reviewDeadline + "]";
 	}
 }

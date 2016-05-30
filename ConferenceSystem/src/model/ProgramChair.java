@@ -64,22 +64,32 @@ public class ProgramChair extends Roles implements Serializable {
 	 * @param theUser a Subprogram Chair
 	 * @param theManuscript a Manuscript
 	 */
-	public ArrayList<Boolean> assignSubProgManuscript(User theUser, Manuscript theManuscript) {
+	public ArrayList<Boolean> assignSubProgManuscript(User theUser, Conference theConference, Manuscript theManuscript) {
 		
-		ArrayList<Boolean> sub = new ArrayList<Boolean>();
+		ArrayList<Boolean> assignSubProgramChairManuscript = new ArrayList<Boolean>();
 		Boolean limit = false;
 		Boolean author = false;
+		Boolean assigned = false;
 		
+		for(Manuscript manuscript: theConference.getManuscripts()) { // check if manuscript already assigned to a subprogram chair
+			if(manuscript.equals(theManuscript)) {
+				assigned = true;
+			}
+		}
 		if(!theUser.getMyName().equals(theManuscript.getAuthor())) {	// If the name does not == author
 			author = true;
-			if(theUser.getSubProgManuscript().size() < MAX_PAPERS) {			// less than 4 papers		
-				theUser.addSubProgManuscript(theManuscript);
+			if(theUser.getSubProgManuscript().size() < MAX_PAPERS) {			// less than 4 papers
+				if(!assigned) {
+					theUser.addSubProgManuscript(theManuscript);
+				}
 				limit = true;
 			}
 		}
-		sub.add(limit);
-		sub.add(author);
-		return sub;
+		
+		assignSubProgramChairManuscript.add(limit);
+		assignSubProgramChairManuscript.add(author);
+		assignSubProgramChairManuscript.add(assigned);
+		return assignSubProgramChairManuscript;
 	}
 
 }
