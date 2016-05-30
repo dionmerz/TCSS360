@@ -172,7 +172,7 @@ public class UserTest {
 	/**
 	 * Tests the addMyManuscripts method to make sure it correctly adds a manuscripts to the list of
 	 * all manuscripts authored by this user.
-	 * Tests three distinct partitions. A list with no items, a list with one item, and a list with 2 items.
+	 * Tests three distinct partitions: A list with no items, a list with one item, and a list with 2 items.
 	 */
 	@Test
 	public void testAddMyManuscript() {
@@ -194,7 +194,7 @@ public class UserTest {
 	 * Tests the removeManuscript method to make sure it removes the given manuscript from the list
 	 * of all manuscripts authored by this user.
 	 * 
-	 * Tests two distinct partitions. A list with one items, a list with two items.
+	 * Tests two distinct partitions: A list with one items, a list with two items.
 	 */
 	@Test
 	public void testRemoveManuscript() {
@@ -212,7 +212,7 @@ public class UserTest {
 	 * Tests the getMySubProgManuscripts method to make sure it correctly returns a list of all manuscripts 
 	 * assigned to this subprogram chair by a program chair.
 	 * 
-	 * Tests three distinct partitions. A list with no items, a list with one items, a list with two items.
+	 * Tests three distinct partitions: A list with no items, a list with one items, a list with two items.
 	 */
 	@Test
 	public void testGetSubProgManuscript() {
@@ -230,7 +230,7 @@ public class UserTest {
 	 * Tests the addMySubProgManuscripts method to make sure it correctly adds a manuscript to the list of all manuscripts 
 	 * assigned to this subprogram chair by a program chair.
 	 * 
-	 * Tests three distinct partitions. A list with no items, a list with one items, a list with two items.
+	 * Tests three distinct partitions: A list with no items, a list with one items, a list with two items.
 	 */
 	@Test
 	public void testAddSubProgManuscript() {
@@ -254,7 +254,7 @@ public class UserTest {
 	 * Tests the getMyRoles method to make sure it correctly returns a list of all roles 
 	 * assigned to this user.
 	 * 
-	 * Tests five distinct partitions. A user that is only an Author, A user that is only a Reviewer, 
+	 * Tests five distinct partitions: A user that is only an Author, A user that is only a Reviewer, 
 	 * A user that is only a Subprogram Chair, A user that is only a Program Chair, and a user with two different roles.
 	 */
 	@Test
@@ -282,7 +282,7 @@ public class UserTest {
 	 * Tests the addMyRoles method to make sure it correctly adds a Role to the list of all roles 
 	 * assigned to this user.
 	 * 
-	 * Tests three distinct partitions. A list with no items, a list with one items, a list with two items.
+	 * Tests three distinct partitions: A list with no items, a list with one items, a list with two items.
 	 */
 	@Test
 	public void testAddMyRole() {
@@ -306,7 +306,7 @@ public class UserTest {
 	 * Tests the removeMyRoles method to make sure it correctly removes a Role to the list of all roles 
 	 * assigned to this user.
 	 * 
-	 * Tests five distinct partitions. A user that is only an Author, A user that is only a Reviewer, 
+	 * Tests five distinct partitions: A user that is only an Author, A user that is only a Reviewer, 
 	 * A user that is only a Subprogram Chair, A user that is only a Program Chair, and a user with two different roles.
 	 */
 	@Test
@@ -364,24 +364,48 @@ public class UserTest {
 		fail("Not yet implemented");
 	}
 
+	/**
+	 * Tests the findAuthorRole method to ensure it returns a Author object if the user is a Author and null otherwise.
+	 * 
+	 * Tests two distinct partitions: A user who is a Author, and a user who is not a Author.
+	 */
 	@Test
 	public void testFindAuthorRole() {
-		fail("Not yet implemented");
+		assertFalse(testUserWithAuthorRole.findAuthorRole().equals(null));
+		assertTrue(testUserWithNoRole.findAuthorRole() == null);
 	}
 
+	/**
+	 * Tests the findProgramChairRole method to ensure it returns a ProgramChair object if the user is a Program Chair and null otherwise.
+	 * 
+	 * Tests two distinct partitions: A user who is a Program Chair, and a user who is not a Program Chair.
+	 */
 	@Test
 	public void testFindProgramChairRole() {
-		fail("Not yet implemented");
+		assertFalse(testUserWithProgramChairRole.findProgramChairRole().equals(null));
+		assertTrue(testUserWithNoRole.findProgramChairRole() == null);
 	}
 
+	/**
+	 * Tests the findSubprogramChairRole method to ensure it returns a SubprogramChair object if the user is a Subprogram Chair and null otherwise.
+	 * 
+	 * Tests two distinct partitions: A user who is a Subprogram Chair, and a user who is not a Subprogram Chair.
+	 */
 	@Test
 	public void testFindSubprogramChairRole() {
-		fail("Not yet implemented");
+		assertFalse(testUserWithSubprogramChairRole.findSubprogramChairRole().equals(null));
+		assertTrue(testUserWithNoRole.findSubprogramChairRole() == null);
 	}
 
+	/**
+	 * Tests the findReviewerRole method to ensure it returns a reviewer object if the user is a reviewer and null otherwise.
+	 * 
+	 * Tests two distinct partitions: A user who is a reviewer, and a user who is not a reviewer.
+	 */
 	@Test
 	public void testFindReviewerRole() {
-		fail("Not yet implemented");
+		assertFalse(testUserWithReviewerRole.findReviewerRole().equals(null));
+		assertTrue(testUserWithNoRole.findReviewerRole() == null);
 	}
 
 	@Test
