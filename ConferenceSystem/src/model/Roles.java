@@ -24,4 +24,25 @@ public class Roles implements Serializable {
 	public Conference getConference() {
 		return myConference;
 	}
+	
+	/**
+	 * Checks to see if a Role is the same as another. 
+	 * @param theOther Manuscript object
+	 * @returns a boolean
+	 */
+	@Override
+	public boolean equals(Object theOther) {
+		
+		boolean equal = false;
+		Roles other;
+		
+		if ((theOther instanceof Roles)){
+			other = (Roles) theOther;
+			if (this.getClass().getSimpleName().equals(theOther.getClass().getSimpleName()) 
+					&& this.myConference.getName().equals(((Roles) theOther).getConference().getName())) {
+				equal = true;
+			}
+		}
+		return equal;
+	}
 }
