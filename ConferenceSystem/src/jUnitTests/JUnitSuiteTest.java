@@ -17,6 +17,6 @@ import org.junit.runners.Suite;
 	UserTest.class,
 	RolesTest.class
 })
-public class ConferenceSuiteTest {
+public class JUnitSuiteTest {
 
 }
