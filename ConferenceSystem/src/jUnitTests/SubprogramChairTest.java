@@ -16,10 +16,16 @@ import model.SubprogramChair;
 import model.User;
 import model.Manuscript.Status;
 
+/**
+ * This class tests the SubprogramChair class functionality.
+ * @author Bernabe Guzman
+ * @version 1.0 5/30/16
+ */
 public class SubprogramChairTest {
 
 	private List<Conference> conferenceList;
-	private List<User> userList;
+	private List<User> userListMultipleUsers;
+	private List<User> emptyUserList;
 	private List<Roles> emptyRolesList;
 	private Manuscript manuscript1;
 	private Manuscript manuscript2;
@@ -37,7 +43,8 @@ public class SubprogramChairTest {
 	@Before
 	public void setUp() throws Exception {
 		emptyRolesList = new ArrayList<Roles>();
-		userList = new ArrayList<User>();
+		emptyUserList = new ArrayList<User>();
+		userListMultipleUsers = new ArrayList<User>();
 		
 		manuscript1 = new Manuscript("test1.txt", "TestAuthor1", "SubmitDate", "TestTitle1");
 		manuscript2 = new Manuscript("test2.txt", "TestAuthor2", "SubmitDate", "TestTitle2");
@@ -72,10 +79,10 @@ public class SubprogramChairTest {
 		conferenceList = new ArrayList<Conference>();
 		conferenceList.add(conference);
 		
-		userList.add(reviewerNoManuscriptsToReview);
-		userList.add(reviewerOneManuscriptToReview);
-		userList.add(reviewerFourManuscriptsToReview);
-		userList.add(subprogramChairUser);
+		userListMultipleUsers.add(reviewerNoManuscriptsToReview);
+		userListMultipleUsers.add(reviewerOneManuscriptToReview);
+		userListMultipleUsers.add(reviewerFourManuscriptsToReview);
+		userListMultipleUsers.add(subprogramChairUser);
 	}
 
 	@Test
@@ -107,9 +114,10 @@ public class SubprogramChairTest {
 	}
 	
 	@Test
-	public void testAssignReviewerManuscriptReviewerFourManuscriptsToReview() {
+	public void testAssignReviewerManuscriptReviewerWithFourManuscriptsToReview() {
 		assertEquals(reviewerFourManuscriptsToReview.getMyManuscriptsToReview().size(), 4);
 		subprogramChairUser.findSubprogramChairRole().assignReviewerManuscript(reviewerFourManuscriptsToReview, manuscript5);
+		assertEquals(reviewerFourManuscriptsToReview.getMyManuscriptsToReview().get(3).getTitle(), "TestTitle4");
 		assertEquals(reviewerFourManuscriptsToReview.getMyManuscriptsToReview().size(), 4);
 	}
 	
@@ -118,20 +126,32 @@ public class SubprogramChairTest {
 		reviewerOneManuscriptToReview.setMyName("TestAuthor1");
 		assertEquals(reviewerOneManuscriptToReview.getMyManuscriptsToReview().size(), 1);
 		subprogramChairUser.findSubprogramChairRole().assignReviewerManuscript(reviewerOneManuscriptToReview, manuscript1);
+		assertEquals(reviewerOneManuscriptToReview.getMyManuscriptsToReview().get(0).getTitle(), "TestTitle1");
 		assertEquals(reviewerOneManuscriptToReview.getMyManuscriptsToReview().size(), 1);
 	}
 	
 	@Test
-	public void testSubmitRecommendation() {
-		assertTrue(manuscript2.getRecomFormList().size() == 0);
-		subprogramChairUser.findSubprogramChairRole().submitRecomendation(reviewerNoManuscriptsToReview, conference, manuscript2, 5, "recommend.txt", "PaperRecommendation");
-		assertTrue(manuscript2.getRecomFormList().size() == 1);
-		assertTrue(manuscript2.getStatus() == Status.RECOMMENDED);
+	public void testAppendRecommendationToManuscript() {
+		assertTrue(manuscript1.getRecomFormList().size() == 0);
+		assertTrue(manuscript1.getStatus() == Status.SUBMITTED);
+		subprogramChairUser.findSubprogramChairRole().appendRecomendationToManuscript(reviewerOneManuscriptToReview, conference, 
+				manuscript1, 5, "recommend.txt", "PaperRecommendation");
+		assertTrue(manuscript1.getRecomFormList().size() == 1);
+		assertTrue(manuscript1.getStatus() == Status.RECOMMENDED);
 	}
 
 	@Test
 	public void testGetListOfReviewersWithEmptyList() {
-		List<User> emptyUserList;
+		assertTrue(subprogramChairUser.findSubprogramChairRole().getListOfReviewersFromListOfUsers(emptyUserList).isEmpty());
+	}
+	
+	@Test
+	public void testGetListOfReviewersWithUserListMultiplerUsers() {
+		List<User> reviewerList = subprogramChairUser.findSubprogramChairRole().getListOfReviewersFromListOfUsers(userListMultipleUsers);
+		assertEquals(reviewerList.size(), 3);
+		for (User user : reviewerList) {
+			assertEquals(user.findReviewerRole().getClass(), Reviewer.class);
+		}
 	}
 	
 }

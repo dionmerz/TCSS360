@@ -134,7 +134,7 @@ public class SubprogramChairMenu implements Serializable  {
 			System.out.println("Enter a title for the recommendation form");
 			myUserInput.nextLine();
 			String title = myUserInput.nextLine();
-			tempSubprogramChair.submitRecomendation(theCurrentUser, theCurrentConference, selectedManuscript, score, path, title);
+			tempSubprogramChair.appendRecomendationToManuscript(theCurrentUser, theCurrentConference, selectedManuscript, score, path, title);
 			System.out.println("Reccommendation Form for " + selectedManuscript.getTitle() + " submitted.");
 		} else {
 			System.out.println("No Manuscripts assigned, returning to last menu.");

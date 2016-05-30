@@ -27,6 +27,13 @@ public class SubprogramChair extends Roles implements Serializable {
 		super(theConference);
 	}
 
+	/**
+	 * Assigns a reviewer to a manuscript. If the action was successful the method
+	 * will return a list of true booleans. 
+	 * @param theUserWithReviewerRole the user with reviewer role
+	 * @param theManuscript the manuscript to review
+	 * @return a boolean list
+	 */
 	public List<Boolean> assignReviewerManuscript(User theUserWithReviewerRole, Manuscript theManuscript) {
 		//Get instance of Reviewer 	
 		List<Boolean> result = new ArrayList<Boolean>();
@@ -47,7 +54,16 @@ public class SubprogramChair extends Roles implements Serializable {
 		return result;
 	}
 	
-	public void submitRecomendation(User theCurrentUser, Conference theCurrentConference, Manuscript theManuscript, 
+	/**
+	 * Appends a recommendation form to a manuscript along with its score. 
+	 * @param theCurrentUser the author of the review form
+	 * @param theCurrentConference the current conference
+	 * @param theManuscript the manuscript
+	 * @param score the score awarded
+	 * @param thePath the file path
+	 * @param theTitle the title
+	 */
+	public void appendRecomendationToManuscript(User theCurrentUser, Conference theCurrentConference, Manuscript theManuscript, 
 									int score, String thePath, String theTitle) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
@@ -59,6 +75,11 @@ public class SubprogramChair extends Roles implements Serializable {
 		theCurrentConference.addManuscript(theManuscript);
 	}		
 	
+	/**
+	 * Gets a list of reviewers from a list of users. This method only used by Subprogram chair UI.
+	 * @param theUserList the user list
+	 * @return the reviewer list
+	 */
 	public List<User> getListOfReviewersFromListOfUsers(List<User> theUserList) {
 		List<User> reviewerList = new ArrayList<User>();
 		for (User u : theUserList) {
