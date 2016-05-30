@@ -26,7 +26,6 @@ public class ProgramChair extends Roles implements Serializable {
 	 */
 	public ProgramChair(Conference theConference) {
 		super(theConference);
-	
 	}
 	
 	/**

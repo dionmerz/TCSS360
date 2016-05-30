@@ -87,22 +87,10 @@ public class SubprogramChairTest {
 
 	@Test
 	public void testAssignReviewerManuscriptReviewerNoManuscriptsToReview() {
-		assertEquals(reviewerNoManuscriptsToReview.getMyManuscriptsToReview().size(), 0);
+		assertTrue(reviewerNoManuscriptsToReview.getMyManuscriptsToReview().isEmpty());
 		subprogramChairUser.findSubprogramChairRole().assignReviewerManuscript(reviewerNoManuscriptsToReview, manuscript1);
 		assertEquals(reviewerNoManuscriptsToReview.getMyManuscriptsToReview().size(), 1);
 		assertEquals(reviewerNoManuscriptsToReview.getMyManuscriptsToReview().get(0).getTitle(), "TestTitle1");
-		
-		manuscript1 = new Manuscript("test.txt", "TempUser", "SubmitDate", "TestTitle");
-		subprogramChairUser.findSubprogramChairRole().assignReviewerManuscript(reviewerNoManuscriptsToReview, manuscript1);
-		assertTrue(reviewerNoManuscriptsToReview.getMyManuscriptsToReview().size() > 1);
-		
-		manuscript1 = new Manuscript("test.txt", "OtherUser", "SubmitDate", "TestTitle");
-		subprogramChairUser.findSubprogramChairRole().assignReviewerManuscript(reviewerNoManuscriptsToReview, manuscript2);
-		subprogramChairUser.findSubprogramChairRole().assignReviewerManuscript(reviewerNoManuscriptsToReview, manuscript3);
-		subprogramChairUser.findSubprogramChairRole().assignReviewerManuscript(reviewerNoManuscriptsToReview, manuscript4);
-		subprogramChairUser.findSubprogramChairRole().assignReviewerManuscript(reviewerNoManuscriptsToReview, manuscript5);
-		
-		assertTrue(reviewerNoManuscriptsToReview.getMyManuscriptsToReview().size() == 4);
 	}
 	
 	@Test
