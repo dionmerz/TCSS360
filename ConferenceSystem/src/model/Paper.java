@@ -111,5 +111,24 @@ public class Paper implements Serializable {
 	public void setTitle(String theTitle) {
 		myTitle = theTitle;
 	}
+	
+	/**
+	 * Checks to see if Paper is equal to another. 
+	 * @param theOther Paper object
+	 * @returns true or false
+	 */
+	@Override
+	public boolean equals(Object theOther) {
+		boolean equal = false;
+		Paper other;
+		
+		if ((theOther instanceof Paper)){
+			other = (Paper) theOther;
+			if (this.getAuthor().equals(other.getAuthor()) && this.getTitle().equals(other.getTitle())) {
+				equal = true;
+			}
+		}
+		return equal;
+	}
 
 }

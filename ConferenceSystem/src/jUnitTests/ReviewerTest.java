@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import model.Conference;
 import model.Manuscript;
+import model.ReviewForm;
 import model.Reviewer;
 import model.SubprogramChair;
 import model.User;
@@ -22,17 +23,20 @@ public class ReviewerTest {
 	private Reviewer testReviewer;
 	private SubprogramChair testSubprogramChair;
 	private Conference testConference;
+	private ReviewForm testReviewForm;
 
 	@Before
 	public void setUp() throws Exception {
 		confList = new ArrayList<Conference>();
 		script = new Manuscript("test.txt", "TestAuthor", "SubmitDate", "TestTitle");
-		testUser  = new User("TempUser", "UserLogin", "User@email.com");
+		testUser  = new User("TestUser", "UserLogin", "User@email.com");
 		testConference = new Conference("Conf1", testUser, "start", "stop", "PDeadline", "RDeadline", 30, 60);
 		testConference.addManuscript((Manuscript) script);
 		testReviewer = new Reviewer(testConference);
 		testSubprogramChair = new SubprogramChair(testConference);
 		confList.add(testConference);
+		testReviewForm = new ReviewForm("testForm.txt", testUser.getMyName(), "PDeadline", "ReviewTitle", testUser);
+		
 	}
 	/**
 	 * Tests if the Reviewer attempts to upload a review form
@@ -41,8 +45,9 @@ public class ReviewerTest {
 	@Test
 	public void testUploadReviewFormWithoutBeingAssigned() {
 		assertTrue(testUser.getMyReviews().size() == 0);
-		testReviewer.uploadReviewForm(testUser, testConference, "form.txt", "TestReviewer", "ReviewTitle", (Manuscript) script);
+		testReviewer.uploadReviewForm(testUser, testConference, "testForm.txt", "TestReviewer", "ReviewTitle", (Manuscript) script);
 		assertFalse(testUser.getMyReviews().size() > 0);
+		assertFalse(testUser.getMyReviews().contains(testReviewForm));
 	}
 
 	/**
@@ -55,9 +60,10 @@ public class ReviewerTest {
 	@Test
 	public void testUploadReviewFormWithBeingAssigned() {			
 		testSubprogramChair.assignReviewerManuscript(testUser, (Manuscript) script);
-		testReviewer.uploadReviewForm(testUser, testConference, "form.txt", "TestReviewer", "ReviewTitle", (Manuscript) script);
+		testReviewer.uploadReviewForm(testUser, testConference, "testForm.txt", testUser.getMyName(), "ReviewTitle", (Manuscript) script);
 		assertTrue(testUser.getMyReviews().size() == 1);
-		assertTrue(script.getReviewList().get(0).getAuthor().equals("TestReviewer"));
+		assertTrue(script.getReviewList().get(0).getAuthor().equals("TestUser"));
+		assertTrue(testUser.getMyReviews().contains(testReviewForm));
 			
 	}
 	/**
@@ -71,6 +77,7 @@ public class ReviewerTest {
 		assertTrue(testUser.getMyReviews().size() == 0);
 		testReviewer.uploadReviewForm(testUser, pastDueConference, "form.txt", "TestReviewer", "ReviewTitle", (Manuscript) script);
 		assertTrue(testUser.getMyReviews().size() == 0);
+		assertFalse(testUser.getMyReviews().contains(testReviewForm));
 	}
 
 }

@@ -21,4 +21,6 @@ public class ReviewForm  extends Paper implements Serializable{
 	public void setReviewer(User theReviewer) {
 		this.myReviewer = theReviewer;
 	}
+	
+
 }
