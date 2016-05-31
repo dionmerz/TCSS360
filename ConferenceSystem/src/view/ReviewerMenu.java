@@ -132,6 +132,7 @@ public class ReviewerMenu implements Serializable  {
 			isNotEmpty = true;
 			for (Manuscript m : theCurrentUser.getMyManuscriptsToReview()) {
 				System.out.println(count + ". " + m.getTitle());
+				count++;
 			}
 		} else {
 			System.out.println("No manuscripts to review");
