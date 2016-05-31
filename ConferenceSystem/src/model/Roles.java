@@ -34,6 +34,7 @@ public class Roles implements Serializable {
 	public boolean equals(Object theOther) {
 		
 		boolean equal = false;
+		@SuppressWarnings("unused")
 		Roles other;
 		
 		if ((theOther instanceof Roles)){

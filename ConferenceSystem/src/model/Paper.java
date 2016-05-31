@@ -12,9 +12,6 @@ import java.util.Date;
  */
 public class Paper implements Serializable {
 	
-	/**
-	 * Serial identification number
-	 */
 	private static final long serialVersionUID = -8190150644233894201L;
 	private File myFile;
 	private String myAuthor;

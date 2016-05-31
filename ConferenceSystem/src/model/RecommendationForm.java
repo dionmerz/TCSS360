@@ -10,14 +10,10 @@ import java.io.Serializable;
  */
 public class RecommendationForm extends Paper implements Serializable{
 
-	/**
-	 * Serial identification number
-	 */
 	private static final long serialVersionUID = -6800776639147002957L;
 	private int myScore; 
 	
 	/**
-	 * 
 	 * @param thePath the file path
 	 * @param theAuthor the author name
 	 * @param theSubmitDate the submitted date

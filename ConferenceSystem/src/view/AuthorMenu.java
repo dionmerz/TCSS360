@@ -12,6 +12,13 @@ import model.Conference;
 import model.Manuscript;
 import model.User;
 
+/**
+ * User Interface Menu that displays all options
+ * for an Author.
+ * 
+ * @author Andrew Merz, Adam Marr, Bernabe Guzman, Bincheng Li
+ *
+ */
 public class AuthorMenu implements Serializable {
 	
 	private static final long serialVersionUID = -5035785019253162377L;
@@ -63,11 +70,11 @@ public class AuthorMenu implements Serializable {
 		switch (input.toUpperCase()) {
 		case "D":
 			// Update Manuscript
-			updateManuscriptAuthor(count, input, date, theUserList, theConferenceList, tempAuthor, theUser, theConference);
+			updateManuscriptAuthor(date, theUserList, theConferenceList, tempAuthor, theUser, theConference);
 			break;
 		case "N":
 			// Unsubmit Manuscript
-			unsubmitManuscriptAuthor(count, input, theUserList, theConferenceList, tempAuthor, theUser, theConference);
+			unsubmitManuscriptAuthor(theUserList, theConferenceList, tempAuthor, theUser, theConference);
 			break;
 		case "S":
 			// Submit Manuscript
@@ -130,25 +137,32 @@ public class AuthorMenu implements Serializable {
 		initialAuthorMenu(theUserList, theConferenceList, theUser, theConference);
 	}
 	
+
+
+	/**
+	 * 
 	/**
 	 * Update author's manuscript.
 	 * 
-	 * @param count
-	 * @param input users input
-	 * @param date data
+	 * @param date the date manuscript updated
 	 * @param theUserList list of users
 	 * @param theConferenceList list of conferences
-	 * @param tempAuthor author
+	 * @param theAuthorRole the role of the author
+	 * @param theCurrentUser The current logged in user.
+	 * @param theConference The current selected conference.
 	 */
-	public void updateManuscriptAuthor(int count, String input, String date, List<User> theUserList,
-			List<Conference> theConferenceList, Author tempAuthor, User theCurrentUser, Conference theConference) {
+	public void updateManuscriptAuthor(String date, List<User> theUserList,
+			List<Conference> theConferenceList, Author theAuthorRole, User theCurrentUser, Conference theConference) {
+		
+		int count = 1;
+		
 		System.out.println("Select a manuscript to update or command: ");
 		for (Manuscript m : theCurrentUser.getMyManuscripts()) {
 			System.out.println(count + ". " + m.getTitle());
 			count++;
 		}
 		System.out.println("B. Back");
-		input = myUserInput.next();
+		String input = myUserInput.next();
 		if (!input.equals("B")) {
 			Manuscript tempManuscript = theCurrentUser.getMyManuscripts().get(Integer.parseInt(input) - 1);
 			System.out.println("Enter the path of the updated manuscript");
@@ -156,7 +170,7 @@ public class AuthorMenu implements Serializable {
 
 			Manuscript updatedManuscript = new Manuscript(path, theCurrentUser.getMyName(), date,
 					tempManuscript.getTitle());
-			if (tempAuthor.updateAuthoredManuscript(theCurrentUser, updatedManuscript, theConferenceList)) {
+			if (theAuthorRole.updateAuthoredManuscript(theCurrentUser, updatedManuscript, theConferenceList)) {
 				System.out.println(updatedManuscript.getTitle() + " has been updated.\n");
 			} else {
 				System.out.println(updatedManuscript.getTitle() + " was not found.\n");
@@ -171,26 +185,28 @@ public class AuthorMenu implements Serializable {
 	/**
 	 * Unsubmit one of author's manuscript.
 	 * 
-	 * @param count
-	 * @param input user input
 	 * @param theUserList list of users
 	 * @param theConferenceList list of conferences
-	 * @param tempAuthor author
+	 * @param theAuthorRole The author role of the user.
+	 * @param theCurrentUser The current logged in user.
+	 * @param theConference The current selected conference.
 	 */
-	public void unsubmitManuscriptAuthor(int count, String input, List<User> theUserList,
-			List<Conference> theConferenceList, Author tempAuthor, User theCurrentUser, Conference theConference) {
+	public void unsubmitManuscriptAuthor(List<User> theUserList, List<Conference> theConferenceList, 
+			Author theAuthorRole, User theCurrentUser, Conference theConference) {
+		int count = 1;
+		
 		System.out.println("Select a manuscript to unsubmit or command: ");
 		for (Manuscript m : theCurrentUser.getMyManuscripts()) {
 			System.out.println(count + ". " + m.getTitle());
 			count++;
 		}
 		System.out.println("B. Back");
-		input = myUserInput.next();
+		String input = myUserInput.next();
 		if (!input.equals("B")) {
 
 			Manuscript removedManuscript = theCurrentUser.getMyManuscripts().get(Integer.parseInt(input) - 1);
 
-			if (tempAuthor.unsubmitManuscript(theCurrentUser, removedManuscript, theConferenceList)) {
+			if (theAuthorRole.unsubmitManuscript(theCurrentUser, removedManuscript, theConferenceList)) {
 				System.out.println(removedManuscript.getTitle() + " successfully removed.\n");
 
 			} else {

@@ -13,6 +13,7 @@ import java.util.List;
  * An Author role for a specific Conference.
  * 
  * @author Andrew Merz, Adam Marr, Bernabe Guzman, Bincheng Li
+ * @author maintained by Andrew Merz
  * @version 1.0 5/5/2016
  */
 public class Author extends Roles implements Serializable {
@@ -70,9 +71,7 @@ public class Author extends Roles implements Serializable {
 				} 	
 			}
 		}
-		return found;
-		
-		
+		return found;		
 	}
 	
 	/**

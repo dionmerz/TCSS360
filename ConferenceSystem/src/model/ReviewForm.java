@@ -9,9 +9,7 @@ import java.io.Serializable;
  * @version 1.0
  */
 public class ReviewForm  extends Paper implements Serializable{
-	/**
-	 * Serial identification number
-	 */
+
 	private static final long serialVersionUID = -3469664696759061781L;
 	private User myReviewer;
 	

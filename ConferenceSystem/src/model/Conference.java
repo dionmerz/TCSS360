@@ -26,7 +26,6 @@ public class Conference implements Serializable {
 	private Calendar myManuscriptDeadline;
 	
 	/**
-	 * Constructor for conference class.
 	 * 
 	 * @param theName Name of conference
 	 * @param theProgramChair The program chair

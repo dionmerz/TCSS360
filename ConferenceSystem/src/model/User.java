@@ -17,6 +17,7 @@ import java.util.List;
  * This class represents a user object.
  * 
  * @author Andrew Merz, Adam Marr, Bernabe Guzman, Bincheng Li
+ * @author maintained by Adam Marr
  * @version 1.0 5/5/2016
  */
 public class User implements Serializable {
@@ -263,7 +264,7 @@ public class User implements Serializable {
 				isAllowed = true;
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		

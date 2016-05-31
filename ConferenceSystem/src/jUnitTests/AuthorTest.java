@@ -53,7 +53,7 @@ public class AuthorTest {
 	}
 
 	/**
-	 * Tests Updating a submitted manuscript.
+	 * Tests Updating a submitted manuscript with only 1 manuscript submitted.
 	 */
 	@Test
 	public void testUpdateAuthoredManuscriptWithOneManuscript() {
@@ -68,7 +68,7 @@ public class AuthorTest {
 	}
 	
 	/**
-	 * Tests Updating a submitted manuscript.
+	 * Tests Updating a submitted manuscript with multiple manuscripts submitted.
 	 */
 	@Test
 	public void testUpdateAuthoredManuscriptWithMultipleManuscripts() {

@@ -50,6 +50,17 @@ public class Manuscript extends Paper implements Serializable {
 		myReviewFormList = new ArrayList<ReviewForm>();
 	}
 	
+	/**
+	 * 
+	 * @param thePath file path
+	 * @param theAuthor user who created file
+	 * @param theSubmitDate date submitted
+	 * @param theTitle title of manuscript
+	 * @param theStatus The status the manuscript currently has.
+	 * @param theRecomFormList List of Recommendations
+	 * @param theReviewerList List of Reviewers
+	 * @param theReviewFormList List of Reviewer forms.
+	 */
 	public Manuscript(String thePath, String theAuthor, String theSubmitDate,
 			String theTitle, Status theStatus, List<RecommendationForm> theRecomFormList,
 			List<User> theReviewerList, List<ReviewForm> theReviewFormList) {

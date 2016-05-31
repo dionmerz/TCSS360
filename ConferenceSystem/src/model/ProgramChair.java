@@ -14,14 +14,10 @@ import model.Manuscript.Status;
  */
 public class ProgramChair extends Roles implements Serializable {
 
-	/**
-	 * Serial identification number
-	 */
 	private static final long serialVersionUID = 4555961000972804977L;
 	private static final int MAX_PAPERS = 4;
 
 	/**
-	 * Program Chair Class Constructor
 	 * @param theConference
 	 */
 	public ProgramChair(Conference theConference) {
