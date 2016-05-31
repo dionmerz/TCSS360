@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import model.Author;
 import model.Conference;
 import model.ProgramChair;
 import model.Reviewer;
@@ -13,6 +11,11 @@ import model.Roles;
 import model.SubprogramChair;
 import model.User;
 
+/**
+ * Control interface for all Role user interfaces.
+ * @author Andrew Merz, Adam Marr, Bernabe Guzman, Bincheng Li
+ *
+ */
 public class TerminalUserInterface implements Serializable {
 
 	private static final long serialVersionUID = -5250437601882775308L;

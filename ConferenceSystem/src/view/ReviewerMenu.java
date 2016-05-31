@@ -31,7 +31,7 @@ public class ReviewerMenu implements Serializable  {
 	 * @param theConferenceList The list of all Conferences
 	 * @param myCurrentUser The currently logged in User.
 	 * @param myCurrentConference The current Conference that is selected.
-	 * @return
+	 * @return true if exited, false otherwise.
 	 */
 	public boolean initialReviewerMenu(List<User> theUserList, List<Conference> theConferenceList, 
 			User myCurrentUser, Conference myCurrentConference) {

@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 import model.Conference;
 import model.Manuscript;
-import model.ProgramChair;
 import model.Reviewer;
 import model.SubprogramChair;
 import model.User;
@@ -39,6 +38,7 @@ public class SubprogramChairMenu implements Serializable  {
 	 * @param theExitFlag exit flag
 	 * @param theUserList list of users
 	 * @param theConferenceList list of conferences
+	 * @return true if exited, false otherwise.
 	 */
 	public boolean initialSubprogramChairMenu(List<User> theUserList, List<Conference> theConferenceList, User theCurrentUser,
 			Conference theCurrentConference) {	
@@ -82,14 +82,15 @@ public class SubprogramChairMenu implements Serializable  {
 		return hasExitedSubprogramChairMenu;
 	}
 
+
 	/**
-	 * Assigns a manuscript to a reviewer.
-	 * 
-	 * @param count
-	 * @param input user input
-	 * @param tempSubprogramChair Subprogram Chair
+	 * Assigns a manuscript to a Reviewer
+	 * @param theSubprogramChairRole The Subprogram chair role.
+	 * @param theUserList The list of all users.
+	 * @param theCurrentUser the current logged in user.
+	 * @param theCurrentConference the current selected conference.
 	 */
-	public void assignManuscriptToReviewer(SubprogramChair tempSubprogramChair, List<User> theUserList, 
+	public void assignManuscriptToReviewer(SubprogramChair theSubprogramChairRole, List<User> theUserList, 
 			User theCurrentUser, Conference theCurrentConference) {
 		if (!theCurrentUser.getSubProgManuscript().isEmpty()) {
 			System.out.println("Select a manuscript to assign to a reviewer");
@@ -106,7 +107,7 @@ public class SubprogramChairMenu implements Serializable  {
 				promptSymbol();
 				int reviewerIndex = myUserConsoleInput.nextInt();
 				User selectedReviewer = reviewerList.get(reviewerIndex - 1);
-				List<Boolean> canAssignReviewerManuscript = tempSubprogramChair.assignReviewerManuscript(selectedReviewer, selectedManuscript);
+				List<Boolean> canAssignReviewerManuscript = theSubprogramChairRole.assignReviewerManuscript(selectedReviewer, selectedManuscript);
 				if (!canAssignReviewerManuscript.get(0)) {
 					System.out.println("Cannot assign a review to the author of the manuscript");
 				} else if (!canAssignReviewerManuscript.get(1)) {
@@ -120,13 +121,14 @@ public class SubprogramChairMenu implements Serializable  {
 		}
 	}
 
+
 	/**
-	 * Submits a recommendation to a manuscript.
-	 * @param count
-	 * @param input user choice
-	 * @param tempSubprogramChair Subprogram Chair
+	 * Submits a recommendation form for a specific manuscript.
+	 * @param theSubprogramChairRole The subprogram chair role.
+	 * @param theCurrentUser the current logged in user
+	 * @param theCurrentConference the current selected conference.
 	 */
-	public void submitRecommendationForManuscript(SubprogramChair tempSubprogramChair,
+	public void submitRecommendationForManuscript(SubprogramChair theSubprogramChairRole,
 			User theCurrentUser, Conference theCurrentConference) {
 		System.out.println("Select a manuscript to assign a recommendation");
 		printNumberedListOfSubprogramChairManuscripts(theCurrentUser);
@@ -142,7 +144,7 @@ public class SubprogramChairMenu implements Serializable  {
 			System.out.println("Enter a title for the recommendation form");
 			myUserConsoleInput.nextLine();
 			String title = myUserConsoleInput.nextLine();
-			tempSubprogramChair.appendRecomendationToManuscript(theCurrentUser, theCurrentConference, selectedManuscript, score, path, title);
+			theSubprogramChairRole.appendRecomendationToManuscript(theCurrentUser, theCurrentConference, selectedManuscript, score, path, title);
 			System.out.println("Reccommendation Form for " + selectedManuscript.getTitle() + " submitted.");
 		} else {
 			System.out.println("No Manuscripts assigned, returning to last menu.");
@@ -151,7 +153,7 @@ public class SubprogramChairMenu implements Serializable  {
 	
 	/**
 	 * Prints a list of reviewers assigned to the Subprogram Chair.
-	 * @param theReviewerList
+	 * @param theReviewerList the list of all reviewers
 	 */
 	public void printNumberedListOfReviewers(List<User> theReviewerList) {
 		int count = 1;
@@ -162,8 +164,8 @@ public class SubprogramChairMenu implements Serializable  {
 	}
 	
 	/**
-	 * Prints a list of manuscripts assigned to the Subprogam Chair.
-	 * @param theCurrentUser
+	 * Prints a list of manuscripts assigned to the Subprogram Chair.
+	 * @param theCurrentUser the current logged in user.
 	 */
 	public void printNumberedListOfSubprogramChairManuscripts(User theCurrentUser){
 		int count = 1;
@@ -182,8 +184,8 @@ public class SubprogramChairMenu implements Serializable  {
 	
 	/**
 	 * Prints a header indicating the Name of the user and current conference.
-	 * @param theCurrentUser
-	 * @param theCurrentConference
+	 * @param theCurrentUser the current logged in user.
+	 * @param theCurrentConference the current selected conference.
 	 */
 	private void printSubprogramChairMenuHeader(User theCurrentUser, Conference theCurrentConference) {
 		System.out.println();

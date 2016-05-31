@@ -40,6 +40,7 @@ public class ProgramChairMenu implements Serializable{
 	 * @param theExitFlag the exit flag
 	 * @param theUserList a user list
 	 * @param theConferenceList a conference list
+	 * @return true if exited, false otherwise
 	 */
 	public boolean initialProgramChairMenu(List<User> theUserList, List<Conference> theConferenceList, User theUser, Conference theConference) {
 		printProgramChairMenuHeader(theUser, theConference);
@@ -171,12 +172,14 @@ public class ProgramChairMenu implements Serializable{
 		}
 	}
 
+
 	/**
 	 * View all Subprogram Chairs and assigned manuscripts.
-	 * @param count
 	 * @param theUserList list of users
 	 * @param theConferenceList list of conferences
 	 * @param theProgramChair Program Chair
+	 * @param theUser The current logged in User
+	 * @param theConference The current selected Conference.
 	 */
 	public void viewAllAssignedSubprogramChairAndManuscript(List<User> theUserList, List<Conference> theConferenceList, 
 			ProgramChair theProgramChair, User theUser, Conference theConference) {
@@ -209,7 +212,7 @@ public class ProgramChairMenu implements Serializable{
 	
 	/**
 	 * Prints a list of manuscripts with recommendations.
-	 * @param theCurrentConference
+	 * @param theCurrentConference The current selected Conference.
 	 */
 	public boolean printNumberedListOfManuscriptsAndRecommendations(Conference theCurrentConference) {
 		int count = 1;
@@ -233,7 +236,7 @@ public class ProgramChairMenu implements Serializable{
 
 	/**
 	 * Prints a list of Subprogram Chair users in the conference that the Program Chair is assigned to. 
-	 * @param theCurrentConference
+	 * @param theCurrentConference The current selected Conference.
 	 */
 	public void printNumberedListOfSubprogramChairUsers(Conference theCurrentConference) {
 		int count = 1;
@@ -245,7 +248,7 @@ public class ProgramChairMenu implements Serializable{
 	
 	/**
 	 * Prints a list of manuscripts in the conference that the Program Chair is assigned to. 
-	 * @param theCurrentConference
+	 * @param theCurrentConference The current selected Conference.
 	 */
 	public void printNumberedListOfProgramChairConferenceManuscripts(Conference theCurrentConference) {
 		int count = 1; 
@@ -265,8 +268,8 @@ public class ProgramChairMenu implements Serializable{
 	/**
 	 * Prints the Program Chairs Menu header containing program title, name of current user, role of current user,
 	 * and current conference.
-	 * @param theCurrentUser
-	 * @param theCurrentConference
+	 * @param theCurrentUser The current logged in User
+	 * @param theCurrentConference The current selected Conference
 	 */
 	private void printProgramChairMenuHeader(User theCurrentUser, Conference theCurrentConference) {
 		System.out.println();
