@@ -12,7 +12,7 @@ import model.SubprogramChair;
 import model.User;
 
 /**
- * Control interface for all Role user interfaces.
+ * Control Menu for all Role user Menus.
  * @author Andrew Merz, Adam Marr, Bernabe Guzman, Bincheng Li
  *
  */
@@ -42,6 +42,9 @@ public class TerminalUserInterface implements Serializable {
 		mySetupStatus = false;	
 	}
 	
+	/**
+	 * Menu for logging the user into the system.
+	 */
 	public void loginRegisterMenu() {
 		
 		if (myUserInput == null) {
@@ -81,13 +84,11 @@ public class TerminalUserInterface implements Serializable {
 		}
 	}
 	
+
 	/**
-	 * Select a conference UI menu.
-	 * 
-	 * @param theFinishedFlag the login flag
-	 * @param theExitFlag the exit flag
-	 * @param theUserList a user list
-	 * @param theConferenceList a conference list
+	 * A menu for selecting the current conference.
+	 * @param theUserList the list of all Users.
+	 * @param theConferenceList the list of all conferences.
 	 */
 	public void selectConferenceMenu(List<User> theUserList, List<Conference> theConferenceList) {
 		int count = 0;
@@ -134,7 +135,7 @@ public class TerminalUserInterface implements Serializable {
 	 * Login menu checks to see if person is registered.
 	 * 
 	 * @param userList list of system users
-	 * @return true or false
+	 * @return true if login successful, false otherwise.
 	 */
 	public boolean login(List<User> userList) {
 		System.out.print("Enter your username: ");
@@ -164,9 +165,9 @@ public class TerminalUserInterface implements Serializable {
 	}
 	
 	/**
-	 * Register menu, returns user
+	 * Menu for registering a new User into the system.
 	 * 
-	 * @return user
+	 * @return user the new registered User.
 	 */
 	public User register() {
 		myUserInput.nextLine();
@@ -182,14 +183,11 @@ public class TerminalUserInterface implements Serializable {
 
 		return new User(input, input2, input3);
 	}
-	
+
 	/**
-	 * Select a role UI menu.
-	 * 
-	 * @param theFinishedFlag the login flag
-	 * @param theExitFlag the exit flag
-	 * @param theUserList a user list
-	 * @param theConferenceList a conference list
+	 * A Menu for selecting which role to use.
+	 * @param theUserList the list of all Users registered in the System.
+	 * @param theConferenceList the list of all Conferences.
 	 */
 	public void selectRoleMenu(List<User> theUserList, List<Conference> theConferenceList) {
 		boolean exited;
@@ -209,12 +207,15 @@ public class TerminalUserInterface implements Serializable {
 					selectRoleMenu(theUserList, theConferenceList);
 				}
 			break;
+			
 		case "E":
 			exit();
 			break;
+			
 		case "B":
 			selectConferenceMenu(theUserList, theConferenceList);
 			break;
+			
 		case "S":
 
 			if (myCurrentUser.findSubprogramChairRole() != null) {
@@ -225,15 +226,12 @@ public class TerminalUserInterface implements Serializable {
 				if (!exited) {
 					selectRoleMenu(theUserList, theConferenceList);
 				}
-
 			}else {
 				System.out.println("Invalid selection, returning to last menu");
 				selectRoleMenu(theUserList, theConferenceList);
 			}
 			break;
-//		case "M":
-//			submitManuscript(theUserList, theConferenceList);
-//			break;
+			
 		case "P":						
 			if (myCurrentUser.findProgramChairRole() != null) {
 				exited = false;
@@ -274,10 +272,10 @@ public class TerminalUserInterface implements Serializable {
 	 * This method checks to see if the user has a specified role in a
 	 * conference.
 	 * 
-	 * @param theConference a conference
-	 * @param theRole a role
-	 * @param theUser a user
-	 * @return true or false
+	 * @param theConference the current selected Conference
+	 * @param theRole the current role the logged in User is using.
+	 * @param theUser the current logged in User.
+	 * @return true if the User has the specific Role, false otherwise.
 	 */
 	public boolean hasRole(Conference theConference, Roles theRole, User theUser) {
 		boolean result = false;
@@ -292,14 +290,10 @@ public class TerminalUserInterface implements Serializable {
 	}
 	
 	/**
-	 * Print roles available to the user
+	 * Print roles available to the logged in User.
 	 */
 	public void printCurrentRoles() {
 		for (Roles r : myCurrentUser.getMyRoles()) {
-//			if (r.getClass().getSimpleName().equals("Author")
-//					&& r.getConference().getName().equals(myCurrentConference.getName())) {
-//				System.out.println("A. Author Options");
-//			}
 			if (r.getClass().getSimpleName().equals("ProgramChair")
 					&& r.getConference().getName().equals(myCurrentConference.getName())) {
 				System.out.println("P. Program Chair Options");
@@ -315,6 +309,9 @@ public class TerminalUserInterface implements Serializable {
 		}
 	}
 	
+	/**
+	 * Displays a header with current logged in User info, and selected Conference info.
+	 */
 	public void header() {
 		System.out.println();
 		System.out.println("---Scientific Manuscripts Are Reviewed in Terminal---");
@@ -324,6 +321,11 @@ public class TerminalUserInterface implements Serializable {
 		System.out.println();
 	}
 	
+	/**
+	 * Method to initialize the System with Conferences and Program Chairs
+	 * 
+	 * @return true after System is initialized.
+	 */
 	private boolean setup() {
 		myUserList = new ArrayList<User>();
 		myUserList.add(new User("Adam", "adamlogin", "adam@gmail.com"));
