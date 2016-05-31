@@ -89,6 +89,7 @@ public class ReviewerMenu implements Serializable  {
 		
 		int selectedInput;
 		if(viewReviewerManuscripts(theCurrentConference, theCurrentUser)) {
+			prompt();
 			selectedInput = myUserInput.nextInt();
 			Manuscript selectedManuscript = theCurrentUser.getMyManuscriptsToReview().get(selectedInput - 1);
 			System.out.println("Enter the path to the review form");
