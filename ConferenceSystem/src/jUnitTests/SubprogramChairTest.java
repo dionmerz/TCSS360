@@ -85,7 +85,7 @@ public class SubprogramChairTest {
 		userListMultipleUsers.add(subprogramChairUser);
 	}
 
-//-----------------assignReviewerManuscript test partition--------------------------------
+	//-----------------assignReviewerManuscript test partition--------------------------------
 	@Test
 	public void testAssignReviewerManuscriptReviewerNoManuscriptsToReview() {
 		assertTrue(reviewerNoManuscriptsToReview.getMyManuscriptsToReview().isEmpty());
@@ -119,6 +119,7 @@ public class SubprogramChairTest {
 		assertEquals(reviewerOneManuscriptToReview.getMyManuscriptsToReview().size(), 1);
 	}
 	
+	//-----------------appendRecommendationToManuscript test partition--------------------------------
 	@Test
 	public void testAppendRecommendationToManuscript() {
 		assertTrue(manuscript1.getRecomFormList().size() == 0);
@@ -129,6 +130,7 @@ public class SubprogramChairTest {
 		assertTrue(manuscript1.getStatus() == Status.RECOMMENDED);
 	}
 
+	//-----------------getListOfReviewers test partition--------------------------------
 	@Test
 	public void testGetListOfReviewersWithEmptyList() {
 		assertTrue(subprogramChairUser.findSubprogramChairRole().getListOfReviewersFromListOfUsers(emptyUserList).isEmpty());

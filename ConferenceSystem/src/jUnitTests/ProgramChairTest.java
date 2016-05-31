@@ -98,6 +98,7 @@ public class ProgramChairTest {
 		userListMultipleUsers.add(programChairUserForTestConference);
 	}
 	
+	//-----------------rejectManuscript test partition--------------------------------
 	@Test 
 	public void testRejectManuscript() {
 		assertEquals(subprogramChairOneManuscriptToRecommend.getSubProgManuscript().get(0).getStatus(),
@@ -111,6 +112,7 @@ public class ProgramChairTest {
 				Status.REJECTED);
 	}
 	
+	//-----------------acceptManuscript test partition--------------------------------
 	@Test 
 	public void testAcceptManuscript() {
 		assertEquals(subprogramChairOneManuscriptToRecommend.getSubProgManuscript().get(0).getStatus(),
@@ -124,6 +126,7 @@ public class ProgramChairTest {
 				Status.ACCEPTED);
 	}
 	
+	//-----------------assignSubprogManuscript test partition--------------------------------
 	@Test
 	public void testAssignSubprogramChairManuscriptSubprogramChairNoManuscriptsToRecommend() {
 		assertTrue(subprogramChairNoManuscriptsToRecommend.getSubProgManuscript().isEmpty());
@@ -150,7 +153,6 @@ public class ProgramChairTest {
 	
 	@Test
 	public void testAssignSubprogramChairManuscriptRecommendSelfAuthoredManuscript() {
-//		subprogramChairOneManuscriptToRecommend.setMyName("TestAuthor1");
 		assertEquals(subprogramChairOneManuscriptToRecommend.getSubProgManuscript().size(), 1);
 		programChairUserForTestConference.findProgramChairRole().assignSubProgManuscript(subprogramChairOneManuscriptToRecommend, testConference, manuscript1);
 		assertEquals(subprogramChairOneManuscriptToRecommend.getSubProgManuscript().get(0).getTitle(), "TestTitle1");
@@ -159,7 +161,6 @@ public class ProgramChairTest {
 	
 	@Test
 	public void testManuscriptCanOnlyBeAssignedToOneSubprogramChair() {
-//		subprogramChairNoManuscriptsToRecommend.setMyName("TestAuthor1");
 		assertEquals(subprogramChairNoManuscriptsToRecommend.getSubProgManuscript().size(), 0);
 		assertEquals(subprogramChairOneManuscriptToRecommend.getSubProgManuscript().size(), 1);
 		programChairUserForConferenceOneManuscriptNotRecommended.findProgramChairRole().assignSubProgManuscript(subprogramChairNoManuscriptsToRecommend, 
@@ -167,6 +168,7 @@ public class ProgramChairTest {
 		assertTrue(subprogramChairNoManuscriptsToRecommend.getSubProgManuscript().isEmpty());
 	}
 	
+	//-----------------getListOfManuscriptsWithRecommendation test partition--------------------------------
 	@Test
 	public void testGetListOfManuscriptsWithReccomendationConferenceNoManuscripts(){
 		assertTrue(conferenceNoManuscripts.getManuscripts().isEmpty());
