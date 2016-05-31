@@ -205,6 +205,7 @@ public class SubprogramChairMenu implements Serializable  {
 	 * @param theUser The current logged in User.
 	 */
 	private void printAllUserToDesignateAsReviewer(List<User> theUserList, Conference theConference, User theUser) {
+		System.out.println("Select a User to designate as a Reviewer:");
 		Reviewer reviewerRole = new Reviewer(theConference);
 		SubprogramChair currentSubprogramChair = theUser.findSubprogramChairRole();
 		List<User> targetUsers = new ArrayList<User>();

@@ -57,8 +57,9 @@ public class ProgramChair extends Roles implements Serializable {
 	
 	/**
 	 * Assigns a Subprogram Chair a Manuscript to review. 
-	 * @param theUser a Subprogram Chair
-	 * @param theManuscript a Manuscript
+	 * 
+	 * @param theUser the current logged in user
+	 * @param theManuscript a current selected Manuscript
 	 */
 	public ArrayList<Boolean> assignSubProgManuscript(User theUser, Conference theConference, Manuscript theManuscript) {
 		
@@ -67,11 +68,14 @@ public class ProgramChair extends Roles implements Serializable {
 		Boolean author = false;
 		Boolean assigned = false;
 		
-		for(Manuscript manuscript: theConference.getManuscripts()) { // check if manuscript already assigned to a subprogram chair
-			if(manuscript.equals(theManuscript)) {
-				assigned = true;
+		for (User sbRole: theConference.getSubProChairList()) {
+			for(Manuscript manuscript: sbRole.getSubProgManuscript()) { // check if manuscript already assigned to a subprogram chair
+				if(manuscript.equals(theManuscript)) {
+					assigned = true;
+				}
 			}
-		}
+		}	
+		
 		if(!theUser.getMyName().equals(theManuscript.getAuthor())) {	// If the name does not == author
 			author = true;
 			if(theUser.getSubProgManuscript().size() < MAX_PAPERS) {			// less than 4 papers
@@ -93,8 +97,9 @@ public class ProgramChair extends Roles implements Serializable {
 	 * 
 	 * @param theUser the User to be assigned Role of Subprogram Chair
 	 */
-	public void designateSubProgramChair(User theUser) {
+	public void designateSubProgramChair(User theUser, Conference theConference) {
 		theUser.addMyRole(new SubprogramChair(this.getConference()));
+		theConference.addSubProChairList(theUser);
 	}
 
 }

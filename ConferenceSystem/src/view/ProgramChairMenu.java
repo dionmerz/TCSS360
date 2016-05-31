@@ -183,7 +183,7 @@ public class ProgramChairMenu implements Serializable{
 	 */
 	public void viewAllAssignedSubprogramChairAndManuscript(List<User> theUserList, List<Conference> theConferenceList, 
 			ProgramChair theProgramChair, User theUser, Conference theConference) {
-		System.out.println("\nSubProgram Chair List");
+		System.out.println("\nSubprogram Chair List");
 		printNumberedListOfSubprogramChairUsers(theConference);
 		promptSymbol();
 		int subprogamChairIndex = myUserConsoleInput.nextInt();
@@ -289,6 +289,7 @@ public class ProgramChairMenu implements Serializable{
 	 * @param theUser The current logged in User.
 	 */
 	private void printAllUserToDesignateAsSubprogamChair(List<User> theUserList, Conference theConference, User theUser) {
+		System.out.println("Select a User to designate as a Subprogram Chair:");
 		SubprogramChair subprogramChairRole = new SubprogramChair(theConference);
 		ProgramChair currentProgramChair = theUser.findProgramChairRole();
 		List<User> targetUsers = new ArrayList<User>();
@@ -306,7 +307,7 @@ public class ProgramChairMenu implements Serializable{
 			}
 			promptSymbol();
 			int input = myUserConsoleInput.nextInt();
-			currentProgramChair.designateSubProgramChair(targetUsers.get(input - 1));
+			currentProgramChair.designateSubProgramChair(targetUsers.get(input - 1), theConference);
 			myUserConsoleInput.nextLine();
 			System.out.println(targetUsers.get(input - 1).getMyName() + " designated as Subprogram Chair.");
 		}

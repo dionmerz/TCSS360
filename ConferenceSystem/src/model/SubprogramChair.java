@@ -98,6 +98,7 @@ public class SubprogramChair extends Roles implements Serializable {
 	 */
 	public void designateReviewer(User theUser) {
 		theUser.addMyRole(new Reviewer(this.getConference()));
+	
 	}
 	
 }

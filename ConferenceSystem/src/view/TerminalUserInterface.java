@@ -327,80 +327,42 @@ public class TerminalUserInterface implements Serializable {
 	 * @return true after System is initialized.
 	 */
 	private boolean setup() {
-		myUserList = new ArrayList<User>();
-		myUserList.add(new User("Adam", "adamlogin", "adam@gmail.com"));
-		myUserList.add(new User("Kevin", "kevinlogin", "kevin@gmail.com"));
-		myUserList.add(new User("Andrew", "andrewlogin", "andrew@gmail.com"));
-		myUserList.add(new User("Bernie", "bernielogin", "bernie@gmail.com"));
+//		myUserList = new ArrayList<User>();
+//		myConferenceList = new ArrayList<Conference>();
+		
+		myUserList.add(new User("Adam Marr", "amarr", "adam@gmail.com"));
+		myUserList.add(new User("Kevin Li", "kli", "kevin@gmail.com"));
+		myUserList.add(new User("Andrew Merz", "amerz", "andrew@gmail.com"));
+		myUserList.add(new User("Bernie Guzman", "bguzman", "bernie@gmail.com"));
 
-		myConferenceList = new ArrayList<Conference>();
+		
 		myConferenceList.add(new Conference("Conference on Programming Language Design and Implementation",
-				myUserList.get(0), "start date", "end date", "paper deadline", "rev deadline", 60, 30));
+				myUserList.get(0), "8/1/2016", "8/8/2016", "6/20/2016", "7/20/2016", 60, 30));
 		myConferenceList.add(new Conference("International Conference on Automated Software Engineering", myUserList.get(0),
-				"start date", "end date", "paper deadline", "rev deadline", 0, 0));
-		myConferenceList.add(new Conference("Conference on Computer Aided Verification", myUserList.get(0), "start date",
-				"end date", "paper deadline", "rev deadline", 60, 30));
+				"8/1/2016", "8/8/2016", "6/20/2016", "7/20/2016", 0, 0));
+		myConferenceList.add(new Conference("Conference on Computer Aided Verification", myUserList.get(0), "8/1/2016",
+				"8/8/2016", "6/20/2016", "7/20/2016", 60, 30));
+		myConferenceList.add(new Conference("International Conference on Software Engineering", myUserList.get(0), "8/1/2016",
+				"8/8/2016", "6/20/2016", "7/20/2016", 60, 30));
 
-		myUserList.get(0).addMyRole(new SubprogramChair(myConferenceList.get(0))); // adam
-																				// login
-																				// and
-																				// roles
-		myUserList.get(0).addMyRole(new ProgramChair(myConferenceList.get(0)));
-		myUserList.get(0).addMyRole(new Reviewer(myConferenceList.get(0)));
+		
+		// Adam initialized info
+		User adam = myUserList.get(0);
+		adam.addMyRole(new ProgramChair(myConferenceList.get(0)));
+		
+		// Kevin initialized info
+		User kevin = myUserList.get(1);
+		kevin.addMyRole(new ProgramChair(myConferenceList.get(1)));
+		
+		// Andrew initialized info
+		User andrew = myUserList.get(2);
+		andrew.addMyRole(new ProgramChair(myConferenceList.get(2)));
+		
+		// Bernie initialized info
+		User bernie = myUserList.get(3);
+		bernie.addMyRole(new ProgramChair(myConferenceList.get(3)));
+		
 
-		myUserList.get(1).addMyRole(new SubprogramChair(myConferenceList.get(0))); // Kevein
-																				// login
-																				// /
-																				// roles
-
-		myUserList.get(2).addMyRole(new Reviewer(myConferenceList.get(0))); // Andrew
-																		// login
-																		// /
-																		// roles
-
-		myUserList.get(3).addMyRole(new Reviewer(myConferenceList.get(0))); // Bernie
-																		// login
-																		// /roles
-
-		myCurrentUser = myUserList.get(3);
-		myCurrentConference = myConferenceList.get(0);
-		myCurrentConference.addSubProChairList(myUserList.get(1));
-
-//		myCurrentUser.submitManuscript("CoolCS.txt", "How Good is Almost Perfect?", myCurrentUser, myCurrentConference);
-//		myCurrentUser.submitManuscript("IEEE.txt", "Learning Natural Coding Conventions", myCurrentUser, myCurrentConference);
-//		myCurrentUser.submitManuscript("PP.txt", "On the Steady-State of Cache Networks", myCurrentUser, myCurrentConference);
-
-		myCurrentUser = myUserList.get(0);
-		SubprogramChair initSubprogramChair = myCurrentUser.findSubprogramChairRole();
-		// ProgramChair initProgramChair = currentUser.findProgramChairRole();
-		// initProgramChair.assignSubProgManuscript(userList.get(1),
-		// currentConference.getManuscripts().get(0));
-		// initProgramChair.assignSubProgManuscript(userList.get(1),
-		// currentConference.getManuscripts().get(1));
-		//initSubprogramChair.assignReviewerManuscript(myUserList.get(1), myCurrentConference.getManuscripts().get(2));
-
-		myCurrentUser = myUserList.get(1);
-
-//		initSubprogramChair.submitRecomendation(myCurrentUser, myCurrentConference, myCurrentConference.getManuscripts().get(0), 1,
-//				"reccomend1.txt", "rectitle1");
-//		initSubprogramChair.submitRecomendation(myCurrentUser, myCurrentConference, myCurrentConference.getManuscripts().get(1), 3,
-//				"reccomend2.txt", "rectitle2");
-//		initSubprogramChair.submitRecomendation(myCurrentUser, myCurrentConference, myCurrentConference.getManuscripts().get(2), 2,
-//				"reccomend3.txt", "rectitle3");
-
-//		myCurrentConference = myConferenceList.get(1);
-//		myCurrentUser = myUserList.get(1);
-//		myCurrentUser.submitManuscript("path1", "Queues Don't Matter When You Can JUMP Them!", myCurrentUser,
-//				myCurrentConference);
-		// initSubprogramChair.assignReviewerManuscript(userList.get(0),
-		// currentConference.getManuscripts().get(0));
-		// initSubprogramChair.assignReviewerManuscript(userList.get(1),
-		// currentConference.getManuscripts().get(0));
-
-		myCurrentUser = myUserList.get(1);
-		myCurrentConference.addSubProChairList(myCurrentUser);
-		myCurrentUser = null;
-		myCurrentConference = null;
 		return true;
 	}
 
