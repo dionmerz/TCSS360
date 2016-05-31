@@ -41,7 +41,7 @@ public class ReviewFormTest {
 	 */
 	@Test
 	public void testConstructor() {
-		String testPath = Paths.get(".").toAbsolutePath().normalize().toString()+ "\\" + TEST_PATH;
+		String testPath = Paths.get(".").toAbsolutePath().normalize().toString()+ "/" + TEST_PATH;
 		assertTrue(testReviewForm.getPath().equals(testPath));
 		assertTrue(testReviewForm.getAuthor().equals(TEST_AUTHOR));
 		assertTrue(testReviewForm.getSubmittedDateString().equals(TEST_DATE));
