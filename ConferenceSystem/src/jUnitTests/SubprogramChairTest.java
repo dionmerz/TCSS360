@@ -85,6 +85,7 @@ public class SubprogramChairTest {
 		userListMultipleUsers.add(subprogramChairUser);
 	}
 
+//-----------------assignReviewerManuscript test partition--------------------------------
 	@Test
 	public void testAssignReviewerManuscriptReviewerNoManuscriptsToReview() {
 		assertTrue(reviewerNoManuscriptsToReview.getMyManuscriptsToReview().isEmpty());
