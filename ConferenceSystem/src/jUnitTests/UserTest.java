@@ -42,6 +42,10 @@ public class UserTest {
 	private User testUserWithTwoRole;
 	private User testUserWithNoRole;
 	
+	private User nearlyIdenticalUser1;
+	private User nearlyIdenticalUser2;
+	private User identicalUser;
+	
 	private Conference testConference1;
 	
 	Manuscript testManuscript;
@@ -55,6 +59,10 @@ public class UserTest {
 		
 		testUser = new User("Ted Testsworth", "BigTed", "TedsAddress@gmail.com");
 		testUser2 = new User("Fred Testsworth", "FiredUpFred", "FredsAddress@gmail.com");
+		
+		nearlyIdenticalUser1 = new User("Ted Testsworth", "BigTed", "TedsAddress@gmail.com");
+		nearlyIdenticalUser2 = new User("Ted Testsworth", "BigTed ", "TedsAddress@gmail.com");
+		identicalUser = new User("Ted Testsworth", "BigTed", "TedsAddress@gmail.com");
 		
 		testUserWithOneAuthoredPaper = new User("Ted Testsworth", "BigTedOnePaper", "TedsAddress@gmail.com");
 		testUserWithTwoAuthoredPaper = new User("Ted Testsworth", "BigTedOnePaper", "TedsAddress@gmail.com");
@@ -550,14 +558,59 @@ public class UserTest {
 		assertTrue(testUserWithNoRole.findReviewerRole() == null);
 	}
 
+	/**
+	 * Tests the equals method to ensure that it properly compares User objects.
+	 */
 	@Test
 	public void testEqualsObject() {
-		fail("Not yet implemented");
+		assertFalse(nearlyIdenticalUser1.equals(nearlyIdenticalUser2));
+		assertTrue(nearlyIdenticalUser1.equals(identicalUser));
+		assertTrue(nearlyIdenticalUser1.equals(nearlyIdenticalUser1));
 	}
 
+	/**
+	 * Tests the hasRole method to ensure it properly returns the expected boolean value for this user.
+	 * Partiton: A user with no roles.
+	 */
 	@Test
-	public void testHasRole() {
-		fail("Not yet implemented");
+	public void testHasRoleForUserWithNoRoles() {
+		assertFalse(testUserWithNoRole.hasRole(testConference1, new Author(testConference1), testUserWithNoRole));
+	}
+
+	/**
+	 * Tests the hasRole method to ensure it properly returns the expected boolean value for this user.
+	 * Partiton: A user with the Author Role.
+	 */
+	@Test
+	public void testHasRoleForUserWithAuthorRole() {
+		assertTrue(testUserWithAuthorRole.hasRole(testConference1, new Author(testConference1), testUserWithAuthorRole));
+	}
+
+	/**
+	 * Tests the hasRole method to ensure it properly returns the expected boolean value for this user.
+	 * Partiton: A user with the ReviewerRole.
+	 */
+	@Test
+	public void testHasRoleForUserWithReviewerRole() {
+		assertTrue(testUserWithReviewerRole.hasRole(testConference1, new Reviewer(testConference1), testUserWithReviewerRole));
+	}
+
+	/**
+	 * Tests the hasRole method to ensure it properly returns the expected boolean value for this user.
+	 * Partiton: A user with the SubprogramChair role.
+	 */
+	@Test
+	public void testHasRoleForUserWithSubprogramChairRole() {
+		assertTrue(testUserWithSubprogramChairRole.hasRole(testConference1, new SubprogramChair(testConference1), testUserWithSubprogramChairRole));
+	}
+
+	/**
+	 * Tests the hasRole method to ensure it properly returns the expected boolean value for this user.
+	 * Partiton: A user with the ProgramChair Role.
+	 */
+	@Test
+	public void testHasRoleForUserWithProgramChairRole() {
+		testUserWithProgramChairRole.hasRole(testConference1, new ProgramChair(testConference1), testUserWithProgramChairRole);
 	}
 
 }
