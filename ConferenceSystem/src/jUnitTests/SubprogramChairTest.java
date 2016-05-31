@@ -100,7 +100,7 @@ public class SubprogramChairTest {
 		assertEquals(testSubprogramChairRole.getClass(), SubprogramChair.class);
 	}
 
-	//-----------------assignReviewerManuscript test partition--------------------------------
+	//-----------------assignReviewerManuscript test partitions--------------------------------
 	/**
 	 * Tests assignReviewerManuscript by assigning a reviewer with no manuscripts a manuscript. 
 	 */
@@ -155,7 +155,7 @@ public class SubprogramChairTest {
 		assertTrue(manuscript1.getStatus() == Status.RECOMMENDED);
 	}
 
-	//-----------------getListOfReviewers test partition--------------------------------
+	//-----------------getListOfReviewers test partitions--------------------------------
 	@Test
 	public void testGetListOfReviewersWithEmptyList() {
 		assertTrue(subprogramChairUser.findSubprogramChairRole().getListOfReviewersFromListOfUsers(emptyUserList).isEmpty());
