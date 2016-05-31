@@ -136,7 +136,7 @@ public class ReviewerMenu implements Serializable  {
 				System.out.println(count + ". " + m.getTitle());
 				count++;
 				for(ReviewForm r: theCurrentUser.getMyReviews()) {
-					if(m.getReviewerList().contains(r)) {
+					if(m.getReviewList().contains(r)) {
 						System.out.println("\t" + r.getTitle());
 					}
 				}
