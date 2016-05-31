@@ -1,9 +1,6 @@
 package view;
 
-import java.io.File;
 import java.io.Serializable;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -17,9 +14,6 @@ import model.User;
 
 public class AuthorMenu implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5035785019253162377L;
 	
 	private transient Scanner myUserInput;
@@ -31,12 +25,14 @@ public class AuthorMenu implements Serializable {
 	}
 	
 	/**
-	 * Author UI menu.
+	 * The first Author Role Menu, this menu
+	 * displays the options of what a Author can do.
 	 * 
-	 * @param theFinishedFlag the login flag
-	 * @param theExitFlag the exit flag
-	 * @param theUserList a user list
-	 * @param theConferenceList a conference list
+	 * @param theUserList The list of all the Users
+	 * @param theConferenceList The list of all the Conferences
+	 * @param theUser The currently logged in User.
+	 * @param theConference The current selected Conference.
+	 * @return True if exit is selected, false otherwise.
 	 */
 	public boolean initialAuthorMenu(List<User> theUserList, List<Conference> theConferenceList, User theUser, Conference theConference) {
 		if (myUserInput == null) {
@@ -79,6 +75,7 @@ public class AuthorMenu implements Serializable {
 			break;
 		case "B":
 			// Back to previous menu.
+			hasExited = false;
 			break;
 		case "E":
 			exit();
@@ -105,6 +102,14 @@ public class AuthorMenu implements Serializable {
 		
 	}
 	
+	/**
+	 * Displays the menu to submit a manuscript to the selected conference.
+	 * 
+	 * @param theUserList The list of all the Users
+	 * @param theConferenceList The list of all the Conferences
+	 * @param theUser The currently logged in User.
+	 * @param theConference The current selected Conference.
+	 */
 	public void submitManuscriptUI(List<User> theUserList, List<Conference> theConferenceList, User theUser, Conference theConference) {
 		System.out.println("Enter the path to the manuscript: ");
 		prompt();

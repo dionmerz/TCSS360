@@ -2,6 +2,9 @@ package jUnitTests;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +14,6 @@ import org.junit.Test;
 import model.Author;
 import model.Conference;
 import model.Manuscript;
-import model.Paper;
 import model.User;
 
 /**
@@ -21,10 +23,8 @@ import model.User;
  */
 public class AuthorTest {
 	private List<Conference> confList;
-	private Paper script;
-	private Paper updatedManuscript;
+	private Manuscript updatedManuscript;
 	private User authorUser;
-	private Author auth;
 	private Conference testConference;
 
 	@Before
@@ -32,13 +32,19 @@ public class AuthorTest {
 
 		authorUser  = new User("TempUser", "UserLogin", "User@email.com");
 		confList = new ArrayList<Conference>();
-		updatedManuscript = new Manuscript("updatedScript.txt", "AuthorTestFile", "SubmitDate", "TestTitle");
+		
+		updatedManuscript = new Manuscript("testFile.txt", authorUser.getMyName(), "SubmitDate", "AuthorTestFile");
+		
 		testConference = new Conference("Conf1", authorUser, "start", "stop", "PDeadline", "RDeadline", 60, 60);
+		
 		authorUser.submitManuscript("testFile.txt", "AuthorTestFile", authorUser, testConference);
-		script = new Manuscript("testFile.txt", "TempUser", "SubmitDate", "AuthorTestFile");
+		
 		confList.add(testConference);
 	}
 	
+	/**
+	 * Test the Construction of the Author Object
+	 */
 	@Test
 	public void testAuthorConstructor() {
 		Author tempAuthor = new Author(testConference);
@@ -46,27 +52,53 @@ public class AuthorTest {
 
 	}
 
+	/**
+	 * Tests Updating a submitted manuscript.
+	 */
 	@Test
 	public void testUpdateAuthoredManuscript() {
-		auth.updateAuthoredManuscript(authorUser, (Manuscript) updatedManuscript, confList);
-		System.out.println(confList.get(0).getManuscripts().get(0).getPath());
-		assertTrue("updatedScript.txt".equals(confList.get(0).getManuscripts().get(0).getPath()));
+		Author testAuthor = authorUser.findAuthorRole();
+		testAuthor.updateAuthoredManuscript(authorUser, updatedManuscript, confList);
+		Path localFile = Paths.get(updatedManuscript.getPath());
+		File checkFile = new File(localFile.toString());
+		assertTrue(checkFile.exists());
 		
+		assertTrue(authorUser.getMyManuscripts().contains(updatedManuscript));
+	    	
 	}
 
-	
+	/**
+	 * Tests unsubmit of a manuscript where the
+	 *  user only has 1 manuscript currently submitted.
+	 */
 	@Test
-	public void testUnsubmitManuscript() {
+	public void testUnsubmitManuscriptWithOneManuscipt() {
+		Author testAuthor = authorUser.findAuthorRole();
 		
+		Manuscript removeManuscript= authorUser.getMyManuscripts().get(0);
+		assertTrue(authorUser.getMyManuscripts().size() == 1);
 		
-		assertTrue(testConference.getManuscripts().size() == 1);
+		testAuthor.unsubmitManuscript(authorUser, removeManuscript, confList);
 		
-		auth.unsubmitManuscript(authorUser, (Manuscript) script, confList);
+		assertTrue(authorUser.getMyManuscripts().size() == 0);
 		
-		assertTrue(testConference.getManuscripts().size() == 0);
+	}
+	/**
+	 * Tests unsubmit of a manuscript where the
+	 *  user only has multiple manuscript currently submitted.
+	 */
+	@Test
+	public void testUnsubmitManuscriptWithMultipleManuscript() {
+		Author testAuthor = authorUser.findAuthorRole();
+		authorUser.submitManuscript("test2.txt", "SecondManuscriptTitle", authorUser, confList.get(0));
+		Manuscript removeManuscript= authorUser.getMyManuscripts().get(0);
+		assertTrue(authorUser.getMyManuscripts().size() > 1);
+		int numberOfManuscripts = authorUser.getMyManuscripts().size();
 		
-		// Replace the test file.
-		authorUser.submitManuscript("testFile.txt", "AuthorTestFile", authorUser, testConference);
+		testAuthor.unsubmitManuscript(authorUser, removeManuscript, confList);
+		
+		assertTrue(authorUser.getMyManuscripts().size() == numberOfManuscripts - 1);
+		assertFalse(authorUser.getMyManuscripts().contains(removeManuscript));
 		
 	}
 

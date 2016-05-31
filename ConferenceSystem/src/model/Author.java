@@ -52,6 +52,7 @@ public class Author extends Roles implements Serializable {
 		
 		for(Conference c: theConferences) {
 			if (c.getManuscripts().contains(theManuscript)) {
+				
 				c.removeManuscript(theManuscript);
 				currentUser.removeManuscript(theManuscript);
 				
@@ -66,7 +67,7 @@ public class Author extends Roles implements Serializable {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}	
+				} 	
 			}
 		}
 		return found;
@@ -89,7 +90,7 @@ public class Author extends Roles implements Serializable {
 				found = true;
 				
 				try {
-					System.out.println(theManuscript.getPath());
+					
 					Files.delete(Paths.get(theManuscript.getPath()));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

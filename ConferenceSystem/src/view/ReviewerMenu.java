@@ -15,11 +15,24 @@ public class ReviewerMenu implements Serializable  {
 	private transient Scanner myUserInput;
 	private boolean hasExited;
 	
+	/**
+	 * 
+	 * @param theUserInput Scanner for UI input.
+	 */
 	public ReviewerMenu(Scanner theUserInput) {
 		myUserInput = theUserInput;
 		hasExited = false;
 	}
 
+	/**
+	 * The first Reviewer Role Menu, this menu
+	 * displays the options of what a Reviewer can do.
+	 * @param theUserList The list of all Users
+	 * @param theConferenceList The list of all Conferences
+	 * @param myCurrentUser The currently logged in User.
+	 * @param myCurrentConference The current Conference that is selected.
+	 * @return
+	 */
 	public boolean initialReviewerMenu(List<User> theUserList, List<Conference> theConferenceList, 
 			User myCurrentUser, Conference myCurrentConference) {
 
@@ -34,7 +47,7 @@ public class ReviewerMenu implements Serializable  {
 		System.out.println("3. Back");
 		System.out.println("4. Exit");
 
-		Reviewer tempReview = myCurrentUser.findReviewerRole();
+		Reviewer userReviewerRole = myCurrentUser.findReviewerRole();
 
 		prompt();
 		int input = myUserInput.nextInt();
@@ -47,7 +60,7 @@ public class ReviewerMenu implements Serializable  {
 			break;
 		case 2:
 			header(myCurrentUser, myCurrentConference);
-			uploadReviewForm(input, tempReview, myCurrentUser, myCurrentConference);
+			uploadReviewForm(userReviewerRole, myCurrentUser, myCurrentConference);
 			initialReviewerMenu(theUserList, theConferenceList, myCurrentUser, myCurrentConference);
 			break;
 		case 3:
@@ -65,18 +78,19 @@ public class ReviewerMenu implements Serializable  {
 	}
 
 	/**
-	 * Upload a review form and attach to manuscript.
+	 * Upload a Review form for a specific Manuscript.
 	 * 
-	 * @param theInput user input
-	 * @param theReviewer reviewer
+	 * @param theReviewer The reviewer role uploading the form.
+	 * @param theCurrentUser The currently logged in User.
+	 * @param theCurrentConference The current conference selected.	
 	 */
-	public void uploadReviewForm(int theInput, Reviewer theReviewer, User theCurrentUser, Conference theCurrentConference) {
+	public void uploadReviewForm(Reviewer theReviewer, User theCurrentUser, Conference theCurrentConference) {
 		System.out.println("Select a manuscript to upload a review for");
 		
-
+		int selectedInput;
 		if(viewReviewerManuscripts(theCurrentConference, theCurrentUser)) {
-			theInput = myUserInput.nextInt();
-			Manuscript selectedManuscript = theCurrentUser.getMyManuscriptsToReview().get(theInput - 1);
+			selectedInput = myUserInput.nextInt();
+			Manuscript selectedManuscript = theCurrentUser.getMyManuscriptsToReview().get(selectedInput - 1);
 			System.out.println("Enter the path to the review form");
 			myUserInput.nextLine();
 			String path = myUserInput.nextLine();
@@ -103,6 +117,14 @@ public class ReviewerMenu implements Serializable  {
 		} 
 	}
 
+	/**
+	 * Displays a list of all the manuscripts which 
+	 * are assigned to the logged in User for the User to Review.
+	 * 
+	 * @param theCurrentConference The current conference that is selected.
+	 * @param theCurrentUser The current user who is logged in.
+	 * @return true if the current User is assign manuscripts to review.
+	 */
 	public boolean viewReviewerManuscripts(Conference theCurrentConference, User theCurrentUser) {
 		int count = 1;
 		boolean isNotEmpty = false;
@@ -127,8 +149,8 @@ public class ReviewerMenu implements Serializable  {
 	
 	/**
 	 * Prints a header indicating the Name of the user and current conference.
-	 * @param theCurrentUser
-	 * @param theCurrentConference
+	 * @param theCurrentUser The current logged in User.
+	 * @param theCurrentConference the current selected Conference.
 	 */
 	private void header(User theCurrentUser, Conference theCurrentConference) {
 		System.out.println();
