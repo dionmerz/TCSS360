@@ -38,8 +38,12 @@ public class SubprogramChairTest {
 	private User reviewerOneManuscriptToReview;
 	private User reviewerFourManuscriptsToReview;
 	private User subprogramChairUser;
-	private Conference conference;
+	private Conference testConference;
 
+	/**
+	 * Sets up all objects used for testing. This method runs before each individual test. 
+	 * @throws Exception if there exist any initialization errors
+	 */
 	@Before
 	public void setUp() throws Exception {
 		emptyRolesList = new ArrayList<Roles>();
@@ -62,30 +66,44 @@ public class SubprogramChairTest {
 		listFourManuscript.add(manuscript4);
 		
 		reviewerNoManuscriptsToReview  = new User("TestReviewer1", "ReviewerLogin1", "reviewer1@email.com");
-		reviewerNoManuscriptsToReview.addMyRole(new Reviewer(conference));
+		reviewerNoManuscriptsToReview.addMyRole(new Reviewer(testConference));
 		reviewerOneManuscriptToReview  = new User("TestReviewer2", "ReviewerLogin2", "reviewer2@email.com",
 													emptyRolesList, null, listOneManuscript, null, null);
-		reviewerOneManuscriptToReview.addMyRole(new Reviewer(conference));
+		reviewerOneManuscriptToReview.addMyRole(new Reviewer(testConference));
 		reviewerFourManuscriptsToReview  = new User("TestReviewer3", "ReviewerLogin3", "reviewer3@email.com",
 													emptyRolesList, null, listFourManuscript, null, null);
-		reviewerFourManuscriptsToReview.addMyRole(new Reviewer(conference));
+		reviewerFourManuscriptsToReview.addMyRole(new Reviewer(testConference));
 		
 		subprogramChairUser = new User("TestSubprogramChair", "SubprogramLogin", "subprogram@email.com");
-		subprogramChairUser.addMyRole(new SubprogramChair(conference));
+		subprogramChairUser.addMyRole(new SubprogramChair(testConference));
 		
-		conference = new Conference("Conf1", reviewerNoManuscriptsToReview, "start", "stop", "PDeadline", "RDeadline", 30, 60);
-		conference.addManuscript((Manuscript) manuscript1);
+		testConference = new Conference("Conf1", reviewerNoManuscriptsToReview, "start", "stop", "PDeadline", "RDeadline", 30, 60);
+		testConference.addManuscript((Manuscript) manuscript1);
 		
 		conferenceList = new ArrayList<Conference>();
-		conferenceList.add(conference);
+		conferenceList.add(testConference);
 		
 		userListMultipleUsers.add(reviewerNoManuscriptsToReview);
 		userListMultipleUsers.add(reviewerOneManuscriptToReview);
 		userListMultipleUsers.add(reviewerFourManuscriptsToReview);
 		userListMultipleUsers.add(subprogramChairUser);
 	}
+	
+	//-------------SubprogramChair class constructor role test partition---------------------------
+	/**
+	* Tests the Subprogram Chair class constructor. 
+    */
+	@Test
+	public void testSubprogramChairConstructor() {
+		SubprogramChair testSubprogramChairRole = new SubprogramChair(testConference);
+		assertEquals(testSubprogramChairRole.getConference().getName(), "Conf1");
+		assertEquals(testSubprogramChairRole.getClass(), SubprogramChair.class);
+	}
 
 	//-----------------assignReviewerManuscript test partition--------------------------------
+	/**
+	 * Tests assignReviewerManuscript by assigning a reviewer with no manuscripts a manuscript. 
+	 */
 	@Test
 	public void testAssignReviewerManuscriptReviewerNoManuscriptsToReview() {
 		assertTrue(reviewerNoManuscriptsToReview.getMyManuscriptsToReview().isEmpty());
@@ -94,6 +112,9 @@ public class SubprogramChairTest {
 		assertEquals(reviewerNoManuscriptsToReview.getMyManuscriptsToReview().get(0).getTitle(), "TestTitle1");
 	}
 	
+	/**
+	 * Tests assignReviewerManuscript by assigning a reviewer with one manuscripts a manuscript. 
+	 */
 	@Test
 	public void testAssignReviewerManuscriptReviewerOneManuscriptToReview() {
 		assertEquals(reviewerOneManuscriptToReview.getMyManuscriptsToReview().size(), 1);
@@ -102,6 +123,10 @@ public class SubprogramChairTest {
 		assertEquals(reviewerOneManuscriptToReview.getMyManuscriptsToReview().get(1).getTitle(), "TestTitle2");
 	}
 	
+	/**
+	 * Tests assignReviewerManuscript by assigning a reviewer with four manuscripts a manuscript. This 
+	 * cover business rule 10 ""
+	 */
 	@Test
 	public void testAssignReviewerManuscriptReviewerWithFourManuscriptsToReview() {
 		assertEquals(reviewerFourManuscriptsToReview.getMyManuscriptsToReview().size(), 4);
@@ -124,7 +149,7 @@ public class SubprogramChairTest {
 	public void testAppendRecommendationToManuscript() {
 		assertTrue(manuscript1.getRecomFormList().size() == 0);
 		assertTrue(manuscript1.getStatus() == Status.SUBMITTED);
-		subprogramChairUser.findSubprogramChairRole().appendRecomendationToManuscript(reviewerOneManuscriptToReview, conference, 
+		subprogramChairUser.findSubprogramChairRole().appendRecomendationToManuscript(reviewerOneManuscriptToReview, testConference, 
 				manuscript1, 5, "recommend.txt", "PaperRecommendation");
 		assertTrue(manuscript1.getRecomFormList().size() == 1);
 		assertTrue(manuscript1.getStatus() == Status.RECOMMENDED);

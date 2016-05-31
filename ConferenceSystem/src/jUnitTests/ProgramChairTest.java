@@ -98,6 +98,17 @@ public class ProgramChairTest {
 		userListMultipleUsers.add(programChairUserForTestConference);
 	}
 	
+	//-------------ProgramChair class constructor role test partition---------------------------
+	/**
+	* Tests the Program Chair class constructor.
+	*/
+	@Test
+	public void testProgramChairConstructor() {
+			ProgramChair testProgramChairRole = new ProgramChair(testConference);
+			assertEquals(testProgramChairRole.getConference().getName(), "Conf1");
+			assertEquals(testProgramChairRole.getClass(), ProgramChair.class);
+	}
+	
 	//-----------------rejectManuscript test partition--------------------------------
 	@Test 
 	public void testRejectManuscript() {
