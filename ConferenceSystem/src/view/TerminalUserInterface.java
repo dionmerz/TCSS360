@@ -157,7 +157,7 @@ public class TerminalUserInterface implements Serializable {
 	 * UI exit menu
 	 */
 	public void exit() {
-		
+		System.out.println("Thank you for using S.M.A.R.T, goodbye");
 	}
 	
 	/**
@@ -199,19 +199,6 @@ public class TerminalUserInterface implements Serializable {
 		String roleChoiceInput = myUserInput.next();
 		switch (roleChoiceInput.toUpperCase()) {
 		case "A":		
-//			if (myCurrentUser.findAuthorRole() != null) {
-//				boolean exited = false;
-//				exited = myAuthorMenu.initialAuthorMenu(theUserList, theConferenceList, 
-//						myCurrentUser, myCurrentConference);
-//				
-//				if (!exited) {
-//					selectRoleMenu(theUserList, theConferenceList);
-//				}
-//			}
-//			else {
-//				System.out.println("Invalid selection, returning to last menu");
-//				selectRoleMenu(theUserList, theConferenceList);
-//			}
 				exited = false;
 				exited = myAuthorMenu.initialAuthorMenu(theUserList, theConferenceList, 
 						myCurrentUser, myCurrentConference);

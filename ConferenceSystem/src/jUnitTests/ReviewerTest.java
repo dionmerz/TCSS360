@@ -14,7 +14,11 @@ import model.ReviewForm;
 import model.Reviewer;
 import model.SubprogramChair;
 import model.User;
-
+/**
+ * 
+ * @author Andrew Merz
+ *
+ */
 public class ReviewerTest {
 
 	private List<Conference> confList;

@@ -1,11 +1,14 @@
 package view;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import model.Conference;
 import model.Manuscript;
+import model.ProgramChair;
+import model.Reviewer;
 import model.SubprogramChair;
 import model.User;
 
@@ -19,14 +22,14 @@ import model.User;
 public class SubprogramChairMenu implements Serializable  {
 
 	private static final long serialVersionUID = -3353649043191045626L;
-	private transient Scanner myUserInput;
+	private transient Scanner myUserConsoleInput;
 	private boolean hasExitedSubprogramChairMenu;
 	
 	/**
 	 * @param theUserInput The user input from the console.
 	 */
 	public SubprogramChairMenu(Scanner theUserInput) {
-		myUserInput = theUserInput;
+		myUserConsoleInput = theUserInput;
 		hasExitedSubprogramChairMenu = false;
 	}
 	
@@ -39,20 +42,21 @@ public class SubprogramChairMenu implements Serializable  {
 	 */
 	public boolean initialSubprogramChairMenu(List<User> theUserList, List<Conference> theConferenceList, User theCurrentUser,
 			Conference theCurrentConference) {	
-		if (myUserInput == null) {
-			myUserInput = new Scanner(System.in);
+		if (myUserConsoleInput == null) {
+			myUserConsoleInput = new Scanner(System.in);
 		}
 		hasExitedSubprogramChairMenu = false;
 		printSubprogramChairMenuHeader(theCurrentUser, theCurrentConference);
 		System.out.println("Select an option: ");
 		System.out.println("1. Assign a manuscript to a reviewer");
 		System.out.println("2. Submit a recommendation for a manuscript");
-		System.out.println("3. Back");
-		System.out.println("4. Exit");
+		System.out.println("3. Designate User as Reviewer");
+		System.out.println("4. Back");
+		System.out.println("5. Exit");
 
 		SubprogramChair tempSubprogramChair = theCurrentUser.findSubprogramChairRole();
 		promptSymbol();
-		int subprogramChairMenuOption = myUserInput.nextInt();
+		int subprogramChairMenuOption = myUserConsoleInput.nextInt();
 		switch (subprogramChairMenuOption) {
 		case 1:
 			printSubprogramChairMenuHeader(theCurrentUser, theCurrentConference);
@@ -65,9 +69,13 @@ public class SubprogramChairMenu implements Serializable  {
 			initialSubprogramChairMenu(theUserList, theConferenceList, theCurrentUser, theCurrentConference);
 			break;
 		case 3:
-			// Returns to previous menu.
+			printAllUserToDesignateAsReviewer(theUserList, theCurrentConference, theCurrentUser);
+			initialSubprogramChairMenu(theUserList, theConferenceList, theCurrentUser, theCurrentConference);
 			break;
 		case 4:
+			// Returns to previous menu.
+			break;
+		case 5:
 			exit();
 			break;
 		}
@@ -87,7 +95,7 @@ public class SubprogramChairMenu implements Serializable  {
 			System.out.println("Select a manuscript to assign to a reviewer");
 			printNumberedListOfSubprogramChairManuscripts(theCurrentUser);
 			promptSymbol();
-			int subprogramChairManuscriptIndex = myUserInput.nextInt();
+			int subprogramChairManuscriptIndex = myUserConsoleInput.nextInt();
 			Manuscript selectedManuscript = theCurrentUser.getSubProgManuscript().get(subprogramChairManuscriptIndex - 1);
 			List<User> reviewerList = theCurrentUser.findSubprogramChairRole().getListOfReviewersFromListOfUsers(theUserList);		
 			if (reviewerList.isEmpty()) {
@@ -96,7 +104,7 @@ public class SubprogramChairMenu implements Serializable  {
 				System.out.println("Select a reviewer to assign the selected manuscript");
 				printNumberedListOfReviewers(reviewerList);
 				promptSymbol();
-				int reviewerIndex = myUserInput.nextInt();
+				int reviewerIndex = myUserConsoleInput.nextInt();
 				User selectedReviewer = reviewerList.get(reviewerIndex - 1);
 				List<Boolean> canAssignReviewerManuscript = tempSubprogramChair.assignReviewerManuscript(selectedReviewer, selectedManuscript);
 				if (!canAssignReviewerManuscript.get(0)) {
@@ -124,16 +132,16 @@ public class SubprogramChairMenu implements Serializable  {
 		printNumberedListOfSubprogramChairManuscripts(theCurrentUser);
 		if (!theCurrentUser.getSubProgManuscript().isEmpty()) {
 			promptSymbol();
-			int subProgramChairManuscriptIndex = myUserInput.nextInt();
+			int subProgramChairManuscriptIndex = myUserConsoleInput.nextInt();
 			Manuscript selectedManuscript = theCurrentUser.getSubProgManuscript().get(subProgramChairManuscriptIndex - 1);
 			System.out.println("Enter the path to the recommendation form");
-			myUserInput.nextLine();
-			String path = myUserInput.nextLine();
+			myUserConsoleInput.nextLine();
+			String path = myUserConsoleInput.nextLine();
 			System.out.println("Enter a recommendation score");
-			int score = myUserInput.nextInt();
+			int score = myUserConsoleInput.nextInt();
 			System.out.println("Enter a title for the recommendation form");
-			myUserInput.nextLine();
-			String title = myUserInput.nextLine();
+			myUserConsoleInput.nextLine();
+			String title = myUserConsoleInput.nextLine();
 			tempSubprogramChair.appendRecomendationToManuscript(theCurrentUser, theCurrentConference, selectedManuscript, score, path, title);
 			System.out.println("Reccommendation Form for " + selectedManuscript.getTitle() + " submitted.");
 		} else {
@@ -185,6 +193,41 @@ public class SubprogramChairMenu implements Serializable  {
 		System.out.println("Conference: " + theCurrentConference.getName());
 		System.out.println("_______________________________________________________");
 		System.out.println();
+	}
+	
+	/**
+	 * Menu to print out all users registers in the System,
+	 * Designates selected User as a Subprogram Chair.
+	 * @param theUserList The list of all users.
+	 * @param theConference The currently selected conference.
+	 * @param theUser The current logged in User.
+	 */
+	private void printAllUserToDesignateAsReviewer(List<User> theUserList, Conference theConference, User theUser) {
+		Reviewer reviewerRole = new Reviewer(theConference);
+		SubprogramChair currentSubprogramChair = theUser.findSubprogramChairRole();
+		List<User> targetUsers = new ArrayList<User>();
+		for (User user: theUserList) {
+			if (!user.hasRole(theConference, reviewerRole, user)) {
+				targetUsers.add(user);
+			}
+		}
+		if (!targetUsers.isEmpty()){
+			int userCount = 1;
+			for (User targetUser: targetUsers) {
+				System.out.print(userCount + ". ");
+				System.out.println(targetUser.getMyName());
+				userCount++;
+			}
+			promptSymbol();
+			int input = myUserConsoleInput.nextInt();
+			currentSubprogramChair.designateReviewer(targetUsers.get(input - 1));
+			myUserConsoleInput.nextLine();
+			System.out.println(targetUsers.get(input - 1).getMyName() + " designated as Reviewer.");
+		}
+		else{
+			System.out.println("No Users to designate as a Reviewer");
+			
+		}
 	}
 	
 	/**

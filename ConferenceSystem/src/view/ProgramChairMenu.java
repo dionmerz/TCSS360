@@ -9,6 +9,7 @@ import model.Conference;
 import model.Manuscript;
 import model.ProgramChair;
 import model.RecommendationForm;
+import model.SubprogramChair;
 import model.User;
 import model.Manuscript.Status;
 
@@ -48,8 +49,9 @@ public class ProgramChairMenu implements Serializable{
 		System.out.println("2. Reject/Accept Manuscript");
 		System.out.println("3. View all assigned Subprogram Chair and manuscripts");
 		System.out.println("4. Assign a manuscript to a Subprogram Chair");
-		System.out.println("5. Back");
-		System.out.println("6. Exit");
+		System.out.println("5. Designate User as Subprogram Chair");
+		System.out.println("6. Back");
+		System.out.println("7. Exit");
 		
 		if (myUserConsoleInput == null) {
 			myUserConsoleInput = new Scanner(System.in);
@@ -76,11 +78,15 @@ public class ProgramChairMenu implements Serializable{
 			// print list of SPCs, pick manuscript
 			printProgramChairMenuHeader(theUser, theConference);
 			viewAllAssignedSubprogramChairAndManuscript(theUserList, theConferenceList, currentProgramChair, theUser, theConference);
-			break;
+			break;	
 		case 5:
-			// Back to previous menu
+			printAllUserToDesignateAsSubprogamChair(theUserList, theConference, theUser);
+			initialProgramChairMenu(theUserList, theConferenceList, theUser, theConference);
 			break;
 		case 6:
+			// Back to previous menu
+			break;
+		case 7:
 			exit();
 			break;
 		default:
@@ -270,6 +276,41 @@ public class ProgramChairMenu implements Serializable{
 		System.out.println("Conference: " + theCurrentConference.getName());
 		System.out.println("_______________________________________________________");
 		System.out.println();
+	}
+	
+	/**
+	 * Menu to print out all users registers in the System,
+	 * Designates selected User as a Subprogram Chair.
+	 * @param theUserList The list of all users.
+	 * @param theConference The currently selected conference.
+	 * @param theUser The current logged in User.
+	 */
+	private void printAllUserToDesignateAsSubprogamChair(List<User> theUserList, Conference theConference, User theUser) {
+		SubprogramChair subprogramChairRole = new SubprogramChair(theConference);
+		ProgramChair currentProgramChair = theUser.findProgramChairRole();
+		List<User> targetUsers = new ArrayList<User>();
+		for (User user: theUserList) {
+			if (!user.hasRole(theConference, subprogramChairRole, user)) {
+				targetUsers.add(user);
+			}
+		}
+		if (!targetUsers.isEmpty()){
+			int userCount = 1;
+			for (User targetUser: targetUsers) {
+				System.out.print(userCount + ". ");
+				System.out.println(targetUser.getMyName());
+				userCount++;
+			}
+			promptSymbol();
+			int input = myUserConsoleInput.nextInt();
+			currentProgramChair.designateSubProgramChair(targetUsers.get(input - 1));
+			myUserConsoleInput.nextLine();
+			System.out.println(targetUsers.get(input - 1).getMyName() + " designated as Subprogram Chair.");
+		}
+		else{
+			System.out.println("No Users to designate as a Subprogram Chair");
+			
+		}
 	}
 	
 	/**

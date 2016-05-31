@@ -91,5 +91,14 @@ public class ProgramChair extends Roles implements Serializable {
 		assignSubProgramChairManuscript.add(assigned);
 		return assignSubProgramChairManuscript;
 	}
+	
+	/**
+	 * Assigns the Subprogram Chair role to designated registered User.
+	 * 
+	 * @param theUser the User to be assigned Role of Subprogram Chair
+	 */
+	public void designateSubProgramChair(User theUser) {
+		theUser.addMyRole(new SubprogramChair(this.getConference()));
+	}
 
 }
