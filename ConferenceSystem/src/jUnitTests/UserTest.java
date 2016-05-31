@@ -32,7 +32,7 @@ public class UserTest {
 	private User testUserWithNoAuthoredPaper;
 	
 	private User testUserWithOneSubProgManuscript;
-	private User testUserWithTwoSubProgManuscript;
+	private User testUserWithFourSubProgManuscript;
 	private User testUserWithNoSubProgManuscript;
 
 	private User testUserWithAuthorRole;
@@ -47,6 +47,7 @@ public class UserTest {
 	Manuscript testManuscript;
 	Manuscript testManuscript2;
 	Manuscript testManuscript3;
+	Manuscript testManuscript4;
 
 	@Before
 	public void setUp() throws Exception {
@@ -60,11 +61,11 @@ public class UserTest {
 		testUserWithNoAuthoredPaper = new User("Ted Testsworth", "BigTedOnePaper", "TedsAddress@gmail.com");
 		
 		testUserWithOneSubProgManuscript = new User("Ted Testsworth", "BigTedOnePaper", "TedsAddress@gmail.com");
-		testUserWithTwoSubProgManuscript = new User("Ted Testsworth", "BigTedOnePaper", "TedsAddress@gmail.com");
+		testUserWithFourSubProgManuscript = new User("Ted Testsworth", "BigTedOnePaper", "TedsAddress@gmail.com");
 		testUserWithNoSubProgManuscript = new User("Ted Testsworth", "BigTedOnePaper", "TedsAddress@gmail.com");
 		
 		testUserWithOneSubProgManuscript = new User("Ted Testsworth", "BigTedOnePaper", "TedsAddress@gmail.com");
-		testUserWithTwoSubProgManuscript = new User("Ted Testsworth", "BigTedOnePaper", "TedsAddress@gmail.com");
+		testUserWithFourSubProgManuscript = new User("Ted Testsworth", "BigTedOnePaper", "TedsAddress@gmail.com");
 		testUserWithNoSubProgManuscript = new User("Ted Testsworth", "BigTedOnePaper", "TedsAddress@gmail.com");
 		
 		testUserWithAuthorRole = new User("Ted Testsworth", "BigTedOnePaper", "TedsAddress@gmail.com");
@@ -81,14 +82,17 @@ public class UserTest {
 		testManuscript = new Manuscript("source path 1", testUser.getMyName(), "Entry date", "How to Find Bugs in C# Code for Dummies");
 		testManuscript2 = new Manuscript("source path 2", testUser.getMyName(), "Entry date", "How to Find Bugs in C++ Code for Dummies");
 		testManuscript3 = new Manuscript("source path 3", testUser.getMyName(), "Entry date", "How to Find Bugs in Java Code for Dummies");
+		testManuscript4 = new Manuscript("source path 4", testUser.getMyName(), "Entry date", "How to Find Bugs in Python Code for Dummies");
 		
 		testUserWithOneAuthoredPaper.addMyManuscript(testManuscript);
 		testUserWithTwoAuthoredPaper.addMyManuscript(testManuscript);
 		testUserWithTwoAuthoredPaper.addMyManuscript(testManuscript2);
 		
 		testUserWithOneSubProgManuscript.addSubProgManuscript(testManuscript);
-		testUserWithTwoSubProgManuscript.addSubProgManuscript(testManuscript);
-		testUserWithTwoSubProgManuscript.addSubProgManuscript(testManuscript2);
+		testUserWithFourSubProgManuscript.addSubProgManuscript(testManuscript);
+		testUserWithFourSubProgManuscript.addSubProgManuscript(testManuscript2);
+		testUserWithFourSubProgManuscript.addSubProgManuscript(testManuscript3);
+		testUserWithFourSubProgManuscript.addSubProgManuscript(testManuscript4);
 		
 		testUserWithAuthorRole.addMyRole(new Author(testConference1));
 		testUserWithReviewerRole.addMyRole(new Reviewer(testConference1));
@@ -172,42 +176,66 @@ public class UserTest {
 	/**
 	 * Tests the addMyManuscripts method to make sure it correctly adds a manuscripts to the list of
 	 * all manuscripts authored by this user.
-	 * Tests three distinct partitions: A list with no items, a list with one item, and a list with 2 items.
+	 * partition: A list with no items.
 	 */
 	@Test
-	public void testAddMyManuscript() {
+	public void testAddMyManuscriptForAuthorWithNoItem() {
 		testUserWithNoAuthoredPaper.addMyManuscript(testManuscript);
 		assertEquals(testUserWithOneAuthoredPaper.getMyManuscripts().size() , 1);
 		assertTrue(testUserWithOneAuthoredPaper.getMyManuscripts().contains(testManuscript));
-		
+	}
+	
+	/**
+	 * Tests the addMyManuscripts method to make sure it correctly adds a manuscripts to the list of
+	 * all manuscripts authored by this user.
+	 * partition: a list with one item.
+	 */
+	@Test
+	public void testAddMyManuscriptForAuthorWithOneItem() {
 		testUserWithOneAuthoredPaper.addMyManuscript(testManuscript2);
 		assertEquals(testUserWithOneAuthoredPaper.getMyManuscripts().size() , 2);
 		assertTrue(testUserWithOneAuthoredPaper.getMyManuscripts().contains(testManuscript2));
-		
-		
+	}
+	
+	/**
+	 * Tests the addMyManuscripts method to make sure it correctly adds a manuscripts to the list of
+	 * all manuscripts authored by this user.
+	 * partition: a list with 2 items.
+	 */
+	@Test
+	public void testAddMyManuscriptForAuthorWithTwoItem() {
 		testUserWithTwoAuthoredPaper.addMyManuscript(testManuscript3);
 		assertEquals(testUserWithTwoAuthoredPaper.getMyManuscripts().size() , 3);
 		assertTrue(testUserWithTwoAuthoredPaper.getMyManuscripts().contains(testManuscript3));
 	}
 
+
 	/**
 	 * Tests the removeManuscript method to make sure it removes the given manuscript from the list
 	 * of all manuscripts authored by this user.
 	 * 
-	 * Tests two distinct partitions: A list with one items, a list with two items.
+	 * partition: A list with one items.
 	 */
 	@Test
-	public void testRemoveManuscript() {
+	public void testRemoveManuscriptForAuthorWithOneItem() {
 		assertEquals(testUserWithOneAuthoredPaper.getMyManuscripts().size() , 1);
 		testUserWithOneAuthoredPaper.removeManuscript(testManuscript);
 		assertEquals(testUserWithOneAuthoredPaper.getMyManuscripts().size() , 0);
-		
+	}
+	
+	/**
+	 * Tests the removeManuscript method to make sure it removes the given manuscript from the list
+	 * of all manuscripts authored by this user.
+	 * 
+	 * partition: A list with two items.
+	 */
+	@Test
+	public void testRemoveManuscriptForAuthorWithTwoItem() {	
 		assertEquals(testUserWithTwoAuthoredPaper.getMyManuscripts().size() , 2);
 		testUserWithTwoAuthoredPaper.removeManuscript(testManuscript);
 		assertEquals(testUserWithTwoAuthoredPaper.getMyManuscripts().size() , 1);
 		assertFalse(testUserWithTwoAuthoredPaper.getMyManuscripts().contains(testManuscript));
 	}
-
 	/**
 	 * Tests the getMySubProgManuscripts method to make sure it correctly returns a list of all manuscripts 
 	 * assigned to this subprogram chair by a program chair.
@@ -221,46 +249,61 @@ public class UserTest {
 		assertEquals(testUserWithOneSubProgManuscript.getSubProgManuscript().size() , 1);
 		assertTrue(testUserWithOneSubProgManuscript.getSubProgManuscript().contains(testManuscript));
 		
-		assertEquals(testUserWithTwoSubProgManuscript.getSubProgManuscript().size() , 2);
-		assertTrue(testUserWithTwoSubProgManuscript.getSubProgManuscript().contains(testManuscript));
-		assertTrue(testUserWithTwoSubProgManuscript.getSubProgManuscript().contains(testManuscript2));
+		assertEquals(testUserWithFourSubProgManuscript.getSubProgManuscript().size() , 4);
+		assertTrue(testUserWithFourSubProgManuscript.getSubProgManuscript().contains(testManuscript));
+		assertTrue(testUserWithFourSubProgManuscript.getSubProgManuscript().contains(testManuscript2));
 	}
 
 	/**
 	 * Tests the addMySubProgManuscripts method to make sure it correctly adds a manuscript to the list of all manuscripts 
 	 * assigned to this subprogram chair by a program chair.
 	 * 
-	 * Tests three distinct partitions: A list with no items, a list with one items, a list with two items.
+	 * Tests three distinct partitions: A list with no items.
 	 */
 	@Test
-	public void testAddSubProgManuscript() {
+	public void testAddSubProgManuscriptForSubprogramChairWithNoItem() {
 		testUserWithNoSubProgManuscript.addSubProgManuscript(testManuscript);
 		assertEquals(testUserWithNoSubProgManuscript.getSubProgManuscript().size(), 1);
 		assertTrue(testUserWithNoSubProgManuscript.getSubProgManuscript().contains(testManuscript));
-		
+	}
+	
+	/**
+	 * Tests the addMySubProgManuscripts method to make sure it correctly adds a manuscript to the list of all manuscripts 
+	 * assigned to this subprogram chair by a program chair.
+	 * 
+	 * Tests three distinct partitions: a list with one items.
+	 */
+	@Test
+	public void testAddSubProgManuscriptForSubprogramChairWithOneItem() {
 		testUserWithOneSubProgManuscript.addSubProgManuscript(testManuscript2);
 		assertEquals(testUserWithOneSubProgManuscript.getSubProgManuscript().size(), 2);
 		assertTrue(testUserWithOneSubProgManuscript.getSubProgManuscript().contains(testManuscript));
 		assertTrue(testUserWithOneSubProgManuscript.getSubProgManuscript().contains(testManuscript2));
-		
-		testUserWithTwoSubProgManuscript.addSubProgManuscript(testManuscript3);
-		assertEquals(testUserWithTwoSubProgManuscript.getSubProgManuscript().size(), 3);
-		assertTrue(testUserWithTwoSubProgManuscript.getSubProgManuscript().contains(testManuscript));
-		assertTrue(testUserWithTwoSubProgManuscript.getSubProgManuscript().contains(testManuscript2));
-		assertTrue(testUserWithTwoSubProgManuscript.getSubProgManuscript().contains(testManuscript3));
 	}
-
+	/**
+	 * Tests the addMySubProgManuscripts method to make sure it correctly adds a manuscript to the list of all manuscripts 
+	 * assigned to this subprogram chair by a program chair.
+	 * 
+	 * Tests three distinct partitions: a list with two items.
+	 */
+	@Test
+	public void testAddSubProgManuscriptForSubprogramChairWithFourItem() {
+		testUserWithFourSubProgManuscript.addSubProgManuscript(testManuscript3);
+		assertEquals(testUserWithFourSubProgManuscript.getSubProgManuscript().size(), 5);
+		assertTrue(testUserWithFourSubProgManuscript.getSubProgManuscript().contains(testManuscript));
+		assertTrue(testUserWithFourSubProgManuscript.getSubProgManuscript().contains(testManuscript2));
+		assertTrue(testUserWithFourSubProgManuscript.getSubProgManuscript().contains(testManuscript3));
+		assertTrue(testUserWithFourSubProgManuscript.getSubProgManuscript().contains(testManuscript4));
+	}
+	
 	/**
 	 * Tests the getMyRoles method to make sure it correctly returns a list of all roles 
 	 * assigned to this user.
 	 * 
-	 * Tests five distinct partitions: A user that is only an Author, A user that is only a Reviewer, 
-	 * A user that is only a Subprogram Chair, A user that is only a Program Chair, and a user with two different roles.
+	 * partition: A user that is only an Author.
 	 */
 	@Test
 	public void testGetMyRoles() {
-		assertTrue(testUserWithNoRole.getMyRoles().isEmpty());
-		
 		assertEquals(testUserWithAuthorRole.getMyRoles().size() , 1);
 		assertEquals(testUserWithAuthorRole.getMyRoles().get(0), new Author(testConference1));
 		
@@ -277,24 +320,62 @@ public class UserTest {
 		assertEquals(testUserWithTwoRole.getMyRoles().get(0), new Author(testConference1));
 		assertEquals(testUserWithTwoRole.getMyRoles().get(1), new Reviewer(testConference1));
 	}
+	/**
+	 * Tests the getMyRoles method to make sure it correctly returns a list of all roles 
+	 * assigned to this user.
+	 * 
+	 * partition: A user that is only a Reviewer.
+	 */
+	@Test
+	public void testGetMyRolesWithJustAuthorRole() {
+		assertEquals(testUserWithAuthorRole.getMyRoles().size() , 1);
+		assertEquals(testUserWithAuthorRole.getMyRoles().get(0), new Author(testConference1));
+	}
+	
+	/**
+	 * Tests the getMyRoles method to make sure it correctly returns a list of all roles 
+	 * assigned to this user.
+	 * 
+	 * Tests five distinct partitions: A user that is only a Subprogram Chair.
+	 */
+	@Test
+	public void testGetMyRolesWithJustReviewerRole() {
+		assertEquals(testUserWithReviewerRole.getMyRoles().size() , 1);
+		assertEquals(testUserWithReviewerRole.getMyRoles().get(0), new Reviewer(testConference1));
+	}
+	
+	/**
+	 * Tests the getMyRoles method to make sure it correctly returns a list of all roles 
+	 * assigned to this user.
+	 * 
+	 * partition: A user that is only a Program Chair.
+	 */
+	@Test
+	public void testGetMyRolesWithJustSubprogramChairRole() {	
+		assertEquals(testUserWithSubprogramChairRole.getMyRoles().size() , 1);
+		assertEquals(testUserWithSubprogramChairRole.getMyRoles().get(0), new SubprogramChair(testConference1));
+	}
+	
+	/**
+	 * Tests the getMyRoles method to make sure it correctly returns a list of all roles 
+	 * assigned to this user.
+	 * 
+	 * partition: a user with two different roles.
+	 */
+	@Test
+	public void testGetMyRolesWithJustProgramChairRole() {
+		assertEquals(testUserWithProgramChairRole.getMyRoles().size() , 1);
+		assertEquals(testUserWithProgramChairRole.getMyRoles().get(0), new ProgramChair(testConference1));
+	}
 
 	/**
 	 * Tests the addMyRoles method to make sure it correctly adds a Role to the list of all roles 
 	 * assigned to this user.
 	 * 
-	 * Tests three distinct partitions: A list with no items, a list with one items, a list with two items.
+	 * partition: a list with two items.
 	 */
 	@Test
-	public void testAddMyRole() {
-		testUserWithNoRole.addMyRole(new Author(testConference1));
-		assertFalse(testUserWithNoRole.getMyRoles().isEmpty());
-		assertTrue(testUserWithNoRole.getMyRoles().contains(new Author(testConference1)));
-		
-		testUserWithAuthorRole.addMyRole(new Reviewer(testConference1));
-		assertEquals(testUserWithAuthorRole.getMyRoles().size(), 2);
-		assertTrue(testUserWithAuthorRole.getMyRoles().contains(new Author(testConference1)));
-		assertTrue(testUserWithAuthorRole.getMyRoles().contains(new Reviewer(testConference1)));
-		
+	public void testAddMyRoleWithTwoRoles() {
 		testUserWithTwoRole.addMyRole(new ProgramChair(testConference1));
 		assertEquals(testUserWithTwoRole.getMyRoles().size(), 3);
 		assertTrue(testUserWithTwoRole.getMyRoles().contains(new Author(testConference1)));
@@ -306,23 +387,57 @@ public class UserTest {
 	 * Tests the removeMyRoles method to make sure it correctly removes a Role to the list of all roles 
 	 * assigned to this user.
 	 * 
-	 * Tests five distinct partitions: A user that is only an Author, A user that is only a Reviewer, 
-	 * A user that is only a Subprogram Chair, A user that is only a Program Chair, and a user with two different roles.
+	 * partition: A user that is only an Author.
 	 */
 	@Test
-	public void testRemoveMyRole() {
+	public void testRemoveMyRoleForUserWithAuthorRole() {
 		testUserWithAuthorRole.removeMyRole(new Author(testConference1));
 		assertTrue(testUserWithAuthorRole.getMyRoles().isEmpty());
-		
+	}
+	/**
+	 * Tests the removeMyRoles method to make sure it correctly removes a Role to the list of all roles 
+	 * assigned to this user.
+	 * 
+	 * partition: A user that is only a Reviewer.
+	 */
+	@Test
+	public void testRemoveMyRoleForUserWithReviewerRole() {
 		testUserWithReviewerRole.removeMyRole(new Reviewer(testConference1));
 		assertTrue(testUserWithReviewerRole.getMyRoles().isEmpty());
-		
-		testUserWithProgramChairRole.removeMyRole(new ProgramChair(testConference1));
-		assertTrue(testUserWithProgramChairRole.getMyRoles().isEmpty());
-		
+	}
+	
+	/**
+	 * Tests the removeMyRoles method to make sure it correctly removes a Role to the list of all roles 
+	 * assigned to this user.
+	 * 
+	 * partition: A user that is only a Subprogram Chair.
+	 */
+	@Test
+	public void testRemoveMyRoleForUserWithSubprogramChairRole() {
 		testUserWithSubprogramChairRole.removeMyRole(new SubprogramChair(testConference1));
 		assertTrue(testUserWithSubprogramChairRole.getMyRoles().isEmpty());
-		
+	}
+	
+	/**
+	 * Tests the removeMyRoles method to make sure it correctly removes a Role to the list of all roles 
+	 * assigned to this user.
+	 * 
+	 * partition: A user that is only a Program Chair.
+	 */
+	@Test
+	public void testRemoveMyRoleForUserWithProgramChairRole() {
+		testUserWithProgramChairRole.removeMyRole(new ProgramChair(testConference1));
+		assertTrue(testUserWithProgramChairRole.getMyRoles().isEmpty());
+	}
+	
+	/**
+	 * Tests the removeMyRoles method to make sure it correctly removes a Role to the list of all roles 
+	 * assigned to this user.
+	 * 
+	 * partition: a user with two different roles.
+	 */
+	@Test
+	public void testRemoveMyRoleForUserWithTwoRoles() {	
 		testUserWithTwoRole.removeMyRole(new Author(testConference1));
 		assertEquals(testUserWithTwoRole.getMyRoles().size(), 1);
 		assertTrue(testUserWithTwoRole.getMyRoles().contains(new Reviewer(testConference1)));
