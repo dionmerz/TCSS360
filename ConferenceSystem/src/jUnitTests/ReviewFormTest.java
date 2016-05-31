@@ -53,7 +53,6 @@ public class ReviewFormTest {
 	 */
 	@Test
 	public void testGetReviewer(){
-		
 		assertTrue(testReviewForm.getReviewer().equals(testReviewer));
 	}
 	

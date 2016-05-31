@@ -39,5 +39,22 @@ public class RecommendationTest {
 		assertTrue(testRecommendation.getTitle().equals(TEST_TITLE));
 		assertTrue(testRecommendation.getScore() == TEST_SCORE);
 	}
+	
+	/**
+	 * Check method get score is working properly.
+	 */
+	@Test
+	public void testGetScore(){
+		assertTrue(testRecommendation.getScore() == TEST_SCORE);
+	}
+	
+	/**
+	 * Check method set score is working properly.
+	 */
+	@Test
+	public void testSetScore() {
+		testRecommendation.setScore(4);
+		assertFalse(testRecommendation.getScore() == TEST_SCORE);
+	}
 
 }

@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import model.Manuscript;
+import model.Manuscript.Status;
 import model.RecommendationForm;
 import model.ReviewForm;
 import model.User;
@@ -40,17 +41,24 @@ public class ManuscriptTest {
 	private ReviewForm testReviewForm;
 	private RecommendationForm testRecommendationForm;
 	private User testReviewer;
+	private Status testStatus;
 	
 	@Before
 	public void setupTests() {
 		//Set up default test manuscript
-		testManuscript = new Manuscript(TEST_PATH, TEST_AUTHOR, TEST_DATE, TEST_TITLE);
+		
+		testStatus = Status.SUBMITTED;
 		testRecommendationFormList = new ArrayList<RecommendationForm>();
 		testReviewerList = new ArrayList<User>();
 		testReviewFormList = new ArrayList<ReviewForm>();
 		testReviewer = new User(TEST_NAME, TEST_LOGIN_NAME, TEST_EMAIL);
 		testReviewForm = new ReviewForm(TEST_PATH, TEST_AUTHOR, TEST_DATE, TEST_TITLE, testReviewer);
 		testRecommendationForm = new RecommendationForm(TEST_PATH, TEST_AUTHOR, TEST_DATE, TEST_TITLE, 5);
+		testRecommendationFormList.add(testRecommendationForm);
+		testReviewerList.add(testReviewer);
+		testReviewFormList.add(testReviewForm);
+		testManuscript = new Manuscript(TEST_PATH, TEST_AUTHOR, TEST_DATE, TEST_TITLE, testStatus, 
+										testRecommendationFormList, testReviewerList, testReviewFormList);
 	}
 	
 	/**
@@ -70,9 +78,9 @@ public class ManuscriptTest {
 	 */
 	@Test
 	public void testAddReviewerList(){
-		int size = testReviewerList.size();
-		testReviewerList.add(testReviewer);
-		assertTrue(testReviewerList.size() - size == 1);
+		int size = testManuscript.getReviewerList().size();
+		testManuscript.addReviewer(testReviewer);
+		assertTrue(testManuscript.getReviewerList().size() - size == 1);
 	}
 	
 	/**
@@ -80,9 +88,9 @@ public class ManuscriptTest {
 	 */
 	@Test
 	public void testAddReviewFormList(){
-		int size = testReviewFormList.size();
-		testReviewFormList.add(testReviewForm);
-		assertTrue(testReviewFormList.size() - size == 1);
+		int size = testManuscript.getReviewList().size();
+		testManuscript.addReviewForm(testReviewForm);
+		assertTrue(testManuscript.getReviewList().size() - size == 1);
 	}
 	
 	/**
@@ -90,10 +98,49 @@ public class ManuscriptTest {
 	 */
 	@Test
 	public void testAddRecommendationFormList(){
-		int size = testRecommendationFormList.size();
-		testRecommendationFormList.add(testRecommendationForm);
-		assertTrue(testRecommendationFormList.size() - size == 1);
+		int size = testManuscript.getRecomFormList().size();
+		testManuscript.getRecomFormList().add(testRecommendationForm);
+		assertTrue(testManuscript.getRecomFormList().size() - size == 1);
 	}
 	
-
+	/**
+	 * Test get reviewer List is working properly.
+	 */
+	@Test
+	public void testGetReviewerList(){
+		assertTrue(testReviewerList.equals(testManuscript.getReviewerList()));
+	}
+	
+	/**
+	 * Test get review List is working properly.
+	 */
+	@Test
+	public void testGetReviewList(){
+		assertTrue(testReviewFormList.equals(testManuscript.getReviewList()));
+	}
+	
+	/**
+	 * Test get recommendation form List is working properly.
+	 */
+	@Test
+	public void testGetRecommendationFormList(){
+		assertTrue(testRecommendationFormList.equals(testManuscript.getRecomFormList()));
+	}
+	
+	/**
+	 * Test get status is working properly.
+	 */
+	@Test
+	public void testGetStatus(){
+		assertTrue(testStatus == testManuscript.getStatus());
+	}
+	
+	/**
+	 * Test set status is working properly.
+	 */
+	@Test
+	public void testSetStatus() {
+		testManuscript.setStatus(Status.ACCEPTED);
+		assertFalse(testStatus == testManuscript.getStatus());
+	}
 }

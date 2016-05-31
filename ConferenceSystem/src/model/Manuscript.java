@@ -49,6 +49,16 @@ public class Manuscript extends Paper implements Serializable {
 		myReviewerList = new ArrayList<User>();
 		myReviewFormList = new ArrayList<ReviewForm>();
 	}
+	
+	public Manuscript(String thePath, String theAuthor, String theSubmitDate,
+			String theTitle, Status theStatus, List<RecommendationForm> theRecomFormList,
+			List<User> theReviewerList, List<ReviewForm> theReviewFormList) {
+		super(thePath, theAuthor, theSubmitDate, theTitle);
+		myStatus = theStatus;
+		myRecomFormList = theRecomFormList;
+		myReviewerList = theReviewerList;
+		myReviewFormList = theReviewFormList;
+	} 
 
 	/**
 	 * Gets the status of a manuscript.
@@ -86,8 +96,7 @@ public class Manuscript extends Paper implements Serializable {
 	 * Gets a List of Reviewers assigned to the Manuscript.
 	 * @return a list of reviewers
 	 */
-	public List<User> getReviwerList() {
-		// Iterating the list then print out everything
+	public List<User> getReviewerList() {
 		return myReviewerList;
 	}
 	
