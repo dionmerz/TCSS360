@@ -327,9 +327,7 @@ public class TerminalUserInterface implements Serializable {
 	 * @return true after System is initialized.
 	 */
 	private boolean setup() {
-//		myUserList = new ArrayList<User>();
-//		myConferenceList = new ArrayList<Conference>();
-		
+
 		myUserList.add(new User("Adam Marr", "amarr", "adam@gmail.com"));
 		myUserList.add(new User("Kevin Li", "kli", "kevin@gmail.com"));
 		myUserList.add(new User("Andrew Merz", "amerz", "andrew@gmail.com"));
@@ -353,16 +351,41 @@ public class TerminalUserInterface implements Serializable {
 		// Kevin initialized info
 		User kevin = myUserList.get(1);
 		kevin.addMyRole(new ProgramChair(myConferenceList.get(1)));
+		kevin.addMyRole(new Reviewer(myConferenceList.get(0)));
 		
 		// Andrew initialized info
 		User andrew = myUserList.get(2);
 		andrew.addMyRole(new ProgramChair(myConferenceList.get(2)));
+		andrew.addMyRole(new SubprogramChair(myConferenceList.get(0)));
+		myConferenceList.get(0).addSubProChairList(andrew);
+		andrew.addMyRole(new Reviewer(myConferenceList.get(0)));
 		
 		// Bernie initialized info
 		User bernie = myUserList.get(3);
 		bernie.addMyRole(new ProgramChair(myConferenceList.get(3)));
+		bernie.addMyRole(new SubprogramChair(myConferenceList.get(0)));
+		myConferenceList.get(0).addSubProChairList(bernie);
+		
+		// Submit 4 papers to first conference
+		andrew.submitManuscript("Acceleration Methods for Numeric CSPs.txt", "Accelerated Methods", andrew, myConferenceList.get(0));
+		andrew.submitManuscript("Biometric Security and Privacy in The Big Data Era.txt", "Biometric Security", andrew, myConferenceList.get(0));
+		andrew.submitManuscript("Complexity of and Algorithms for Borda Manipulation.txt", "Complexity of Algorithms", andrew, myConferenceList.get(0));
+		andrew.submitManuscript("From Non-Negative to General Operator Cost Partitioning.txt", "General Partitioning Cost", andrew, myConferenceList.get(0));
 		
 
+		// Assign Bernie (Subprogram Chair) 4 papers to recommend.
+		adam.findProgramChairRole().assignSubProgManuscript(bernie, myConferenceList.get(0), andrew.getMyManuscripts().get(0));
+		adam.findProgramChairRole().assignSubProgManuscript(bernie, myConferenceList.get(0), andrew.getMyManuscripts().get(1));
+		adam.findProgramChairRole().assignSubProgManuscript(bernie, myConferenceList.get(0), andrew.getMyManuscripts().get(2));
+		adam.findProgramChairRole().assignSubProgManuscript(bernie, myConferenceList.get(0), andrew.getMyManuscripts().get(3));
+		
+		// Assign Kevin (reviewer) 4 papers to review.
+		bernie.findSubprogramChairRole().assignReviewerManuscript(kevin, bernie.getSubProgManuscript().get(0));
+		bernie.findSubprogramChairRole().assignReviewerManuscript(kevin, bernie.getSubProgManuscript().get(1));
+		bernie.findSubprogramChairRole().assignReviewerManuscript(kevin, bernie.getSubProgManuscript().get(2));
+		bernie.findSubprogramChairRole().assignReviewerManuscript(kevin, bernie.getSubProgManuscript().get(3));
+		
+		
 		return true;
 	}
 

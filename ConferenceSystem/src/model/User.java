@@ -247,14 +247,13 @@ public class User implements Serializable {
 		
 		
 		Path localFile = Paths.get(thePath);
-		//new File("","");
+		
 		File uploadedFile = new File(Paths.get(".").toAbsolutePath().normalize().toString() +"/uploaded/" + currentConference.getName() + "_" + localFile.getFileName());
 		try {
-			Files.copy(localFile, uploadedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);	
-			Manuscript newPaper = new Manuscript(uploadedFile.getPath(), currentUser.getMyName(), date, theTitle);
-			
 			
 			if(cal.before(currentConference.getPaperDeadlineDate())) {
+				Files.copy(localFile, uploadedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);	
+				Manuscript newPaper = new Manuscript(uploadedFile.getPath(), currentUser.getMyName(), date, theTitle);
 				currentUser.addMyManuscript(newPaper);
 				currentConference.addManuscript(newPaper);
 				

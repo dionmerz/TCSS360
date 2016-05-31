@@ -188,8 +188,8 @@ public class ProgramChairMenu implements Serializable{
 		promptSymbol();
 		int subprogamChairIndex = myUserConsoleInput.nextInt();
 		User selectedUser = theConference.getSubProChairList().get(subprogamChairIndex - 1);
-		printNumberedListOfProgramChairConferenceManuscripts(theConference);
 		System.out.println("Select a manuscript to assign to " + selectedUser.getMyName());
+		printNumberedListOfProgramChairConferenceManuscripts(theConference);
 		promptSymbol();
 		subprogamChairIndex = myUserConsoleInput.nextInt();
 		Manuscript selectedManuscript = theConference.getManuscripts().get(subprogamChairIndex - 1);
@@ -200,7 +200,7 @@ public class ProgramChairMenu implements Serializable{
 			System.out.println("Cannot assign a manuscript to the author");
 		} else if (!subprogramChairAllowedManuscript.get(0)) {
 			System.out.println("Failed to assign manuscript to " + selectedUser.getMyName() + " because of manuscript limit");
-		} else if (!subprogramChairAllowedManuscript.get(2)) {
+		} else if (subprogramChairAllowedManuscript.get(2)) {
 			System.out.println(selectedManuscript.getTitle() + " has already been assigned to another SubprogramChair");
 		} else {
 			System.out.println(selectedManuscript.getTitle() + " assigned to " + selectedUser.getMyName());

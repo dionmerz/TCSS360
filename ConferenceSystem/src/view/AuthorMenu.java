@@ -166,7 +166,8 @@ public class AuthorMenu implements Serializable {
 		if (!input.equals("B")) {
 			Manuscript tempManuscript = theCurrentUser.getMyManuscripts().get(Integer.parseInt(input) - 1);
 			System.out.println("Enter the path of the updated manuscript");
-			String path = myUserInput.next();
+			myUserInput.nextLine();
+			String path = myUserInput.nextLine();
 
 			Manuscript updatedManuscript = new Manuscript(path, theCurrentUser.getMyName(), date,
 					tempManuscript.getTitle());

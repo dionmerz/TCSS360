@@ -51,8 +51,9 @@ public class SubprogramChairMenu implements Serializable  {
 		System.out.println("1. Assign a manuscript to a reviewer");
 		System.out.println("2. Submit a recommendation for a manuscript");
 		System.out.println("3. Designate User as Reviewer");
-		System.out.println("4. Back");
-		System.out.println("5. Exit");
+		System.out.println("4. View Reviewers and assigned manuscripts");
+		System.out.println("5. Back");
+		System.out.println("6. Exit");
 
 		SubprogramChair tempSubprogramChair = theCurrentUser.findSubprogramChairRole();
 		promptSymbol();
@@ -73,15 +74,39 @@ public class SubprogramChairMenu implements Serializable  {
 			initialSubprogramChairMenu(theUserList, theConferenceList, theCurrentUser, theCurrentConference);
 			break;
 		case 4:
-			// Returns to previous menu.
+			printAllReviewersAndAssignedManuscripts(theUserList, theCurrentConference);
+			initialSubprogramChairMenu(theUserList, theConferenceList, theCurrentUser, theCurrentConference);
 			break;
 		case 5:
+			// Returns to previous menu.
+			break;
+		case 6:
 			exit();
 			break;
 		}
 		return hasExitedSubprogramChairMenu;
 	}
 
+
+	private void printAllReviewersAndAssignedManuscripts(List<User> theUserList, Conference theCurrentConference) {
+		List<User> reviewerList = new ArrayList<User>();
+		int count = 1;
+		for (User u: theUserList) {
+			if (u.hasRole(theCurrentConference, new Reviewer(theCurrentConference), u)) {
+				reviewerList.add(u);
+			}
+		}
+		
+		for (User u: reviewerList) {
+			System.out.println(count + ". " + u.getMyName());
+			count++;
+			for (Manuscript m: u.getMyManuscriptsToReview()) {
+				System.out.println("\t" + m.getTitle());
+			}
+		}
+		
+		
+	}
 
 	/**
 	 * Assigns a manuscript to a Reviewer
