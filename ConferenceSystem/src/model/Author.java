@@ -87,10 +87,11 @@ public class Author extends Roles implements Serializable {
 				c.removeManuscript(theManuscript);
 				currentUser.removeManuscript(theManuscript);
 				found = true;
+				Path uploadedFile = Paths.get(theManuscript.getPath());
 				
 				try {
 					
-					Files.delete(Paths.get(theManuscript.getPath()));
+					Files.delete(uploadedFile);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
