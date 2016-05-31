@@ -35,7 +35,7 @@ public class Manuscript extends Paper implements Serializable {
 	 }
 
 	 /**
-	  * Constructor for the Manuscript class. 
+	  * 
 	  * @param thePath file path
 	  * @param theAuthor user who created file
 	  * @param theSubmitDate date submitted
@@ -116,13 +116,12 @@ public class Manuscript extends Paper implements Serializable {
 	}
 	
 	/**
-	 * Checks to see of Manuscript is equal to another. 
+	 * Checks to see if Manuscript is equal to another. 
 	 * @param theOther Manuscript object
-	 * @returns a boolean
+	 * @returns true or false
 	 */
 	@Override
 	public boolean equals(Object theOther) {
-		
 		boolean equal = false;
 		Manuscript other;
 		
@@ -138,7 +137,7 @@ public class Manuscript extends Paper implements Serializable {
 	/**
 	 * Overrides the toString() object method. Returns a string
 	 * representation of a Manuscript (title only). 
-	 * @return a string representation
+	 * @return a string representation for manuscript
 	 */
 	@Override
 	public String toString() {

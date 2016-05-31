@@ -23,7 +23,7 @@ public class Paper implements Serializable {
 	private Calendar mySubmittedDateCalendar;
 	
 	/**
-	 * Paper Class Constructor
+	 *
 	 * @param thePath file path
 	 * @param theAuthor the author
 	 * @param theDate the date created
@@ -42,12 +42,11 @@ public class Paper implements Serializable {
 	
 	/**
 	 * Gets the path of the paper.
-	 * @return the path as a string
+	 * @return the path of the paper
 	 */
 	public String getPath() {
 		return myFile.getAbsolutePath();
 	}
-
 
 	/**
 	 * Gets the author of the paper.
@@ -67,7 +66,7 @@ public class Paper implements Serializable {
 
 	/**
 	 * Gets the submitted date of the paper.
-	 * @return a string representation of a date
+	 * @return the submitted date for this paper.
 	 */
 	public String getSubmittedDateString() {
 		return mySubmitDateString;
@@ -75,7 +74,7 @@ public class Paper implements Serializable {
 
 	/**
 	 * Sets the date of the paper as a string.
-	 * @param submitDate a string representation of a date
+	 * @param submitDate: the submitted date for this paper.
 	 */
 	public void setSubmittedDateString(String submitDate) {
 		this.mySubmitDateString = submitDate;
@@ -83,7 +82,7 @@ public class Paper implements Serializable {
 	
 	/**
 	 * Gets the submitted date of the paper as a calendar object.
-	 * @return a Calendar object 
+	 * @return a Calendar object that represents the submitted date.
 	 */
 	public Calendar getSubmittedDateCalendar() {
 		return mySubmittedDateCalendar;
@@ -91,7 +90,7 @@ public class Paper implements Serializable {
 	
 	/**
 	 * Sets the submitted date of a paper as a calendar object. 
-	 * @param theSubmittedDate a calendar object. 
+	 * @param theSubmittedDate: the submitted date for this paper. 
 	 */
 	public void setSubmittedDateCalendar(Calendar theSubmittedDate) {
 		mySubmittedDateCalendar = theSubmittedDate;
@@ -99,7 +98,7 @@ public class Paper implements Serializable {
 	
 	/**
 	 * Gets the title of the paper.
-	 * @return the title
+	 * @return the title of the paper.
 	 */
 	public String getTitle(){
 		return myTitle;
@@ -107,7 +106,7 @@ public class Paper implements Serializable {
 	
 	/**
 	 * Sets the title of the paper.
-	 * @param theTitle the title
+	 * @param theTitle the title for this paper.
 	 */
 	public void setTitle(String theTitle) {
 		myTitle = theTitle;

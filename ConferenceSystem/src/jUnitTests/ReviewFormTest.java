@@ -2,6 +2,8 @@ package jUnitTests;
 
 import static org.junit.Assert.*;
 
+import java.nio.file.Paths;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,7 +41,8 @@ public class ReviewFormTest {
 	 */
 	@Test
 	public void testConstructor() {
-		assertTrue(testReviewForm.getPath().equals(TEST_PATH));
+		String testPath = Paths.get(".").toAbsolutePath().normalize().toString()+ "\\" + TEST_PATH;
+		assertTrue(testReviewForm.getPath().equals(testPath));
 		assertTrue(testReviewForm.getAuthor().equals(TEST_AUTHOR));
 		assertTrue(testReviewForm.getSubmittedDateString().equals(TEST_DATE));
 		assertTrue(testReviewForm.getTitle().equals(TEST_TITLE));

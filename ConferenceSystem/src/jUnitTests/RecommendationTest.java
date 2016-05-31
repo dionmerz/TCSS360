@@ -3,6 +3,8 @@ package jUnitTests;
 
 import static org.junit.Assert.*;
 
+import java.nio.file.Paths;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,7 +35,8 @@ public class RecommendationTest {
 	 */
 	@Test
 	public void testConstructor() {
-		assertTrue(testRecommendation.getPath().equals(TEST_PATH));
+		String testPath = Paths.get(".").toAbsolutePath().normalize().toString()+ "\\" + TEST_PATH;
+		assertTrue(testRecommendation.getPath().equals(testPath));
 		assertTrue(testRecommendation.getAuthor().equals(TEST_AUTHOR));
 		assertTrue(testRecommendation.getSubmittedDateString().equals(TEST_DATE));
 		assertTrue(testRecommendation.getTitle().equals(TEST_TITLE));

@@ -2,6 +2,7 @@ package jUnitTests;
 
 import static org.junit.Assert.*;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,11 +60,12 @@ public class ManuscriptTest {
 	}
 	
 	/**
-	 * Tests if constructor for manuscript works or not. 
+	 * Check the constructor for manuscript works or not.
 	 */
 	@Test
 	public void testConstructor() {
-		assertTrue(testManuscript.getPath().equals(TEST_PATH));
+		String testPath = Paths.get(".").toAbsolutePath().normalize().toString()+ "\\" + TEST_PATH;
+		assertTrue(testManuscript.getPath().toString().equals(testPath));
 		assertTrue(testManuscript.getAuthor().equals(TEST_AUTHOR));
 		assertTrue(testManuscript.getSubmittedDateString().equals(TEST_DATE));
 		assertTrue(testManuscript.getTitle().equals(TEST_TITLE));

@@ -3,6 +3,8 @@ package jUnitTests;
 
 import static org.junit.Assert.*;
 
+import java.nio.file.Paths;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,10 +34,10 @@ public class PaperTest {
 	 */
 	@Test
 	public void testConstructor() {
-		assertTrue(testPaper.getPath().equals(TEST_PATH));
+		String testPath = Paths.get(".").toAbsolutePath().normalize().toString()+ "\\" + TEST_PATH;
+		assertTrue(testPaper.getPath().toString().equals(testPath));
 		assertTrue(testPaper.getAuthor().equals(TEST_AUTHOR));
 		assertTrue(testPaper.getSubmittedDateString().equals(TEST_DATE));
 		assertTrue(testPaper.getTitle().equals(TEST_TITLE));
 	}
-
 }
