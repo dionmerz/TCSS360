@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import model.Conference;
 import model.Manuscript;
+import model.ReviewForm;
 import model.Reviewer;
 import model.User;
 
@@ -42,7 +43,7 @@ public class ReviewerMenu implements Serializable  {
 		hasExited = false;
 		header(myCurrentUser, myCurrentConference);
 		System.out.println("Select an option: ");
-		System.out.println("1. View assigned manuscripts to review");
+		System.out.println("1. View assigned manuscripts and submitted reviews");
 		System.out.println("2. Upload a review form");
 		System.out.println("3. Back");
 		System.out.println("4. Exit");
@@ -134,6 +135,11 @@ public class ReviewerMenu implements Serializable  {
 			for (Manuscript m : theCurrentUser.getMyManuscriptsToReview()) {
 				System.out.println(count + ". " + m.getTitle());
 				count++;
+				for(ReviewForm r: theCurrentUser.getMyReviews()) {
+					if(m.getReviewerList().contains(r)) {
+						System.out.println("\t" + r.getTitle());
+					}
+				}
 			}
 		} else {
 			System.out.println("No manuscripts to review");
