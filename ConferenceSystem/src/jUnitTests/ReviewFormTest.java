@@ -47,5 +47,23 @@ public class ReviewFormTest {
 		assertTrue(testReviewForm.getSubmittedDateString().equals(TEST_DATE));
 		assertTrue(testReviewForm.getTitle().equals(TEST_TITLE));
 	}
-
+	
+	/**
+	 * Check get reviewer is working properly.
+	 */
+	@Test
+	public void testGetReviewer(){
+		
+		assertTrue(testReviewForm.getReviewer().equals(testReviewer));
+	}
+	
+	/**
+	 * Check set reviewer is working properly.
+	 */
+	@Test
+	public void testSetReviewer(){
+		User testReviewer2 = new User (TEST_NAME, "Login Name 2", TEST_EMAIL);
+		testReviewForm.setReviewer(testReviewer2);
+		assertFalse(testReviewForm.getReviewer().equals(testReviewer));
+	}
 }

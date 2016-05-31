@@ -1,3 +1,4 @@
+
 package jUnitTests;
 
 import static org.junit.Assert.*;
@@ -30,8 +31,6 @@ public class ManuscriptTest {
 	private static final String TEST_AUTHOR = "Test Author";
 	private static final String TEST_DATE = "05/06/2016";
 	private static final String TEST_TITLE = "Test Title";
-	private static final String TEST_AUTHOR2 = "Test Author2";
-	private static final String TEST_TITLE2 = "Test Title2";
 	private static final String TEST_NAME = "Test name";
 	private static final String TEST_LOGIN_NAME = "Login Name";
 	private static final String TEST_EMAIL = "Test email";
@@ -46,11 +45,6 @@ public class ManuscriptTest {
 	public void setupTests() {
 		//Set up default test manuscript
 		testManuscript = new Manuscript(TEST_PATH, TEST_AUTHOR, TEST_DATE, TEST_TITLE);
-		// Set up different test manuscript with different value.
-		testManuscript2 = new Manuscript(TEST_PATH, TEST_AUTHOR, TEST_DATE, TEST_TITLE);
-		testManuscript3 = new Manuscript(TEST_PATH, TEST_AUTHOR2, TEST_DATE, TEST_TITLE);
-		testManuscript4 = new Manuscript(TEST_PATH, TEST_AUTHOR, TEST_DATE, TEST_TITLE2);
-		
 		testRecommendationFormList = new ArrayList<RecommendationForm>();
 		testReviewerList = new ArrayList<User>();
 		testReviewFormList = new ArrayList<ReviewForm>();
@@ -101,15 +95,5 @@ public class ManuscriptTest {
 		assertTrue(testRecommendationFormList.size() - size == 1);
 	}
 	
-	/**
-	 * Test equals method (check are both manuscripts same or not) for 
-	 * a manuscript.
-	 */
-	@Test
-	public void testEquals(){
-		assertTrue(testManuscript.equals(testManuscript2));
-		assertFalse(testManuscript.equals(testManuscript3));
-		assertFalse(testManuscript.equals(testManuscript4));
-		assertFalse(testManuscript.equals(null));
-	}
+
 }

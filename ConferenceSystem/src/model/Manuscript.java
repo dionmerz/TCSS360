@@ -116,25 +116,6 @@ public class Manuscript extends Paper implements Serializable {
 	}
 	
 	/**
-	 * Checks to see if Manuscript is equal to another. 
-	 * @param theOther Manuscript object
-	 * @returns true or false
-	 */
-	@Override
-	public boolean equals(Object theOther) {
-		boolean equal = false;
-		Manuscript other;
-		
-		if ((theOther instanceof Manuscript)){
-			other = (Manuscript) theOther;
-			if (this.getAuthor().equals(other.getAuthor()) && this.getTitle().equals(other.getTitle())) {
-				equal = true;
-			}
-		}
-		return equal;
-	}
-
-	/**
 	 * Overrides the toString() object method. Returns a string
 	 * representation of a Manuscript (title only). 
 	 * @return a string representation for manuscript

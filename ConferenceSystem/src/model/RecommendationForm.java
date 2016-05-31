@@ -17,9 +17,9 @@ public class RecommendationForm extends Paper implements Serializable{
 	private int myScore; 
 	
 	/**
-	 * Recommendation Class Constructor
+	 * 
 	 * @param thePath the file path
-	 * @param theAuthor the author
+	 * @param theAuthor the author name
 	 * @param theSubmitDate the submitted date
 	 * @param theTitle the title
 	 * @param theScore the score
