@@ -2,6 +2,7 @@ package jUnitTests;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,6 +54,8 @@ public class UserTest {
 	Manuscript testManuscript3;
 	Manuscript testManuscript4;
 
+	ReviewForm testReview;
+	
 	@Before
 	public void setUp() throws Exception {
 		testConference1 = new Conference("Conf1", testUser, "start", "stop", "PDeadline", "RDeadline", 10, 10);
@@ -92,10 +95,12 @@ public class UserTest {
 		testManuscript3 = new Manuscript("source path 3", testUser.getMyName(), "Entry date", "How to Find Bugs in Java Code for Dummies");
 		testManuscript4 = new Manuscript("source path 4", testUser.getMyName(), "Entry date", "How to Find Bugs in Python Code for Dummies");
 		
+		testReview = new ReviewForm("review path 1", testUser2.getMyName(), "submit date", "How to not write a paper", testUser2);
+		
 		testUser2.addMyManuscriptsToReview(testManuscript);
 		
 		testUser2.addMyRole(new Reviewer(testConference1));
-		testUser2.addReview(new ReviewForm("review path 1", testUser2.getMyName(), "submit date", "How to not write a paper", testUser2));
+		testUser2.addReview(testReview);
 		
 		testUserWithOneAuthoredPaper.addMyManuscript(testManuscript);
 		testUserWithTwoAuthoredPaper.addMyManuscript(testManuscript);
@@ -499,19 +504,53 @@ public class UserTest {
 		assertTrue(testUser2.getMyReviews().contains(exactCopy));
 	}
 
+	/**
+	 * Tests the addReview method toe ensure it properly adds a review to the list of all reviews this user has submitted.
+	 */
 	@Test
 	public void testAddReview() {
-		fail("Not yet implemented");
+		ReviewForm newReview = new ReviewForm("review path 2", testUser2.getMyName(), "submit date", "How to not write a paper 2", testUser2);
+		testUser2.addReview(newReview);
+		assertEquals(testUser2.getMyReviews().size(), 2);
+		assertTrue(testUser2.getMyReviews().contains(testReview));
+		assertTrue(testUser2.getMyReviews().contains(newReview));
 	}
 
+	/**
+	 * Tests the removeReview method toe ensure it properly removes a review from the list of all reviews this user has submitted.
+	 * Partition: A user with a single review.
+	 */
 	@Test
-	public void testRemoveReview() {
-		fail("Not yet implemented");
+	public void testRemoveReviewForUserWithOneReview() {
+		testUser2.removeReview(testReview);
+		assertFalse(testUser2.getMyReviews().contains(testReview));
+		assertEquals(testUser2.getMyReviews().size(), 0);
 	}
 
+	/**
+	 * Tests the removeReview method toe ensure it properly removes a review from the list of all reviews this user has submitted.
+	 * Partition: A user with two reviews.
+	 */
+	@Test
+	public void testRemoveReviewForUserWithTwoReviews() {
+		ReviewForm newReview = new ReviewForm("review path 2", testUser2.getMyName(), "submit date", "How to not write a paper 2", testUser2);
+		testUser2.addReview(newReview);
+		testUser2.removeReview(testReview);
+		assertFalse(testUser2.getMyReviews().contains(testReview));
+		assertTrue(testUser2.getMyReviews().contains(newReview));
+		assertEquals(testUser2.getMyReviews().size(), 1);
+	}
+	
+	/**
+	 * Tests the submitManuscript method to ensure it properly adds the submitted manuscript to this users authoredManuscripts 
+	 * and that it properly copies the file to the uploaded folder.
+	 */
 	@Test
 	public void testSubmitManuscript() {
-		fail("Not yet implemented");
+		testUser.submitManuscript("testFile.txt", "Test Files and Copying", testUser, testConference1);
+		assertEquals(testUser.getMyManuscripts().size(), 1);	
+		File testFile = new File(testUser.getMyManuscripts().get(0).getPath());
+		assertTrue(testFile.exists());
 	}
 
 	/**
