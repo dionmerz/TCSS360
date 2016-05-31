@@ -84,6 +84,11 @@ public class UserTest {
 		testManuscript3 = new Manuscript("source path 3", testUser.getMyName(), "Entry date", "How to Find Bugs in Java Code for Dummies");
 		testManuscript4 = new Manuscript("source path 4", testUser.getMyName(), "Entry date", "How to Find Bugs in Python Code for Dummies");
 		
+		testUser2.addMyManuscriptsToReview(testManuscript);
+		
+		testUser2.addMyRole(new Reviewer(testConference1));
+		testUser2.addReview(new ReviewForm("review path 1", testUser2.getMyName(), "submit date", "How to not write a paper", testUser2));
+		
 		testUserWithOneAuthoredPaper.addMyManuscript(testManuscript);
 		testUserWithTwoAuthoredPaper.addMyManuscript(testManuscript);
 		testUserWithTwoAuthoredPaper.addMyManuscript(testManuscript2);
@@ -444,24 +449,46 @@ public class UserTest {
 		assertFalse(testUserWithTwoRole.getMyRoles().contains(new Author(testConference1)));
 	}
 
+	/**
+	 * Tests the getMyManuscriptsToReview method to ensure it properly returns a list of all the manuscripts assigned to the user to review.
+	 */
 	@Test
 	public void testGetMyManuscriptsToReview() {
-		fail("Not yet implemented");
+		assertEquals(testUser2.getMyManuscriptsToReview().size() , 1);
+		assertEquals(testUser2.getMyManuscriptsToReview().get(0), testManuscript);
 	}
 
+	/**
+	 * Tests the addMyManuscriptsToReview method to ensure it properly adds
+	 * the given manuscript to the list of manuscripts this user has been assigned to review.
+	 */
 	@Test
 	public void testAddMyManuscriptsToReview() {
-		fail("Not yet implemented");
+		testUser2.addMyManuscriptsToReview(testManuscript2);
+		assertEquals(testUser2.getMyManuscriptsToReview().size(), 2);
+		assertTrue(testUser2.getMyManuscriptsToReview().contains(testManuscript));
+		assertTrue(testUser2.getMyManuscriptsToReview().contains(testManuscript2));
 	}
 
+	/**
+	 * Tests the removeMyManuscriptsToReview method to ensure it properly removes
+	 * the given manuscript from the list of manuscripts this user has been assigned to review.
+	 */
 	@Test
 	public void testRemoveMyManuscriptsToReview() {
-		fail("Not yet implemented");
+		testUser2.removeMyManuscriptsToReview(testManuscript);
+		assertEquals(testUser2.getMyManuscriptsToReview().size(), 0);
+		assertFalse(testUser2.getMyManuscriptsToReview().contains(testManuscript));
 	}
 
+	/**
+	 * Tests the getMyReviews method to ensure it properly returns the list of all reviews this user has submitted.
+	 */
 	@Test
 	public void testGetMyReviews() {
-		fail("Not yet implemented");
+		ReviewForm exactCopy = new ReviewForm("review path 1", testUser2.getMyName(), "submit date", "How to not write a paper", testUser2);
+		assertEquals(testUser2.getMyReviews().size(), 1);
+		assertTrue(testUser2.getMyReviews().contains(exactCopy));
 	}
 
 	@Test
