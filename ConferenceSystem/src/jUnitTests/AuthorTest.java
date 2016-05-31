@@ -56,8 +56,24 @@ public class AuthorTest {
 	 * Tests Updating a submitted manuscript.
 	 */
 	@Test
-	public void testUpdateAuthoredManuscript() {
+	public void testUpdateAuthoredManuscriptWithOneManuscript() {
 		Author testAuthor = authorUser.findAuthorRole();
+		testAuthor.updateAuthoredManuscript(authorUser, updatedManuscript, confList);
+		Path localFile = Paths.get(updatedManuscript.getPath());
+		File checkFile = new File(localFile.toString());
+		assertTrue(checkFile.exists());
+		
+		assertTrue(authorUser.getMyManuscripts().contains(updatedManuscript));
+	    	
+	}
+	
+	/**
+	 * Tests Updating a submitted manuscript.
+	 */
+	@Test
+	public void testUpdateAuthoredManuscriptWithMultipleManuscripts() {
+		Author testAuthor = authorUser.findAuthorRole();
+		authorUser.submitManuscript("test2.txt", "SecondManuscriptTitle", authorUser, confList.get(0));
 		testAuthor.updateAuthoredManuscript(authorUser, updatedManuscript, confList);
 		Path localFile = Paths.get(updatedManuscript.getPath());
 		File checkFile = new File(localFile.toString());
