@@ -379,6 +379,9 @@ public class TerminalUserInterface implements Serializable {
 		adam.findProgramChairRole().assignSubProgManuscript(bernie, myConferenceList.get(0), andrew.getMyManuscripts().get(2));
 		adam.findProgramChairRole().assignSubProgManuscript(bernie, myConferenceList.get(0), andrew.getMyManuscripts().get(3));
 		
+		adam.submitManuscript("On Computing All Abductive Explanations.txt", "Abductive Explanations", adam, myConferenceList.get(0));
+		adam.findProgramChairRole().assignSubProgManuscript(andrew, myConferenceList.get(0), adam.getMyManuscripts().get(0));
+		
 		// Assign Kevin (reviewer) 4 papers to review.
 		bernie.findSubprogramChairRole().assignReviewerManuscript(kevin, bernie.getSubProgManuscript().get(0));
 		bernie.findSubprogramChairRole().assignReviewerManuscript(kevin, bernie.getSubProgManuscript().get(1));
