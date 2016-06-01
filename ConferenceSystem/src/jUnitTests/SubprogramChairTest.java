@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import model.Author;
 import model.Conference;
 import model.Manuscript;
 import model.Reviewer;
@@ -15,6 +16,7 @@ import model.Roles;
 import model.SubprogramChair;
 import model.User;
 import model.Manuscript.Status;
+import model.ProgramChair;
 
 /**
  * This class tests the SubprogramChair class functionality.
@@ -37,6 +39,9 @@ public class SubprogramChairTest {
 	private User reviewerNoManuscriptsToReview;
 	private User reviewerOneManuscriptToReview;
 	private User reviewerFourManuscriptsToReview;
+	private User reviewerUser;
+	private User authorUser;
+	private User programChairUser;
 	private User subprogramChairUser;
 	private Conference testConference;
 
@@ -73,6 +78,14 @@ public class SubprogramChairTest {
 		reviewerFourManuscriptsToReview  = new User("TestReviewer3", "ReviewerLogin3", "reviewer3@email.com",
 													emptyRolesList, null, listFourManuscript, null, null);
 		reviewerFourManuscriptsToReview.addMyRole(new Reviewer(testConference));
+		reviewerUser = new User("TestReviewer4", "ReviewerLogin4", "reviewer4@email.com");
+		reviewerUser.addMyRole(new Reviewer(testConference));
+		
+		authorUser = new User("TestAuthor", "AuthorLogin", "author@email.com");
+		authorUser.addMyRole(new Author(testConference));
+		
+		programChairUser = new User("TestReviewer4", "ProgramChairLogin4", "programchair@email.com");
+		programChairUser.addMyRole(new ProgramChair(testConference));
 		
 		subprogramChairUser = new User("TestSubprogramChair", "SubprogramLogin", "subprogram@email.com");
 		subprogramChairUser.addMyRole(new SubprogramChair(testConference));
@@ -135,6 +148,9 @@ public class SubprogramChairTest {
 		assertEquals(reviewerFourManuscriptsToReview.getMyManuscriptsToReview().size(), 4);
 	}
 	
+	/**
+	 * Tests assignReviewerManuscript by assigning a reviewer with self authored manuscript 
+	 */
 	@Test
 	public void testAssignReviewerManuscriptReviewerSelfAuthoredManuscript() {
 		reviewerOneManuscriptToReview.setMyName("TestAuthor1");
@@ -145,6 +161,9 @@ public class SubprogramChairTest {
 	}
 	
 	//-----------------appendRecommendationToManuscript test partition--------------------------------
+	/**
+	 * Tests append recommendation to manuscript by checking the recommendation form list and manuscript status
+	 */
 	@Test
 	public void testAppendRecommendationToManuscript() {
 		assertTrue(manuscript1.getRecomFormList().size() == 0);
@@ -156,11 +175,17 @@ public class SubprogramChairTest {
 	}
 
 	//-----------------getListOfReviewers test partitions--------------------------------
+	/**
+	 * Test the getListOfReviewers method with an empty list of users.
+	 */
 	@Test
 	public void testGetListOfReviewersWithEmptyList() {
 		assertTrue(subprogramChairUser.findSubprogramChairRole().getListOfReviewersFromListOfUsers(emptyUserList).isEmpty());
 	}
 	
+	/**
+	 * Test the getListOfReviewers method with a list of multiple users.
+	 */
 	@Test
 	public void testGetListOfReviewersWithUserListMultiplerUsers() {
 		List<User> reviewerList = subprogramChairUser.findSubprogramChairRole().getListOfReviewersFromListOfUsers(userListMultipleUsers);
@@ -168,6 +193,47 @@ public class SubprogramChairTest {
 		for (User user : reviewerList) {
 			assertEquals(user.findReviewerRole().getClass(), Reviewer.class);
 		}
+	}
+	
+	//-----------------designateReviewer test partitions--------------------------------
+	/**
+	 * Test designateReviewer method for a user with reviewer role
+	 */
+	@Test 
+	public void testDesignateUserAsReviewerWithReviewer() {
+		subprogramChairUser.findSubprogramChairRole().designateReviewer(reviewerUser);
+		assertEquals(reviewerUser.getMyRoles().size(), 1);
+		assertEquals(reviewerUser.findReviewerRole().getClass(), Reviewer.class);
+	}
+	
+	/**
+	 * Test designateReviewer method for a user with author role
+	 */
+	@Test 
+	public void testDesignateUserAsReviewerWithAuthor() {
+		subprogramChairUser.findSubprogramChairRole().designateReviewer(authorUser);
+		assertEquals(authorUser.getMyRoles().size(), 2);
+		assertEquals(authorUser.findReviewerRole().getClass(), Reviewer.class);
+	}
+	
+	/**
+	 * Test designateReviewer method for a user with program chair role
+	 */
+	@Test 
+	public void testDesignateUserAsReviewerWithProgramChair() {
+		subprogramChairUser.findSubprogramChairRole().designateReviewer(programChairUser);
+		assertEquals(programChairUser.getMyRoles().size(), 2);
+		assertEquals(programChairUser.findReviewerRole().getClass(), Reviewer.class);
+	}
+	
+	/**
+	 * Test designateReviewer method for a user with subprogram chair role
+	 */
+	@Test 
+	public void testDesignateUserAsReviewerWithSubprogramChair() {
+		subprogramChairUser.findSubprogramChairRole().designateReviewer(subprogramChairUser);
+		assertEquals(subprogramChairUser.getMyRoles().size(), 2);
+		assertEquals(subprogramChairUser.findReviewerRole().getClass(), Reviewer.class);
 	}
 	
 }

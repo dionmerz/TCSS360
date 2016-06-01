@@ -98,8 +98,10 @@ public class ProgramChair extends Roles implements Serializable {
 	 * @param theUser the User to be assigned Role of Subprogram Chair
 	 */
 	public void designateSubProgramChair(User theUser, Conference theConference) {
-		theUser.addMyRole(new SubprogramChair(this.getConference()));
-		theConference.addSubProChairList(theUser);
+		if(theUser.findSubprogramChairRole() == null) {
+			theUser.addMyRole(new SubprogramChair(this.getConference()));
+			theConference.addSubProChairList(theUser);
+		}
 	}
 
 }

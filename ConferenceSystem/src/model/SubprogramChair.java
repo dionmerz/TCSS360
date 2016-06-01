@@ -97,8 +97,9 @@ public class SubprogramChair extends Roles implements Serializable {
 	 * @param theUser the User to be assigned Role of Reviewer
 	 */
 	public void designateReviewer(User theUser) {
-		theUser.addMyRole(new Reviewer(this.getConference()));
-	
+		if(theUser.findReviewerRole() == null) {
+			theUser.addMyRole(new Reviewer(this.getConference()));
+		}
 	}
 	
 }

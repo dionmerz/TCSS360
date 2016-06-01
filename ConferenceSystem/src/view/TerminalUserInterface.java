@@ -332,6 +332,7 @@ public class TerminalUserInterface implements Serializable {
 		myUserList.add(new User("Kevin Li", "kli", "kevin@gmail.com"));
 		myUserList.add(new User("Andrew Merz", "amerz", "andrew@gmail.com"));
 		myUserList.add(new User("Bernie Guzman", "bguzman", "bernie@gmail.com"));
+		myUserList.add(new User("Josh Tenenberg", "jtenenberg", "josh@gmail.com"));
 
 		
 		myConferenceList.add(new Conference("Conference on Programming Language Design and Implementation",
@@ -342,7 +343,6 @@ public class TerminalUserInterface implements Serializable {
 				"8/8/2016", "6/20/2016", "7/20/2016", 60, 30));
 		myConferenceList.add(new Conference("International Conference on Software Engineering", myUserList.get(0), "8/1/2016",
 				"8/8/2016", "6/20/2016", "7/20/2016", 60, 30));
-
 		
 		// Adam initialized info
 		User adam = myUserList.get(0);
@@ -366,6 +366,9 @@ public class TerminalUserInterface implements Serializable {
 		bernie.addMyRole(new SubprogramChair(myConferenceList.get(0)));
 		myConferenceList.get(0).addSubProChairList(bernie);
 		
+		// Josh
+		User josh = myUserList.get(4);
+		
 		// Submit 4 papers to first conference
 		andrew.submitManuscript("Acceleration Methods for Numeric CSPs.txt", "Accelerated Methods", andrew, myConferenceList.get(0));
 		andrew.submitManuscript("Biometric Security and Privacy in The Big Data Era.txt", "Biometric Security", andrew, myConferenceList.get(0));
@@ -387,7 +390,6 @@ public class TerminalUserInterface implements Serializable {
 		bernie.findSubprogramChairRole().assignReviewerManuscript(kevin, bernie.getSubProgManuscript().get(1));
 		bernie.findSubprogramChairRole().assignReviewerManuscript(kevin, bernie.getSubProgManuscript().get(2));
 		bernie.findSubprogramChairRole().assignReviewerManuscript(kevin, bernie.getSubProgManuscript().get(3));
-		
 		
 		return true;
 	}

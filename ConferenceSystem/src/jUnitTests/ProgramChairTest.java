@@ -8,9 +8,11 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import model.Author;
 import model.Conference;
 import model.Manuscript;
 import model.ProgramChair;
+import model.Reviewer;
 import model.Roles;
 import model.SubprogramChair;
 import model.User;
@@ -32,6 +34,10 @@ public class ProgramChairTest {
 	private Manuscript manuscript5;
 	private List<Manuscript> listOneManuscript;
 	private List<Manuscript> listFourManuscript;
+	private User programChairUser;
+	private User subprogramChairUser;
+	private User authorUser;
+	private User reviewerUser;
 	private User subprogramChairNoManuscriptsToRecommend;
 	private User subprogramChairOneManuscriptToRecommend;
 	private User subprogramChairFourManuscriptsToRecommend;
@@ -64,6 +70,18 @@ public class ProgramChairTest {
 		listFourManuscript.add(manuscript3);
 		listFourManuscript.add(manuscript4);
 		listFourManuscript.add(manuscript5);
+		
+		programChairUser = new User("TestReviewer4", "ProgramChairLogin4", "programchair@email.com");
+		programChairUser.addMyRole(new ProgramChair(testConference));
+		
+		subprogramChairUser = new User("TestSubprogramChair", "SubprogramLogin", "subprogram@email.com");
+		subprogramChairUser.addMyRole(new SubprogramChair(testConference));
+		
+		authorUser = new User("TestAuthor", "AuthorLogin", "author@email.com");
+		authorUser.addMyRole(new Author(testConference));
+		
+		reviewerUser = new User("TestReviewer", "ReviewerLogin", "reviewer@email.com");
+		reviewerUser.addMyRole(new Reviewer(testConference));
 		
 		subprogramChairNoManuscriptsToRecommend  = new User("TestSubprogramChair1", "SubprogramChairLogin1", "SubprogramChair1@email.com");
 		subprogramChairNoManuscriptsToRecommend.addMyRole(new SubprogramChair(testConference));
@@ -110,6 +128,9 @@ public class ProgramChairTest {
 	}
 	
 	//-----------------rejectManuscript test partition--------------------------------
+	/**
+	 * Tests rejectManuscript by checking a manuscripts status
+	 */
 	@Test 
 	public void testRejectManuscript() {
 		assertEquals(subprogramChairOneManuscriptToRecommend.getSubProgManuscript().get(0).getStatus(),
@@ -124,6 +145,9 @@ public class ProgramChairTest {
 	}
 	
 	//-----------------acceptManuscript test partition--------------------------------
+	/**
+	 * Test acceptManuscript  by checking a manuscripts status
+	 */
 	@Test 
 	public void testAcceptManuscript() {
 		assertEquals(subprogramChairOneManuscriptToRecommend.getSubProgManuscript().get(0).getStatus(),
@@ -138,6 +162,9 @@ public class ProgramChairTest {
 	}
 	
 	//-----------------assignSubprogManuscript test partition--------------------------------
+	/**
+	 * Tests assignSubProgManuscript method with a subprogram chair with no manuscripts
+	 */
 	@Test
 	public void testAssignSubprogramChairManuscriptSubprogramChairNoManuscriptsToRecommend() {
 		assertTrue(subprogramChairNoManuscriptsToRecommend.getSubProgManuscript().isEmpty());
@@ -146,6 +173,9 @@ public class ProgramChairTest {
 		assertEquals(subprogramChairNoManuscriptsToRecommend.getSubProgManuscript().get(0).getTitle(), "TestTitle2");
 	}
 	
+	/**
+	 * Tests assignSubProgManuscript method with a subprogram chair with one manuscript
+	 */
 	@Test
 	public void testAssignSubprogramChairManuscriptSubprogramChairOneManuscriptToRecommend() {
 		assertEquals(subprogramChairOneManuscriptToRecommend.getSubProgManuscript().size(), 1);
@@ -154,6 +184,9 @@ public class ProgramChairTest {
 		assertEquals(subprogramChairOneManuscriptToRecommend.getSubProgManuscript().get(1).getTitle(), "TestTitle2");
 	}
 	
+	/**
+	 * Tests assignSubProgManuscript method with a subprogram chair with four manuscripts (business rule 11)
+	 */
 	@Test
 	public void testAssignSubprogramChairManuscriptSubprogramChairFourManuscriptsToRecommend() {
 		assertEquals(subprogramChairFourManuscriptsToRecommend.getSubProgManuscript().size(), 4);
@@ -162,6 +195,9 @@ public class ProgramChairTest {
 		assertEquals(subprogramChairFourManuscriptsToRecommend.getSubProgManuscript().get(3).getTitle(), "TestTitle5");
 	}
 	
+	/**
+	 * Tests assignSubProgManuscript method to with a self authored manuscript 
+	 */
 	@Test
 	public void testAssignSubprogramChairManuscriptRecommendSelfAuthoredManuscript() {
 		assertEquals(subprogramChairOneManuscriptToRecommend.getSubProgManuscript().size(), 1);
@@ -170,6 +206,9 @@ public class ProgramChairTest {
 		assertEquals(subprogramChairOneManuscriptToRecommend.getSubProgManuscript().size(), 1);
 	}
 	
+	/**
+	 * Tests assignSubProgManuscript method to check if two subprogram chairs can have the same manuscript
+	 */
 	@Test
 	public void testManuscriptCanOnlyBeAssignedToOneSubprogramChair() {
 		assertEquals(subprogramChairNoManuscriptsToRecommend.getSubProgManuscript().size(), 0);
@@ -180,12 +219,18 @@ public class ProgramChairTest {
 	}
 	
 	//-----------------getListOfManuscriptsWithRecommendation test partition--------------------------------
+	/**
+	 * Tests getListOfManuscriptsWithRecommendation with conference with no manuscripts
+	 */
 	@Test
 	public void testGetListOfManuscriptsWithReccomendationConferenceNoManuscripts(){
 		assertTrue(conferenceNoManuscripts.getManuscripts().isEmpty());
 		assertTrue(programChairUserForTestConference.findProgramChairRole().getListOfManuscriptsWithRecommendations(conferenceNoManuscripts).isEmpty());
 	}
 	
+	/**
+	 * Tests getListOfManuscriptsWithRecommendation with conference with one manuscript with recommendation
+	 */
 	@Test
 	public void testGetListOfManuscriptsWithReccomendationConferenceOneManuscriptRecommended(){
 		List<Manuscript> listRecommendedManuscripts = new ArrayList<Manuscript>();
@@ -195,12 +240,57 @@ public class ProgramChairTest {
 		assertEquals(listRecommendedManuscripts.get(0).getStatus(), Status.RECOMMENDED);
 	}
 	
+	/**
+	 * Tests getListOfManuscriptsWithRecommendation with conference with one manuscript without recommendation
+	 */
 	@Test
 	public void testGetListOfManuscriptsWithReccomendationConferenceOneManuscriptNotRecommended(){
 		List<Manuscript> listRecommendedManuscripts = new ArrayList<Manuscript>();
 		assertEquals(conferenceOneManuscriptNotRecommended.getManuscripts().size(), 1);
 		listRecommendedManuscripts = programChairUserForTestConference.findProgramChairRole().getListOfManuscriptsWithRecommendations(conferenceOneManuscriptNotRecommended);
 		assertTrue(listRecommendedManuscripts.isEmpty());
+	}
+	
+	//-----------------designateSubprogramChair test partition--------------------------------
+	
+	/**
+	 * Test designateSubprogramChair method for a user with reviewer role
+	 */
+	@Test 
+	public void testDesignateUserAsSubprogramChairWithReviewer() {
+		programChairUser.findProgramChairRole().designateSubProgramChair(reviewerUser, testConference);
+		assertEquals(reviewerUser.getMyRoles().size(), 2);
+		assertEquals(reviewerUser.findSubprogramChairRole().getClass(), SubprogramChair.class);
+	}
+	
+	/**
+	 * Test designateSubprogramChair method for a user with author role
+	 */
+	@Test 
+	public void testDesignateUserAsSubprogramChairWithAuthor() {
+		programChairUser.findProgramChairRole().designateSubProgramChair(authorUser, testConference);
+		assertEquals(authorUser.getMyRoles().size(), 2);
+		assertEquals(authorUser.findSubprogramChairRole().getClass(), SubprogramChair.class);
+	}
+	
+	/**
+	 * Test designateSubprogramChair method for a user with program chair role
+	 */
+	@Test 
+	public void testDesignateUserAsSubprogramChairWithProgramChair() {
+		programChairUser.findProgramChairRole().designateSubProgramChair(programChairUser, testConference);;
+		assertEquals(programChairUser.getMyRoles().size(), 2);
+		assertEquals(programChairUser.findSubprogramChairRole().getClass(), SubprogramChair.class);
+	}
+	
+	/**
+	 * Test designateSubprogramChair method for a user with subprogram chair role
+	 */
+	@Test 
+	public void testDesignateUserAsSubprogramChairWithSubprogramChair() {
+		programChairUser.findProgramChairRole().designateSubProgramChair(subprogramChairUser, testConference);
+		assertEquals(subprogramChairUser.getMyRoles().size(), 1);
+		assertEquals(subprogramChairUser.findSubprogramChairRole().getClass(), SubprogramChair.class);
 	}
 
 }
